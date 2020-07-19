@@ -5,18 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.0.0-RC1] - 2020-07-04
+## [0.1.0] - 2020-07-18
 ### Added
-- Foo
+- stringutils.generator.GenerateASCIIFolding tool to parse Apache Lucene's ASCIIFoldingFilter.java and generate stringutils.ASCIIFolding
+- stringutils.ASCIIFolding scala port and of Apache Lucene's ASCIIFoldingFilter.java
 
 ### Changed
-- Bar
+- Use README.md instead of mdoc/index.md for microsite
+- Added CHANGELOG.md
 
 ### Removed
-- FooBar
-
-### Fixed
-- Baz
+- Unused Typesafe Libraries
 
 ## [Unreleased]
-- Initial commit from `sbt --sbt-version 1.3.13 new alexandru/typelevel-library.g8`
+- Generated project template from `sbt --sbt-version 1.3.13 new alexandru/typelevel-library.g8`

@@ -17,6 +17,7 @@ addCommandAlias("ci-package", ";scalafmtCheckAll ;package")
 addCommandAlias("ci-doc",     ";unidoc ;site/makeMicrosite")
 addCommandAlias("ci",         ";project root ;reload ;+scalafmtCheckAll ;+ci-jvm ;+ci-js ;+package ;ci-doc")
 addCommandAlias("release",    ";+clean ;ci-release ;unidoc ;microsite/publishMicrosite")
+addCommandAlias("generate",   ";generator/run")
 
 // ---------------------------------------------------------------------------
 // Core Dependencies
@@ -47,6 +48,26 @@ val SilencerVersion = "1.7.0"
   * [[https://github.com/47degrees/github4s]]
   */
 val GitHub4sVersion = "0.24.1"
+
+// ---------------------------------------------------------------------------
+// Generator Dependencies
+
+/** Scala I/O - for humans:
+  * [[https://github.com/pathikrit/better-files/]]
+  */
+val BetterFilesVersion = "3.9.1"
+
+// ---------------------------------------------------------------------------
+// Download Apache Lucene ASCIIFoldingFilter.java sbt task
+
+val downloadLuceneAsciiFolding = taskKey[Unit]("Download the latest Lucene ASCIIFoldingFilter.java")
+
+downloadLuceneAsciiFolding := {
+  import scala.sys.process._
+  val LuceneAsciiFoldingUrl = "https://raw.githubusercontent.com/apache/lucene-solr/master/lucene/analysis/common/src/java/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.java"
+  val LuceneAsciiDestFile = "generator/src/main/resources/lucene-solr/lucene/analysis/common/src/java/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.java"
+  url(LuceneAsciiFoldingUrl) #> file(LuceneAsciiDestFile) !
+}
 
 /**
   * Defines common plugins between all projects.
@@ -283,6 +304,15 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
 
 lazy val coreJVM = core.jvm
 lazy val coreJS  = core.js
+
+
+lazy val generator = project.in(file("generator"))
+  .disablePlugins(MimaPlugin)
+  .settings(sharedSettings)
+  .settings(doNotPublishArtifact)
+  .settings {
+    libraryDependencies += "com.github.pathikrit" %% "better-files" % BetterFilesVersion,
+  }
 
 // Reloads build.sbt changes whenever detected
 Global / onChangedBuildSource := ReloadOnSourceChanges
