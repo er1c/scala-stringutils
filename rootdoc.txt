@@ -1,0 +1,6 @@
+Collection of Scala String Helpers
+
+Links:
+
+ - [[https://er1c.github.io/scala-stringutils/ Homepage]]
+ - [[https://github.com/er1c/scala-stringutils GitHub repository]]
