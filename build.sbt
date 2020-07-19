@@ -19,22 +19,7 @@ addCommandAlias("ci",         ";project root ;reload ;+scalafmtCheckAll ;+ci-jvm
 addCommandAlias("release",    ";+clean ;ci-release ;unidoc ;microsite/publishMicrosite")
 
 // ---------------------------------------------------------------------------
-// Dependencies
-
-/** Standard FP library for Scala:
-  * [[https://typelevel.org/cats/]]
-  */
-val CatsVersion = "2.1.1"
-
-/** FP library for describing side-effects:
-  * [[https://typelevel.org/cats-effect/]]
-  */
-val CatsEffectVersion = "2.1.4"
-
-/** First-class support for type-classes:
-  * [[https://github.com/typelevel/simulacrum]]
-  */
-val SimulacrumVersion = "1.0.0"
+// Core Dependencies
 
 /** For macros that are supported on older Scala versions.
   * Not needed starting with Scala 2.13.
@@ -42,7 +27,6 @@ val SimulacrumVersion = "1.0.0"
 val MacroParadiseVersion = "2.1.1"
 
 /** Library for unit-testing:
-  * [[https://github.com/monix/minitest/]]
   *  - [[https://github.com/scalatest/scalatest]]
   *  - [[https://github.com/scalatest/scalatestplus-scalacheck/]]
   */
@@ -53,16 +37,6 @@ val ScalaTestPlusVersion = "3.2.0.0"
   * [[https://www.scalacheck.org/]]
   */
 val ScalaCheckVersion = "1.14.3"
-
-/** Compiler plugin for working with partially applied types:
-  * [[https://github.com/typelevel/kind-projector]]
-  */
-val KindProjectorVersion = "0.11.0"
-
-/** Compiler plugin for fixing "for comprehensions" to do desugaring w/o `withFilter`:
-  * [[https://github.com/typelevel/kind-projector]]
-  */
-val BetterMonadicForVersion = "0.3.1"
 
 /** Compiler plugin for silencing compiler warnings:
   * [[https://github.com/ghik/silencer]]
@@ -115,8 +89,6 @@ lazy val sharedSettings = Seq(
   // Silence all warnings from src_managed files
   scalacOptions += "-P:silencer:pathFilters=.*[/]src_managed[/].*",
 
-  addCompilerPlugin("org.typelevel" % "kind-projector" % KindProjectorVersion cross CrossVersion.full),
-  addCompilerPlugin("com.olegpy" %% "better-monadic-for" % BetterMonadicForVersion),
   addCompilerPlugin("com.github.ghik" % "silencer-plugin" % SilencerVersion cross CrossVersion.full),
 
   // ScalaDoc settings
@@ -275,9 +247,12 @@ lazy val site = project.in(file("site"))
       libraryDependencies += "com.47deg" %% "github4s" % GitHub4sVersion,
       micrositePushSiteWith := GitHub4s,
       micrositeGithubToken := sys.env.get("GITHUB_TOKEN"),
+      micrositeExtraMdFilesOutput := (resourceManaged in Compile).value / "jekyll",
       micrositeExtraMdFiles := Map(
-        file("CODE_OF_CONDUCT.md") -> ExtraMdFileConfig("CODE_OF_CONDUCT.md", "page", Map("title" -> "Code of Conduct",   "section" -> "code of conduct", "position" -> "100")),
-        file("LICENSE.md") -> ExtraMdFileConfig("LICENSE.md", "page", Map("title" -> "License",   "section" -> "license",   "position" -> "101"))
+        file("README.md") -> ExtraMdFileConfig("index.md", "page", Map("title" -> "Home", "section" -> "home", "position" -> "100")),
+        file("CHANGELOG.md") -> ExtraMdFileConfig("CHANGELOG.md", "page", Map("title" -> "Change Log", "section" -> "changelog", "position" -> "101")),
+        file("CODE_OF_CONDUCT.md") -> ExtraMdFileConfig("CODE_OF_CONDUCT.md", "page", Map("title" -> "Code of Conduct", "section" -> "code of conduct", "position" -> "102")),
+        file("LICENSE.md") -> ExtraMdFileConfig("LICENSE.md", "page", Map("title" -> "License", "section" -> "license", "position" -> "103"))
       ),
       docsMappingsAPIDir := s"api",
       addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc) in root, docsMappingsAPIDir),
@@ -299,15 +274,10 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
   .settings(
     name := "scala-stringutils",
     libraryDependencies ++= Seq(
-      "org.typelevel"  %%% "simulacrum"       % SimulacrumVersion % Provided,
-      "org.typelevel"  %%% "cats-core"        % CatsVersion,
-      "org.typelevel"  %%% "cats-effect"      % CatsEffectVersion,
       // For testing
       "org.scalatest"     %%% "scalatest"        % ScalaTestVersion % Test,
       "org.scalatestplus" %%% "scalacheck-1-14"  % ScalaTestPlusVersion % Test,
       "org.scalacheck"    %%% "scalacheck"       % ScalaCheckVersion % Test,
-      "org.typelevel"     %%% "cats-laws"        % CatsVersion % Test,
-      "org.typelevel"     %%% "cats-effect-laws" % CatsEffectVersion % Test,
     ),
   )
 
