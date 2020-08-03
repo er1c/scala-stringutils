@@ -220,7 +220,10 @@ def defaultCrossProjectConfiguration(pr: CrossProject) = {
 
 lazy val root = project.in(file("."))
   .enablePlugins(ScalaUnidocPlugin)
-  .aggregate(coreJVM, coreJS)
+  .aggregate(
+    coreJVM, coreJS,
+    apacheCommonsLang3StringUtilsJVM, apacheCommonsLang3StringUtilsJS,
+  )
   .configure(defaultPlugins)
   .settings(sharedSettings)
   .settings(doNotPublishArtifact)
@@ -273,7 +276,8 @@ lazy val site = project.in(file("site"))
         file("README.md") -> ExtraMdFileConfig("index.md", "page", Map("title" -> "Home", "section" -> "home", "position" -> "100")),
         file("CHANGELOG.md") -> ExtraMdFileConfig("CHANGELOG.md", "page", Map("title" -> "Change Log", "section" -> "changelog", "position" -> "101")),
         file("CODE_OF_CONDUCT.md") -> ExtraMdFileConfig("CODE_OF_CONDUCT.md", "page", Map("title" -> "Code of Conduct", "section" -> "code of conduct", "position" -> "102")),
-        file("LICENSE.md") -> ExtraMdFileConfig("LICENSE.md", "page", Map("title" -> "License", "section" -> "license", "position" -> "103"))
+        file("CONTRIBUTING.md") -> ExtraMdFileConfig("CONTRIBUTING.md", "page", Map("title" -> "Contributing", "section" -> "contributing", "position" -> "103")),
+        file("LICENSE.md") -> ExtraMdFileConfig("LICENSE.md", "page", Map("title" -> "License", "section" -> "license", "position" -> "104"))
       ),
       docsMappingsAPIDir := s"api",
       addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc) in root, docsMappingsAPIDir),
@@ -305,6 +309,37 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
 lazy val coreJVM = core.jvm
 lazy val coreJS  = core.js
 
+lazy val apacheCommonsLang3StringUtils = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Full)
+  .in(file("apache-commons-lang3"))
+  .configureCross(defaultCrossProjectConfiguration)
+  .settings(
+    name := "apache-commons-lang3",
+    libraryDependencies ++= Seq(
+      // For testing
+      "org.scalatest"     %%% "scalatest"        % ScalaTestVersion % Test,
+      "org.scalatestplus" %%% "scalacheck-1-14"  % ScalaTestPlusVersion % Test,
+      "org.scalacheck"    %%% "scalacheck"       % ScalaCheckVersion % Test,
+    ),
+    headerLicense := Some(HeaderLicense.Custom(
+      s"""|Licensed to the Apache Software Foundation (ASF) under one or more
+          |contributor license agreements.  See the NOTICE file distributed with
+          |this work for additional information regarding copyright ownership.
+          |The ASF licenses this file to You under the Apache License, Version 2.0
+          |(the "License"); you may not use this file except in compliance with
+          |the License.  You may obtain a copy of the License at
+          |
+          |    http://www.apache.org/licenses/LICENSE-2.0
+          |
+          |Unless required by applicable law or agreed to in writing, software
+          |distributed under the License is distributed on an "AS IS" BASIS,
+          |WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+          |See the License for the specific language governing permissions and
+          |limitations under the License.""".stripMargin)),
+  )
+
+lazy val apacheCommonsLang3StringUtilsJVM = apacheCommonsLang3StringUtils.jvm
+lazy val apacheCommonsLang3StringUtilsJS  = apacheCommonsLang3StringUtils.js
 
 lazy val generator = project.in(file("generator"))
   .disablePlugins(MimaPlugin)
