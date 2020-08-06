@@ -136,7 +136,7 @@ class ContextedRuntimeException
     * @param cause   the underlying cause of the exception, may be null
     * @param context the context used to store the additional information, null uses default implementation
     */
-  def this(message: String, cause: Throwable, context: ExceptionContext) {
+  def this(message: String, cause: Throwable, context: ExceptionContext) = {
     this(message, cause)
     if (context != null) exceptionContext = context
   }

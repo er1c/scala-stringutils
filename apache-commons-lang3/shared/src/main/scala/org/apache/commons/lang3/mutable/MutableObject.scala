@@ -40,7 +40,7 @@ class MutableObject[T <: AnyRef]()
     *
     * @param value the initial value to store
     */
-  def this(value: T) {
+  def this(value: T) = {
     this()
     this.value = value
   }

@@ -44,7 +44,7 @@ class MutableBoolean()
     *
     * @param value the initial value to store
     */
-  def this(value: Boolean) {
+  def this(value: Boolean) = {
     this()
     this.value = value
   }
@@ -55,7 +55,7 @@ class MutableBoolean()
     * @param value the initial value to store, not null
     * @throws NullPointerException if the object is null
     */
-  def this(value: JavaBoolean) {
+  def this(value: JavaBoolean) = {
     this()
     this.value = value.booleanValue
   }

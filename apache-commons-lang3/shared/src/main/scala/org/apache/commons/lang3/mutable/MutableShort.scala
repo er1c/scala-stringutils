@@ -49,7 +49,7 @@ class MutableShort()
     *
     * @param value the initial value to store
     */
-  def this(value: Short) {
+  def this(value: Short) = {
     this()
     this.value = value
   }
@@ -60,7 +60,7 @@ class MutableShort()
     * @param value the initial value to store, not null
     * @throws NullPointerException if the object is null
     */
-  def this(value: Number) {
+  def this(value: Number) = {
     this()
     this.value = value.shortValue
   }
@@ -72,7 +72,7 @@ class MutableShort()
     * @throws NumberFormatException if the string cannot be parsed into a short
     * @since 2.5
     */
-  def this(value: String) {
+  def this(value: String) = {
     this()
     this.value = JavaShort.parseShort(value)
   }
@@ -344,5 +344,5 @@ class MutableShort()
     *
     * @return the mutable value as a string
     */
-  override def toString: String = String.valueOf(value)
+  override def toString: String = String.valueOf(value.toInt)
 }

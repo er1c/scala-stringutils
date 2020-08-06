@@ -100,20 +100,20 @@ import java.util.Locale
       val consumed = translate(input, pos, out)
       if (consumed == 0) { // inlined implementation of Character.toChars(Character.codePointAt(input, pos))
         // avoids allocating temp char arrays and duplicate checks
-        val c1 = input.charAt(pos)
-        out.write(c1)
+        val c1: Char = input.charAt(pos)
+        out.write(c1.toInt)
         pos += 1
         if (Character.isHighSurrogate(c1) && pos < len) {
-          val c2 = input.charAt(pos)
+          val c2: Char = input.charAt(pos)
           if (Character.isLowSurrogate(c2)) {
-            out.write(c2)
+            out.write(c2.toInt)
             pos += 1
           }
         }
       } else {
         // contract with translators is that they have to understand codepoints
         // and they just took care of a surrogate pair
-        for (pt <- 0 until consumed) {
+        for (_ <- 0 until consumed) {
           pos += Character.charCount(Character.codePointAt(input, pos))
         }
       }

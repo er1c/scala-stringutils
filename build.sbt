@@ -321,6 +321,7 @@ lazy val apacheCommonsLang3StringUtils = crossProject(JSPlatform, JVMPlatform)
       "org.scalatestplus" %%% "scalacheck-1-14"  % ScalaTestPlusVersion % Test,
       "org.scalacheck"    %%% "scalacheck"       % ScalaCheckVersion % Test,
     ),
+    scalacOptions -= "-deprecation",
     headerLicense := Some(HeaderLicense.Custom(
       s"""|Licensed to the Apache Software Foundation (ASF) under one or more
           |contributor license agreements.  See the NOTICE file distributed with

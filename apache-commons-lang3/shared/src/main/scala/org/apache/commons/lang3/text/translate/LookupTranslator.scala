@@ -70,8 +70,8 @@ import java.util
   */
   extends CharSequenceTranslator {
 
-  final private var lookupMap: util.HashMap[String, String] = new util.HashMap[String, String]
-  final private var prefixSet: util.HashSet[Character] = new util.HashSet[Character]
+  final private val lookupMap: util.HashMap[String, String] = new util.HashMap[String, String]
+  final private val prefixSet: util.HashSet[Character] = new util.HashSet[Character]
   final private var shortest = 0
   final private var longest = 0
 

@@ -207,7 +207,7 @@ class ToStringBuilder(`object`: AnyRef, private var style: ToStringStyle, privat
     *
     * @param object the Object to build a {@code toString} for, not recommended to be null
     */
-  def this(`object`: AnyRef) {
+  def this(`object`: AnyRef) = {
     this(`object`, null, null)
   }
 
@@ -219,7 +219,7 @@ class ToStringBuilder(`object`: AnyRef, private var style: ToStringStyle, privat
     * @param object the Object to build a {@code toString} for, not recommended to be null
     * @param style  the style of the {@code toString} to create, null uses the default style
     */
-  def this(`object`: AnyRef, style: ToStringStyle) {
+  def this(`object`: AnyRef, style: ToStringStyle) = {
     this(`object`, style, null)
   }
 
