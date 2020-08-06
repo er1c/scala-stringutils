@@ -6766,7 +6766,7 @@ object ArrayUtils {
     * @param array the array to get a toString for, may be {@code null}
     * @return a String representation of the array, '{}' if null array input
     */
-  def toString(array: Any): String = toString(array, "{}")
+  def toString(array: AnyRef): String = toString(array, "{}")
 
   /**
     * <p>Outputs an array as a String handling {@code null}s.
@@ -6780,7 +6780,7 @@ object ArrayUtils {
     * @param stringIfNull the String to return if the array is {@code null}
     * @return a String representation of the array
     */
-  def toString(array: Any, stringIfNull: String): String = {
+  def toString(array: AnyRef, stringIfNull: String): String = {
     if (array == null) return stringIfNull
 
     new ToStringBuilder(array, ToStringStyle.SIMPLE_STYLE).append(array).toString

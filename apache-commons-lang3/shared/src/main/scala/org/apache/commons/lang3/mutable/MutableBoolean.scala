@@ -143,7 +143,7 @@ class MutableBoolean()
     * @param obj the object to compare with, null returns false
     * @return {@code true} if the objects are the same; {@code false} otherwise.
     */
-  override def equals(obj: Any): JavaBoolean = {
+  override def equals(obj: Any): Boolean = {
     if (obj.isInstanceOf[MutableBoolean]) return value == obj.asInstanceOf[MutableBoolean].booleanValue
     false
   }

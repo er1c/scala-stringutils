@@ -424,7 +424,7 @@ object ToStringStyle {
       super.append(buffer, fieldName, array, fullDetail)
     }
 
-    override def append(buffer: StringBuffer, fieldName: String, value: Any, fullDetail: Boolean): Unit = {
+    override def append(buffer: StringBuffer, fieldName: String, value: AnyRef, fullDetail: Boolean): Unit = {
       if (fieldName == null) throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
       if (!isFullDetail(fullDetail)) throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
       super.append(buffer, fieldName, value, fullDetail)
@@ -434,7 +434,7 @@ object ToStringStyle {
       appendValueAsString(buffer, String.valueOf(value))
     }
 
-    override protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Any): Unit = {
+    override protected def appendDetail(buffer: StringBuffer, fieldName: String, value: AnyRef): Unit = {
       if (value == null) {
         appendNullText(buffer, fieldName)
         return
@@ -455,7 +455,7 @@ object ToStringStyle {
       appendDetail(buffer, fieldName, valueAsString)
     }
 
-    override protected def appendDetail(buffer: StringBuffer, fieldName: String, map: util.Map[_, _]): Unit = {
+    override protected def appendDetail(buffer: StringBuffer, fieldName: String, map: util.Map[AnyRef, AnyRef]): Unit = {
       if (map != null && !map.isEmpty) {
         buffer.append(getContentStart)
         var firstItem = true
@@ -683,7 +683,7 @@ abstract class ToStringStyle protected()
     * @param fullDetail {@code true} for detail, {@code false}
     *                   for summary info, {@code null} for style decides
     */
-  def append(buffer: StringBuffer, fieldName: String, value: Any, fullDetail: Boolean): Unit = {
+  def append(buffer: StringBuffer, fieldName: String, value: AnyRef, fullDetail: Boolean): Unit = {
     appendFieldStart(buffer, fieldName)
     if (value == null) appendNullText(buffer, fieldName)
     else appendInternal(buffer, fieldName, value, isFullDetail(fullDetail))
@@ -709,7 +709,7 @@ abstract class ToStringStyle protected()
     *                  not {@code null}
     * @param detail    output detail or not
     */
-  protected def appendInternal(buffer: StringBuffer, fieldName: String, value: Any, detail: Boolean): Unit = {
+  protected def appendInternal(buffer: StringBuffer, fieldName: String, value: AnyRef, detail: Boolean): Unit = {
     if (ToStringStyle.isRegistered(value) && !(value.isInstanceOf[Number] || value.isInstanceOf[Boolean] || value.isInstanceOf[Character])) {
       appendCyclicObject(buffer, fieldName, value)
       return
@@ -753,7 +753,7 @@ abstract class ToStringStyle protected()
     *                  not {@code null}
     * @since 2.2
     */
-  protected def appendCyclicObject(buffer: StringBuffer, fieldName: String, value: Any): Unit = {
+  protected def appendCyclicObject(buffer: StringBuffer, fieldName: String, value: AnyRef): Unit = {
     ObjectUtils.identityToString(buffer, value)
   }
 
@@ -766,7 +766,7 @@ abstract class ToStringStyle protected()
     * @param value     the value to add to the {@code toString},
     *                  not {@code null}
     */
-  protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Any): Unit = {
+  protected def appendDetail(buffer: StringBuffer, fieldName: String, value: AnyRef): Unit = {
     buffer.append(value)
   }
 
@@ -778,7 +778,7 @@ abstract class ToStringStyle protected()
     * @param coll      the {@code Collection} to add to the
     *                  {@code toString}, not {@code null}
     */
-  protected def appendDetail(buffer: StringBuffer, fieldName: String, coll: util.Collection[_]): Unit = {
+  protected def appendDetail(buffer: StringBuffer, fieldName: String, coll: util.Collection[AnyRef]): Unit = {
     if (coll != null && !coll.isEmpty) {
       buffer.append(arrayStart)
       var i = 0
@@ -802,7 +802,7 @@ abstract class ToStringStyle protected()
     * @param map       the {@code Map} to add to the {@code toString},
     *                  not {@code null}
     */
-  protected def appendDetail(buffer: StringBuffer, fieldName: String, map: util.Map[_, _]): Unit = {
+  protected def appendDetail(buffer: StringBuffer, fieldName: String, map: util.Map[AnyRef, AnyRef]): Unit = {
     buffer.append(map)
   }
 
@@ -815,7 +815,7 @@ abstract class ToStringStyle protected()
     * @param value     the value to add to the {@code toString},
     *                  not {@code null}
     */
-  protected def appendSummary(buffer: StringBuffer, fieldName: String, value: Any): Unit = {
+  protected def appendSummary(buffer: StringBuffer, fieldName: String, value: AnyRef): Unit = {
     buffer.append(summaryObjectStartText)
     buffer.append(getShortClassName(value.getClass))
     buffer.append(summaryObjectEndText)
@@ -1056,7 +1056,7 @@ abstract class ToStringStyle protected()
     * @param array     the array to add to the {@code toString},
     *                  not {@code null}
     */
-  protected def appendDetail(buffer: StringBuffer, fieldName: String, array: Array[_]): Unit = {
+  protected def appendDetail(buffer: StringBuffer, fieldName: String, array: Array[AnyRef]): Unit = {
     buffer.append(arrayStart)
 
     for (i <- 0 until array.length) {
@@ -1077,7 +1077,7 @@ abstract class ToStringStyle protected()
     * @param item      the array item to add
     * @since 3.11
     */
-  protected def appendDetail(buffer: StringBuffer, fieldName: String, i: Int, item: Any): Unit = {
+  protected def appendDetail(buffer: StringBuffer, fieldName: String, i: Int, item: AnyRef): Unit = {
     if (i > 0) buffer.append(arraySeparator)
     if (item == null) appendNullText(buffer, fieldName)
     else appendInternal(buffer, fieldName, item, arrayContentDetail)
@@ -1092,7 +1092,7 @@ abstract class ToStringStyle protected()
     *                  not {@code null}
     * @since 2.0
     */
-  protected[lang3] def reflectionAppendArrayDetail(buffer: StringBuffer, fieldName: String, array: Any): Unit = {
+  protected[lang3] def reflectionAppendArrayDetail(buffer: StringBuffer, fieldName: String, array: AnyRef): Unit = {
     buffer.append(arrayStart)
     val length = reflect.Array.getLength(array)
     for (i <- 0 until length) {

@@ -295,7 +295,7 @@ class MutableJavaFloat()
     *
     * @return the numeric value represented by this object after conversion to type float.
     */
-  override def floatValue: JavaFloat = value
+  override def floatValue: Float = value
 
   /**
     * Returns the value of this MutableJavaFloat as a double.

@@ -267,7 +267,7 @@ class MutableInt()
     *
     * @return the numeric value represented by this object after conversion to type int.
     */
-  override def intValue: Integer = value
+  override def intValue: Int = value
 
   /**
     * Returns the value of this MutableInteger as a long.
@@ -315,7 +315,7 @@ class MutableInt()
     *
     * @return a suitable hash code
     */
-  override def hashCode: Integer = value
+  override def hashCode: Int = value
 
   /**
     * Compares this mutable to another in ascending order.
@@ -323,7 +323,7 @@ class MutableInt()
     * @param other the other mutable to compare to, not null
     * @return negative if this is less, zero if equal, positive if greater
     */
-  override def compareTo(other: MutableInt): Integer = NumberUtils.compare(this.value, other.value)
+  override def compareTo(other: MutableInt): Int = NumberUtils.compare(this.value, other.value)
 
   /**
     * Returns the String value of this mutable.

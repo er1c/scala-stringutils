@@ -44,7 +44,7 @@ trait ExceptionContext {
     * @param value the value of item to add, may be {@code null}
     * @return {@code this}, for method chaining, not {@code null}
     */
-  def addContextValue(label: String, value: Any): ExceptionContext
+  def addContextValue(label: String, value: AnyRef): ExceptionContext
 
   /**
     * Sets a contextual label-value pair into this context.
@@ -57,7 +57,7 @@ trait ExceptionContext {
     * @param value the value of item to add, may be {@code null}
     * @return {@code this}, for method chaining, not {@code null}
     */
-  def setContextValue(label: String, value: Any): ExceptionContext
+  def setContextValue(label: String, value: AnyRef): ExceptionContext
 
   /**
     * Retrieves all the contextual data values associated with the label.
@@ -65,7 +65,7 @@ trait ExceptionContext {
     * @param label the label to get the contextual values for, may be {@code null}
     * @return the contextual values associated with the label, never {@code null}
     */
-  def getContextValues(label: String): util.List[Any]
+  def getContextValues(label: String): util.List[AnyRef]
 
   /**
     * Retrieves the first available contextual data value associated with the label.
@@ -73,7 +73,7 @@ trait ExceptionContext {
     * @param label the label to get the contextual value for, may be {@code null}
     * @return the first contextual value associated with the label, may be {@code null}
     */
-  def getFirstContextValue(label: String): Any
+  def getFirstContextValue(label: String): AnyRef
 
   /**
     * Retrieves the full set of labels defined in the contextual data.
@@ -87,7 +87,7 @@ trait ExceptionContext {
     *
     * @return the list of pairs, not {@code null}
     */
-  def getContextEntries: util.List[Pair[String, Any]]
+  def getContextEntries: util.List[Pair[String, AnyRef]]
 
   /**
     * Gets the contextualized error message based on a base message.

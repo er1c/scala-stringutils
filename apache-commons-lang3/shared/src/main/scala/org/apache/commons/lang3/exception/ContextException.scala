@@ -137,7 +137,7 @@ class ContextedException(message: String, cause: Throwable)
     * @param value information needed to understand exception, may be {@code null}
     * @return {@code this}, for method chaining, not {@code null}
     */
-  override def addContextValue(label: String, value: Any): ContextedException = {
+  override def addContextValue(label: String, value: AnyRef): ContextedException = {
     exceptionContext.addContextValue(label, value)
     this
   }
@@ -155,7 +155,7 @@ class ContextedException(message: String, cause: Throwable)
     * @param value information needed to understand exception, may be {@code null}
     * @return {@code this}, for method chaining, not {@code null}
     */
-  override def setContextValue(label: String, value: Any): ContextedException = {
+  override def setContextValue(label: String, value: AnyRef): ContextedException = {
     exceptionContext.setContextValue(label, value)
     this
   }
@@ -163,13 +163,13 @@ class ContextedException(message: String, cause: Throwable)
   /**
     * {@inheritDoc }
     */
-  override def getContextValues(label: String): util.List[Any] =
+  override def getContextValues(label: String): util.List[AnyRef] =
     this.exceptionContext.getContextValues(label)
 
-  override def getFirstContextValue(label: String): Any =
+  override def getFirstContextValue(label: String): AnyRef =
     this.exceptionContext.getFirstContextValue(label)
 
-  override def getContextEntries: util.List[Pair[String, Any]] =
+  override def getContextEntries: util.List[Pair[String, AnyRef]] =
     this.exceptionContext.getContextEntries
 
   override def getContextLabels: util.Set[String] =

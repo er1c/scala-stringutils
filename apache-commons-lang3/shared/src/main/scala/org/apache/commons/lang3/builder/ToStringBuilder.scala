@@ -141,7 +141,7 @@ object ToStringBuilder {
     * @return the String result
     * @see ReflectionToStringBuilder#toString(Object)
     */
-  def reflectionToString(`object`: Any): String = ReflectionToStringBuilder.toString(`object`)
+  def reflectionToString(`object`: AnyRef): String = ReflectionToStringBuilder.toString(`object`)
 
   /**
     * <p>Uses {@code ReflectionToStringBuilder} to generate a
@@ -152,7 +152,7 @@ object ToStringBuilder {
     * @return the String result
     * @see ReflectionToStringBuilder#toString(Object,ToStringStyle)
     */
-  def reflectionToString(`object`: Any, style: ToStringStyle): String = ReflectionToStringBuilder.toString(`object`, style)
+  def reflectionToString(`object`: AnyRef, style: ToStringStyle): String = ReflectionToStringBuilder.toString(`object`, style)
 
   /**
     * <p>Uses {@code ReflectionToStringBuilder} to generate a
@@ -164,7 +164,7 @@ object ToStringBuilder {
     * @return the String result
     * @see ReflectionToStringBuilder#toString(Object,ToStringStyle,boolean)
     */
-  def reflectionToString(`object`: Any, style: ToStringStyle, outputTransients: Boolean): String = ReflectionToStringBuilder.toString(`object`, style, outputTransients, false, null)
+  def reflectionToString(`object`: AnyRef, style: ToStringStyle, outputTransients: Boolean): String = ReflectionToStringBuilder.toString(`object`, style, outputTransients, false, null)
 
   /**
     * <p>Uses {@code ReflectionToStringBuilder} to generate a
@@ -179,7 +179,7 @@ object ToStringBuilder {
     * @see ReflectionToStringBuilder#toString(Object,ToStringStyle,boolean,boolean,Class)
     * @since 2.0
     */
-  def reflectionToString[T](`object`: T, style: ToStringStyle, outputTransients: Boolean, reflectUpToClass: Class[_ >: T]): String = ReflectionToStringBuilder.toString(`object`, style, outputTransients, false, reflectUpToClass)
+  def reflectionToString[T <: AnyRef](`object`: T, style: ToStringStyle, outputTransients: Boolean, reflectUpToClass: Class[_ >: T]): String = ReflectionToStringBuilder.toString(`object`, style, outputTransients, false, reflectUpToClass)
 }
 
 
@@ -194,7 +194,7 @@ object ToStringBuilder {
   * @param style  the style of the {@code toString} to create, null uses the default style
   * @param buffer the {@code StringBuffer} to populate, may be null
   */
-class ToStringBuilder(`object`: Any, private var style: ToStringStyle, private var buffer: StringBuffer)
+class ToStringBuilder(`object`: AnyRef, private var style: ToStringStyle, private var buffer: StringBuffer)
   extends Builder[String] {
   if (style == null) style = ToStringBuilder.getDefaultStyle
   if (buffer == null) buffer = new StringBuffer(512)
@@ -207,7 +207,7 @@ class ToStringBuilder(`object`: Any, private var style: ToStringStyle, private v
     *
     * @param object the Object to build a {@code toString} for, not recommended to be null
     */
-  def this(`object`: Any) {
+  def this(`object`: AnyRef) {
     this(`object`, null, null)
   }
 
@@ -219,7 +219,7 @@ class ToStringBuilder(`object`: Any, private var style: ToStringStyle, private v
     * @param object the Object to build a {@code toString} for, not recommended to be null
     * @param style  the style of the {@code toString} to create, null uses the default style
     */
-  def this(`object`: Any, style: ToStringStyle) {
+  def this(`object`: AnyRef, style: ToStringStyle) {
     this(`object`, style, null)
   }
 
@@ -398,7 +398,7 @@ class ToStringBuilder(`object`: Any, private var style: ToStringStyle, private v
     * @param obj the value to add to the {@code toString}
     * @return this
     */
-  def append(obj: Any): ToStringBuilder = {
+  def append(obj: AnyRef): ToStringBuilder = {
     style.append(buffer, null, obj, null.asInstanceOf[Boolean])
     this
   }
@@ -768,7 +768,7 @@ class ToStringBuilder(`object`: Any, private var style: ToStringStyle, private v
     * @param obj       the value to add to the {@code toString}
     * @return this
     */
-  def append(fieldName: String, obj: Any): ToStringBuilder = {
+  def append(fieldName: String, obj: AnyRef): ToStringBuilder = {
     style.append(buffer, fieldName, obj, null.asInstanceOf[Boolean])
     this
   }
@@ -783,7 +783,7 @@ class ToStringBuilder(`object`: Any, private var style: ToStringStyle, private v
     *                   {@code false} for summary info
     * @return this
     */
-  def append(fieldName: String, obj: Any, fullDetail: Boolean): ToStringBuilder = {
+  def append(fieldName: String, obj: AnyRef, fullDetail: Boolean): ToStringBuilder = {
     style.append(buffer, fieldName, obj, JavaBoolean.valueOf(fullDetail))
     this
   }
@@ -936,7 +936,7 @@ class ToStringBuilder(`object`: Any, private var style: ToStringStyle, private v
     * @return The object being output.
     * @since 2.0
     */
-  def getObject: Any = `object`
+  def getObject: AnyRef = `object`
 
   /**
     * <p>Gets the {@code StringBuffer} being populated.</p>

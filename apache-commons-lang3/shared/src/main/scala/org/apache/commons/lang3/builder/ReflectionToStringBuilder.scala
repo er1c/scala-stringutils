@@ -121,7 +121,7 @@ object ReflectionToStringBuilder {
     * @see ToStringExclude
     * @see ToStringSummary
     */
-  def toString(`object`: Any): String = toString(`object`, null, false, false, null)
+  def toString(`object`: AnyRef): String = toString(`object`, null, false, false, null)
 
   /**
     * <p>
@@ -153,7 +153,7 @@ object ReflectionToStringBuilder {
     * @see ToStringExclude
     * @see ToStringSummary
     */
-  def toString(`object`: Any, style: ToStringStyle): String = toString(`object`, style, false, false, null)
+  def toString(`object`: AnyRef, style: ToStringStyle): String = toString(`object`, style, false, false, null)
 
   /**
     * <p>
@@ -191,7 +191,7 @@ object ReflectionToStringBuilder {
     * @see ToStringExclude
     * @see ToStringSummary
     */
-  def toString(`object`: Any, style: ToStringStyle, outputTransients: Boolean): String = toString(`object`, style, outputTransients, false, null)
+  def toString(`object`: AnyRef, style: ToStringStyle, outputTransients: Boolean): String = toString(`object`, style, outputTransients, false, null)
 
   /**
     * <p>
@@ -237,7 +237,7 @@ object ReflectionToStringBuilder {
     * @see ToStringSummary
     * @since 2.1
     */
-  def toString(`object`: Any, style: ToStringStyle, outputTransients: Boolean, outputStatics: Boolean): String = toString(`object`, style, outputTransients, outputStatics, null)
+  def toString(`object`: AnyRef, style: ToStringStyle, outputTransients: Boolean, outputStatics: Boolean): String = toString(`object`, style, outputTransients, outputStatics, null)
 
   /**
     * <p>
@@ -288,7 +288,7 @@ object ReflectionToStringBuilder {
     * @see ToStringSummary
     * @since 2.1
     */
-  def toString[T](`object`: T, style: ToStringStyle, outputTransients: Boolean, outputStatics: Boolean, reflectUpToClass: Class[_ >: T]): String = new ReflectionToStringBuilder(`object`, style, null, reflectUpToClass, outputTransients, outputStatics).toString
+  def toString[T <: AnyRef](`object`: T, style: ToStringStyle, outputTransients: Boolean, outputStatics: Boolean, reflectUpToClass: Class[_ >: T]): String = new ReflectionToStringBuilder(`object`, style, null, reflectUpToClass, outputTransients, outputStatics).toString
 
   /**
     * <p>
@@ -341,7 +341,7 @@ object ReflectionToStringBuilder {
     * @see ToStringSummary
     * @since 3.6
     */
-  def toString[T](`object`: T, style: ToStringStyle, outputTransients: Boolean, outputStatics: Boolean, excludeNullValues: Boolean, reflectUpToClass: Class[_ >: T]): String =
+  def toString[T <: AnyRef](`object`: T, style: ToStringStyle, outputTransients: Boolean, outputStatics: Boolean, excludeNullValues: Boolean, reflectUpToClass: Class[_ >: T]): String =
     new ReflectionToStringBuilder(`object`, style, null, reflectUpToClass, outputTransients, outputStatics, excludeNullValues).toString
 
   /**
@@ -353,7 +353,7 @@ object ReflectionToStringBuilder {
     * The field names to exclude. Null excludes nothing.
     * @return The toString value.
     */
-  def toStringExclude(`object`: Any, excludeFieldNames: util.Collection[String]): String =
+  def toStringExclude(`object`: AnyRef, excludeFieldNames: util.Collection[String]): String =
     toStringExclude(`object`, toNoNullStringArray(excludeFieldNames):_*)
 
   /**
@@ -379,7 +379,7 @@ object ReflectionToStringBuilder {
     * The array to check
     * @return The given array or a new array without null.
     */
-  private[builder] def toNoNullStringArray(array: Array[Any]): Array[String] = {
+  private[builder] def toNoNullStringArray(array: Array[AnyRef]): Array[String] = {
     val list = new util.ArrayList[String](array.length)
     for (e <- array) {
       if (e != null) list.add(e.toString)
@@ -396,12 +396,12 @@ object ReflectionToStringBuilder {
     * The field names to exclude
     * @return The toString value.
     */
-  def toStringExclude(`object`: Any, excludeFieldNames: String*): String =
+  def toStringExclude(`object`: AnyRef, excludeFieldNames: String*): String =
     new ReflectionToStringBuilder(`object`)
       .setExcludeFieldNames(excludeFieldNames:_*)
       .toString
 
-  private def checkNotNull(obj: Any) = Validate.notNull(obj, "The Object passed in should not be null.")
+  private def checkNotNull(obj: AnyRef): AnyRef = Validate.notNull(obj, "The Object passed in should not be null.")
 }
 
 /**
@@ -428,7 +428,7 @@ object ReflectionToStringBuilder {
   * @throws IllegalArgumentException
   * if the Object passed in is {@code null}
   */
-class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: StringBuffer)
+class ReflectionToStringBuilder[T <: AnyRef](`object`: T, style: ToStringStyle, buffer: StringBuffer)
   extends ToStringBuilder(ReflectionToStringBuilder.checkNotNull(`object`), style, buffer) {
   /**
     * Whether or not to append static fields.
@@ -586,7 +586,7 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     * @param clazz
     * The class of object parameter
     */
-  protected def appendFieldsIn(clazz: Class[_]): Unit = {
+  protected def appendFieldsIn(clazz: Class[AnyRef]): Unit = {
     if (clazz.isArray) {
       this.reflectionAppendArray(this.getObject)
       return
@@ -599,7 +599,7 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
       val fieldName = field.getName
       if (this.accept(field)) try { // Warning: Field.get(Object) creates wrappers objects
         // for primitive types.
-        val fieldValue = this.getValue(field)
+        val fieldValue = this.getValue(field).asInstanceOf[AnyRef]
         if (!excludeNullValues || fieldValue != null) this.append(fieldName, fieldValue, !field.isAnnotationPresent(classOf[ToStringSummary]))
       } catch {
         case ex: IllegalAccessException =>
@@ -679,7 +679,7 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     * the array to add to the {@code toString}
     * @return this
     */
-  def reflectionAppendArray(array: Any): ReflectionToStringBuilder[_] = {
+  def reflectionAppendArray(array: AnyRef): ReflectionToStringBuilder[_] = {
     this.getStyle.reflectionAppendArrayDetail(this.getStringBuffer, null, array)
     this
   }
@@ -732,7 +732,7 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
   def setExcludeFieldNames(excludeFieldNamesParam: String*): ReflectionToStringBuilder[_] = {
     if (excludeFieldNamesParam == null) this.excludeFieldNames = null
     else { //clone and remove nulls
-      this.excludeFieldNames = ReflectionToStringBuilder.toNoNullStringArray(excludeFieldNamesParam.toArray: Array[Any]).sorted
+      this.excludeFieldNames = ReflectionToStringBuilder.toNoNullStringArray(excludeFieldNamesParam.toArray: Array[AnyRef]).sorted
     }
     this
   }
@@ -762,12 +762,12 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     */
   override def toString: String = {
     if (this.getObject == null) return this.getStyle.getNullText
-    var clazz = this.getObject.getClass
+    var clazz = this.getObject.getClass.asInstanceOf[Class[AnyRef]]
     this.appendFieldsIn(clazz)
     while ( {
       clazz.getSuperclass != null && (clazz ne this.getUpToClass)
     }) {
-      clazz = clazz.getSuperclass
+      clazz = clazz.getSuperclass.asInstanceOf[Class[AnyRef]]
       this.appendFieldsIn(clazz)
     }
     super.toString
