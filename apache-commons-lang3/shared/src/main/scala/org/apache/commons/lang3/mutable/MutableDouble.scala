@@ -42,7 +42,7 @@ class MutableJavaDouble()
     *
     * @param value the initial value to store
     */
-  def this(value: Double) {
+  def this(value: Double) = {
     this()
     this.value = value
   }
@@ -53,7 +53,7 @@ class MutableJavaDouble()
     * @param value the initial value to store, not null
     * @throws NullPointerException if the object is null
     */
-  def this(value: Number) {
+  def this(value: Number) = {
     this()
     this.value = value.doubleValue
   }
@@ -65,7 +65,7 @@ class MutableJavaDouble()
     * @throws NumberFormatException if the string cannot be parsed into a double
     * @since 2.5
     */
-  def this(value: String) {
+  def this(value: String) = {
     this()
     this.value = JavaDouble.parseDouble(value)
   }

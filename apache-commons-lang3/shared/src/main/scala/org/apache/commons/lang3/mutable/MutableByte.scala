@@ -48,7 +48,7 @@ class MutableJavaByte()
     *
     * @param value the initial value to store
     */
-  def this(value: Byte) {
+  def this(value: Byte) = {
     this()
     this.value = value
   }
@@ -59,7 +59,7 @@ class MutableJavaByte()
     * @param value the initial value to store, not null
     * @throws NullPointerException if the object is null
     */
-  def this(value: Number) {
+  def this(value: Number) = {
     this()
     this.value = value.byteValue
   }
@@ -71,7 +71,7 @@ class MutableJavaByte()
     * @throws NumberFormatException if the string cannot be parsed into a byte
     * @since 2.5
     */
-  def this(value: String) {
+  def this(value: String) = {
     this()
     this.value = JavaByte.parseByte(value)
   }
@@ -328,7 +328,7 @@ class MutableJavaByte()
     *
     * @return a suitable hash code
     */
-  override def hashCode: Int = value
+  override def hashCode: Int = value.toInt
 
   /**
     * Compares this mutable to another in ascending order.
@@ -343,5 +343,5 @@ class MutableJavaByte()
     *
     * @return the mutable value as a string
     */
-  override def toString: String = String.valueOf(value)
+  override def toString: String = String.valueOf(value.toInt)
 }

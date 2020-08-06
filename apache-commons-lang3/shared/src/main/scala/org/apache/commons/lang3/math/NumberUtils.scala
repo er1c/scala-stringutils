@@ -24,7 +24,7 @@ import java.math.RoundingMode
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.Validate
 import scala.util.control.Breaks
-import java.lang.{Float => JavaFloat, Long => JavaLong}
+import java.lang.{Long => JavaLong}
 
 /**
   * <p>Provides extra functionality for Java Number classes.</p>
@@ -448,7 +448,7 @@ object NumberUtils {
     */
   def toScaledBigDecimal(value: Float, scale: Int, roundingMode: RoundingMode): BigDecimal = {
     if (value == null) return BigDecimal.ZERO
-    toScaledBigDecimal(BigDecimal.valueOf(value), scale, roundingMode)
+    toScaledBigDecimal(BigDecimal.valueOf(value.toDouble), scale, roundingMode)
   }
 
   /**
@@ -557,21 +557,20 @@ object NumberUtils {
       for (pfx: String <- hex_prefixes) {
         if (str.startsWith(pfx)) {
           pfxLen += pfx.length
-          break
+          break()
         }
       }
     }
 
     if (pfxLen > 0) { // we have a hex number
-      var firstSigDigit: Int = 0 // strip leading zeroes
+      var firstSigDigit: Char = '0' // strip leading zeroes
 
       breakable {
         for (i: Int <- pfxLen until length) {
           firstSigDigit = str.charAt(i)
           if (firstSigDigit == '0') { // count leading zeroes
             pfxLen += 1
-          }
-          else break
+          } else break()
         }
       }
 
@@ -624,7 +623,7 @@ object NumberUtils {
           if (dec == null && exp == null && (!numeric.isEmpty && numeric.charAt(0) == '-' && isDigits(numeric.substring(1)) || isDigits(numeric))) {
             try return createLong(numeric)
             catch {
-              case nfe: NumberFormatException =>
+              case _: NumberFormatException =>
 
               // NOPMD
               // Too big for a long
@@ -641,7 +640,7 @@ object NumberUtils {
               return f
             }
           } catch {
-            case nfe: NumberFormatException =>
+            case _: NumberFormatException =>
 
             // ignore the bad number
           }
@@ -652,12 +651,12 @@ object NumberUtils {
             val d = createDouble(str)
             if (!(d.isInfinite || d.floatValue == 0.0D && !(allZeros))) return d
           } catch {
-            case nfe: NumberFormatException =>
+            case _: NumberFormatException =>
 
           }
           try return createBigDecimal(numeric)
           catch {
-            case e: NumberFormatException =>
+            case _: NumberFormatException =>
 
           }
         case _ =>
@@ -670,14 +669,16 @@ object NumberUtils {
     else exp = null
     if (dec == null && exp == null) { // no decimal point and no exponent
       //Must be an Integer, Long, Biginteger
-      try return createInteger(str)
-      catch {
-        case nfe: NumberFormatException =>
+      try {
+        return createInteger(str)
+      } catch {
+        case _: NumberFormatException =>
 
       }
-      try return createLong(str)
-      catch {
-        case nfe: NumberFormatException =>
+      try {
+        return createLong(str)
+      } catch {
+        case _: NumberFormatException =>
 
       }
       return createBigInteger(str)
@@ -694,7 +695,7 @@ object NumberUtils {
         return b
       }
     } catch {
-      case nfe: NumberFormatException =>
+      case _: NumberFormatException =>
 
     }
     createBigDecimal(str)

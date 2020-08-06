@@ -53,7 +53,7 @@ class MutableInt()
     * @param value the initial value to store, not null
     * @throws NullPointerException if the object is null
     */
-  def this(value: Number) {
+  def this(value: Number) = {
     this()
     this.value = value.intValue
   }
@@ -65,7 +65,7 @@ class MutableInt()
     * @throws NumberFormatException if the string cannot be parsed into an int
     * @since 2.5
     */
-  def this(value: String) {
+  def this(value: String) = {
     this()
     this.value = value.toInt
   }
