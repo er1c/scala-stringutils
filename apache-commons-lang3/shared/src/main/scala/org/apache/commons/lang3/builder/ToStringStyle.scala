@@ -195,6 +195,7 @@ object ToStringStyle {
       if (m == null) REGISTRY.set(new util.WeakHashMap[Any, Any])
       getRegistry.put(value, null)
     }
+    ()
   }
 
   /**
@@ -475,6 +476,7 @@ object ToStringStyle {
         return
       }
       buffer.append(map)
+      ()
     }
 
     private def isJsonArray(valueAsString: String) = valueAsString.startsWith(getArrayStart) && valueAsString.endsWith(getArrayEnd)
@@ -489,6 +491,7 @@ object ToStringStyle {
       */
     private def appendValueAsString(buffer: StringBuffer, value: String): Unit = {
       buffer.append('"').append(StringEscapeUtils.escapeJson(value)).append('"')
+      ()
     }
 
     override protected def appendFieldStart(buffer: StringBuffer, fieldName: String): Unit = {
@@ -768,6 +771,7 @@ abstract class ToStringStyle protected()
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Any): Unit = {
     buffer.append(value)
+    ()
   }
 
   /**
@@ -792,6 +796,7 @@ abstract class ToStringStyle protected()
       return
     }
     buffer.append(coll)
+    ()
   }
 
   /**
@@ -804,6 +809,7 @@ abstract class ToStringStyle protected()
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, map: util.Map[_, _]): Unit = {
     buffer.append(map)
+    ()
   }
 
   /**
@@ -819,6 +825,7 @@ abstract class ToStringStyle protected()
     buffer.append(summaryObjectStartText)
     buffer.append(getShortClassName(value.getClass))
     buffer.append(summaryObjectEndText)
+    ()
   }
 
   /**
@@ -845,6 +852,7 @@ abstract class ToStringStyle protected()
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Long): Unit = {
     buffer.append(value)
+    ()
   }
 
   /**
@@ -871,6 +879,7 @@ abstract class ToStringStyle protected()
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Int): Unit = {
     buffer.append(value)
+    ()
   }
 
   /**
@@ -896,7 +905,8 @@ abstract class ToStringStyle protected()
     * @param value     the value to add to the {@code toString}
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Short): Unit = {
-    buffer.append(value)
+    buffer.append(value.toInt)
+    ()
   }
 
   /**
@@ -922,7 +932,8 @@ abstract class ToStringStyle protected()
     * @param value     the value to add to the {@code toString}
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Byte): Unit = {
-    buffer.append(value)
+    buffer.append(value.toInt)
+    ()
   }
 
   /**
@@ -949,6 +960,7 @@ abstract class ToStringStyle protected()
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Char): Unit = {
     buffer.append(value)
+    ()
   }
 
   /**
@@ -975,6 +987,7 @@ abstract class ToStringStyle protected()
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Double): Unit = {
     buffer.append(value)
+    ()
   }
 
   /**
@@ -1001,6 +1014,7 @@ abstract class ToStringStyle protected()
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Float): Unit = {
     buffer.append(value)
+    ()
   }
 
   /**
@@ -1027,6 +1041,7 @@ abstract class ToStringStyle protected()
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Boolean): Unit = {
     buffer.append(value)
+    ()
   }
 
   /**
@@ -1065,6 +1080,7 @@ abstract class ToStringStyle protected()
     }
 
     buffer.append(arrayEnd)
+    ()
   }
 
   /**
@@ -1100,6 +1116,7 @@ abstract class ToStringStyle protected()
       appendDetail(buffer, fieldName, i, item)
     }
     buffer.append(arrayEnd)
+    ()
   }
 
   /**
@@ -1149,6 +1166,7 @@ abstract class ToStringStyle protected()
       appendDetail(buffer, fieldName, array(i))
     }
     buffer.append(arrayEnd)
+    ()
   }
 
   /**
@@ -1198,6 +1216,7 @@ abstract class ToStringStyle protected()
       appendDetail(buffer, fieldName, array(i))
     }
     buffer.append(arrayEnd)
+    ()
   }
 
   /**
@@ -1247,6 +1266,7 @@ abstract class ToStringStyle protected()
       appendDetail(buffer, fieldName, array(i))
     }
     buffer.append(arrayEnd)
+    ()
   }
 
   /**
@@ -1296,6 +1316,7 @@ abstract class ToStringStyle protected()
       appendDetail(buffer, fieldName, array(i))
     }
     buffer.append(arrayEnd)
+    ()
   }
 
   /**
@@ -1345,6 +1366,7 @@ abstract class ToStringStyle protected()
       appendDetail(buffer, fieldName, array(i))
     }
     buffer.append(arrayEnd)
+    ()
   }
 
   /**
@@ -1394,6 +1416,7 @@ abstract class ToStringStyle protected()
       appendDetail(buffer, fieldName, array(i))
     }
     buffer.append(arrayEnd)
+    ()
   }
 
   /**
@@ -1443,6 +1466,7 @@ abstract class ToStringStyle protected()
       appendDetail(buffer, fieldName, array(i))
     }
     buffer.append(arrayEnd)
+    ()
   }
 
   /**
@@ -1492,6 +1516,7 @@ abstract class ToStringStyle protected()
       appendDetail(buffer, fieldName, array(i))
     }
     buffer.append(arrayEnd)
+    ()
   }
 
   /**
@@ -1519,6 +1544,7 @@ abstract class ToStringStyle protected()
       if (useShortClassName) buffer.append(getShortClassName(`object`.getClass))
       else buffer.append(`object`.getClass.getName)
     }
+    ()
   }
 
   /**
@@ -1533,6 +1559,7 @@ abstract class ToStringStyle protected()
       buffer.append('@')
       buffer.append(Integer.toHexString(System.identityHashCode(`object`)))
     }
+    ()
   }
 
   /**
@@ -1542,6 +1569,7 @@ abstract class ToStringStyle protected()
     */
   protected def appendContentStart(buffer: StringBuffer): Unit = {
     buffer.append(contentStart)
+    ()
   }
 
   /**
@@ -1551,6 +1579,7 @@ abstract class ToStringStyle protected()
     */
   protected def appendContentEnd(buffer: StringBuffer): Unit = {
     buffer.append(contentEnd)
+    ()
   }
 
   /**
@@ -1563,6 +1592,7 @@ abstract class ToStringStyle protected()
     */
   protected def appendNullText(buffer: StringBuffer, fieldName: String): Unit = {
     buffer.append(nullText)
+    ()
   }
 
   /**
@@ -1572,6 +1602,7 @@ abstract class ToStringStyle protected()
     */
   protected def appendFieldSeparator(buffer: StringBuffer): Unit = {
     buffer.append(fieldSeparator)
+    ()
   }
 
   /**
@@ -1585,6 +1616,7 @@ abstract class ToStringStyle protected()
       buffer.append(fieldName)
       buffer.append(fieldNameValueSeparator)
     }
+    ()
   }
 
   /**
@@ -1616,6 +1648,7 @@ abstract class ToStringStyle protected()
     buffer.append(sizeStartText)
     buffer.append(size)
     buffer.append(sizeEndText)
+    ()
   }
 
   /**

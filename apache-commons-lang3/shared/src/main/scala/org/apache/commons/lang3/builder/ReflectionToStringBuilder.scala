@@ -17,15 +17,12 @@
 
 package org.apache.commons.lang3.builder
 
-import java.lang.reflect.AccessibleObject
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import java.util
-import java.util.Comparator
 import org.apache.commons.lang3.ArrayUtils
 import org.apache.commons.lang3.ClassUtils
 import org.apache.commons.lang3.Validate
-import scala.collection.JavaConverters._
 
 /**
   * <p>
@@ -453,7 +450,7 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     */
   private var upToClass: Class[_] = null
 
-  def this() {
+  def this() = {
     this(null.asInstanceOf[Nothing], null, null)
   }
 
@@ -471,7 +468,7 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     * @throws IllegalArgumentException
     * if the Object passed in is {@code null}
     */
-  def this(`object`: T) {
+  def this(`object`: T) = {
     this(`object`, null, null)
   }
 
@@ -491,7 +488,7 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     * @throws IllegalArgumentException
     * if the Object passed in is {@code null}
     */
-  def this(`object`: T, style: ToStringStyle) {
+  def this(`object`: T, style: ToStringStyle) = {
     this(`object`, style, null)
   }
 
@@ -519,7 +516,7 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     reflectUpToClass: Class[_ >: T],
     outputTransients: Boolean,
     outputStatics: Boolean
-  ) {
+  ) = {
     this(`object`, style, buffer)
     this.setUpToClass(reflectUpToClass)
     this.setAppendTransients(outputTransients)
@@ -545,7 +542,7 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     *          whether to exclude fields who value is null
     * @since 3.6
     */
-  def this(`object`: T, style: ToStringStyle, buffer: StringBuffer, reflectUpToClass: Class[_ >: T], outputTransients: Boolean, outputStatics: Boolean, excludeNullValues: Boolean) {
+  def this(`object`: T, style: ToStringStyle, buffer: StringBuffer, reflectUpToClass: Class[_ >: T], outputTransients: Boolean, outputStatics: Boolean, excludeNullValues: Boolean) = {
     this(`object`, style, buffer)
     this.setUpToClass(reflectUpToClass)
     this.setAppendTransients(outputTransients)
@@ -566,7 +563,7 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     * @return Whether or not to append the given {@code Field}.
     */
   protected def accept(field: Field): Boolean = {
-    if (field.getName.indexOf(ClassUtils.INNER_CLASS_SEPARATOR_CHAR) != -1) false // Reject field from inner class.
+    if (field.getName.indexOf(ClassUtils.INNER_CLASS_SEPARATOR_CHAR.toInt) != -1) false // Reject field from inner class.
     else if (Modifier.isTransient(field.getModifiers) && !this.isAppendTransients) false // Reject transient fields.
     else if (Modifier.isStatic(field.getModifiers) && !this.isAppendStatics) false // Reject static fields.
     else if (this.excludeFieldNames != null && util.Arrays.binarySearch(this.excludeFieldNames.map{ s: String => s: Object }, field.getName) >= 0) false // Reject fields from the getExcludeFieldNames list.

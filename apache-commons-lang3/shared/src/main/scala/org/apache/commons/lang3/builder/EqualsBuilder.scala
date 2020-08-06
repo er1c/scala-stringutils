@@ -17,8 +17,6 @@
 
 package org.apache.commons.lang3.builder
 
-import java.lang.reflect.AccessibleObject
-import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import java.lang.{Boolean => JavaBoolean, Double => JavaDouble, Float => JavaFloat}
 import java.util
@@ -320,7 +318,8 @@ object EqualsBuilder {
     */
   def reflectionEquals(lhs: Any, rhs: Any, testTransients: Boolean, reflectUpToClass: Class[_], testRecursive: Boolean, excludeFields: String*): Boolean = {
     //if (lhs eq rhs) return true
-    ???
+    assert(false, "unimplemented")
+    //???
     if (lhs == null || rhs == null) return false
     new EqualsBuilder()
       .setExcludeFields(excludeFields:_*)
@@ -455,7 +454,8 @@ class EqualsBuilder()
   def reflectionAppend(lhs: Any, rhs: Any): EqualsBuilder = {
     if (!_isEquals) return this
     //if (lhs eq rhs) return this
-    assert(???,  "unimplemented")
+    assert(false, "unimplemented")
+    //???
     if (lhs == null || rhs == null) {
       _isEquals = false
       return this
@@ -497,7 +497,7 @@ class EqualsBuilder()
         }
       }
     } catch {
-      case e: IllegalArgumentException =>
+      case _: IllegalArgumentException =>
         // In this case, we tried to test a subclass vs. a superclass and
         // the subclass has ivars or the ivars are transient and
         // we are testing transients.
@@ -574,7 +574,8 @@ class EqualsBuilder()
   def append(lhs: Any, rhs: Any): EqualsBuilder = {
     if (!_isEquals) return this
     //if (lhs eq rhs) return this
-    assert(???, "unimplemented")
+    assert(false, "unimplemented")
+    //???
     if (lhs == null || rhs == null) {
       this.setEquals(false)
       return this

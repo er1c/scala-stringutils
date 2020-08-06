@@ -42,7 +42,7 @@ class MutableJavaFloat()
     *
     * @param value the initial value to store
     */
-  def this(value: JavaFloat) {
+  def this(value: JavaFloat) = {
     this()
     this.value = value
   }
@@ -53,7 +53,7 @@ class MutableJavaFloat()
     * @param value the initial value to store, not null
     * @throws NullPointerException if the object is null
     */
-  def this(value: Number) {
+  def this(value: Number) = {
     this()
     this.value = value.floatValue
   }
@@ -65,7 +65,7 @@ class MutableJavaFloat()
     * @throws NumberFormatException if the string cannot be parsed into a float
     * @since 2.5
     */
-  def this(value: String) {
+  def this(value: String) = {
     this()
     this.value = JavaFloat.parseFloat(value)
   }

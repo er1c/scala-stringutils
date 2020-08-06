@@ -119,6 +119,6 @@ package org.apache.commons.lang3.text.translate
     */
   override protected def toUtf16Escape(codepoint: Int): String = {
     val surrogatePair = Character.toChars(codepoint)
-    "\\u" + hex(surrogatePair(0)) + "\\u" + hex(surrogatePair(1))
+    "\\u" + hex(surrogatePair(0).toInt) + "\\u" + hex(surrogatePair(1).toInt)
   }
 }

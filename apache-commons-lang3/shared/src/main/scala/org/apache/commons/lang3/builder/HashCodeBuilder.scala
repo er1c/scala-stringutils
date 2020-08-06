@@ -17,12 +17,10 @@
 
 package org.apache.commons.lang3.builder
 
-import java.lang.{Byte => JavaByte, Double => JavaDouble, Float => JavaFloat, Short => JavaShort}
-import java.lang.reflect.AccessibleObject
+import java.lang.{Double => JavaDouble, Float => JavaFloat}
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import java.util
-import java.util.Comparator
 import org.apache.commons.lang3.ArrayUtils
 import org.apache.commons.lang3.Validate
 
@@ -178,7 +176,7 @@ object HashCodeBuilder {
           val fieldValue = field.get(`object`)
           builder.append(fieldValue)
         } catch {
-          case e: IllegalAccessException =>
+          case _: IllegalAccessException =>
             // this can't happen. Would get a Security exception instead
             // throw a runtime exception in case the impossible happens.
             throw new InternalError("Unexpected IllegalAccessException")
@@ -461,6 +459,7 @@ object HashCodeBuilder {
       REGISTRY.set(registry)
     }
     registry.add(new IDKey(value))
+    ()
   }
 
   /**
@@ -518,7 +517,7 @@ class HashCodeBuilder()
     * @throws IllegalArgumentException
     * if the number is even
     */
-  def this(initialOddNumber: Int, multiplierOddNumber: Int) {
+  def this(initialOddNumber: Int, multiplierOddNumber: Int) = {
     this()
     Validate.isTrue(initialOddNumber % 2 != 0, "HashCodeBuilder requires an odd initial value")
     Validate.isTrue(multiplierOddNumber % 2 != 0, "HashCodeBuilder requires an odd multiplier")
@@ -796,6 +795,7 @@ class HashCodeBuilder()
     else { // Not an array of primitives
       append(`object`.asInstanceOf[Array[AnyRef]])
     }
+    ()
   }
 
   /**

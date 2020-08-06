@@ -32,7 +32,7 @@ class CloneFailedException(message: String, cause: Throwable) extends RuntimeExc
     *
     * @param message description of the exception
     */
-  def this(message: String) {
+  def this(message: String) = {
     this(message, null)
   }
 
@@ -41,14 +41,14 @@ class CloneFailedException(message: String, cause: Throwable) extends RuntimeExc
     *
     * @param cause cause of the exception
     */
-  def this(cause: Throwable) {
+  def this(cause: Throwable) = {
     this(null, cause)
   }
 
   /**
     * Constructs a CloneFailedException.
     */
-  def this() {
+  def this() = {
     this(null, null)
   }
 }

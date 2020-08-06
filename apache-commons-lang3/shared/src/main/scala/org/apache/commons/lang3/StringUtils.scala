@@ -24,7 +24,7 @@ package org.apache.commons.lang3
 import java.util.Locale
 //import java.util.Objects
 //import java.util.function.Supplier
-import java.util.regex.Pattern
+//import java.util.regex.Pattern
 
 /**
   * <p>Operations on {@link java.lang.String} that are

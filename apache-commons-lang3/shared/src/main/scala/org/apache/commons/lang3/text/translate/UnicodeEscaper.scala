@@ -80,7 +80,7 @@ import java.io.Writer
   /**
     * <p>Constructs a {@code UnicodeEscaper} for all characters. </p>
     */
-  def this() {
+  def this() = {
     this(0, Integer.MAX_VALUE, true)
   }
 
@@ -95,10 +95,10 @@ import java.io.Writer
     if (codepoint > 0xffff) out.write(toUtf16Escape(codepoint))
     else {
       out.write("\\u")
-      out.write(HEX_DIGITS((codepoint >> 12) & 15))
-      out.write(HEX_DIGITS((codepoint >> 8) & 15))
-      out.write(HEX_DIGITS((codepoint >> 4) & 15))
-      out.write(HEX_DIGITS(codepoint & 15))
+      out.write(HEX_DIGITS((codepoint >> 12) & 15).toInt)
+      out.write(HEX_DIGITS((codepoint >> 8) & 15).toInt)
+      out.write(HEX_DIGITS((codepoint >> 4) & 15).toInt)
+      out.write(HEX_DIGITS(codepoint & 15).toInt)
     }
     true
   }

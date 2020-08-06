@@ -104,7 +104,10 @@ object ClassUtils {
   /**
     * Maps wrapper {@code Class}es to their corresponding primitive types.
     */
-  private val wrapperPrimitiveMap: Map[Class[_], Class[_]] = ???
+  private val wrapperPrimitiveMap: Map[Class[_], Class[_]] = {
+    //???
+    Map.empty
+  }
 /*
     private static final Map<Class<?>, Class<?>> wrapperPrimitiveMap = new HashMap<>();
     static {
@@ -214,8 +217,8 @@ object ClassUtils {
       if (reverseAbbreviationMap.contains(_className))
         _className = reverseAbbreviationMap(_className)
     }
-    val lastDotIdx = _className.lastIndexOf(PACKAGE_SEPARATOR_CHAR)
-    val innerIdx = _className.indexOf(INNER_CLASS_SEPARATOR_CHAR,
+    val lastDotIdx = _className.lastIndexOf(PACKAGE_SEPARATOR_CHAR.toInt)
+    val innerIdx = _className.indexOf(INNER_CLASS_SEPARATOR_CHAR.toInt,
       if (lastDotIdx == -1) 0
       else lastDotIdx + 1
     )
@@ -360,7 +363,7 @@ object ClassUtils {
     while (_className.charAt(0) == '[') _className = _className.substring(1)
     if (_className.charAt(0) == 'L' && _className.charAt(_className.length - 1) == ';')
       _className = _className.substring(1)
-    val i = _className.lastIndexOf(PACKAGE_SEPARATOR_CHAR)
+    val i = _className.lastIndexOf(PACKAGE_SEPARATOR_CHAR.toInt)
     if (i == -1) return StringUtils.EMPTY
     _className.substring(0, i)
   }
@@ -912,7 +915,7 @@ object ClassUtils {
   } catch {
     case ex: ClassNotFoundException =>
       // allow path separators (.) as inner class name separators
-      val lastDotIndex = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR)
+      val lastDotIndex = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR.toInt)
       if (lastDotIndex != -1) try {
         return getClass(classLoader, className.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR_CHAR + className.substring(lastDotIndex + 1), initialize)
       } catch {
@@ -1309,9 +1312,9 @@ object ClassUtils {
           result
         }
 
-        def remove(): Unit = {
-          throw new UnsupportedOperationException
-        }
+//        def remove(): Unit = {
+//          throw new UnsupportedOperationException
+//        }
       }
     }
 
@@ -1326,7 +1329,7 @@ object ClassUtils {
       override val iterator: Iterator[Class[_]] = new Iterator[Class[_]] {
         override def hasNext: Boolean = return interfaces.hasNext || wrapped.hasNext
 
-        override def next: Class[_] = {
+        override def next(): Class[_] = {
           if (interfaces.hasNext) {
             val nextInterface = interfaces.next
             seenInterfaces.add(nextInterface)
@@ -1347,7 +1350,7 @@ object ClassUtils {
           }
         }
 
-        def remove(): Unit = throw new UnsupportedOperationException
+//        def remove(): Unit = throw new UnsupportedOperationException
       }
     }
   }

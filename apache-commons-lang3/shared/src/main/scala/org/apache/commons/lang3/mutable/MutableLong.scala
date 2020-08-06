@@ -43,7 +43,7 @@ class MutableJavaLong()
     *
     * @param value the initial value to store
     */
-  def this(value: Long) {
+  def this(value: Long) = {
     this()
     this.value = value
   }
@@ -54,7 +54,7 @@ class MutableJavaLong()
     * @param value the initial value to store, not null
     * @throws NullPointerException if the object is null
     */
-  def this(value: Number) {
+  def this(value: Number) = {
     this()
     this.value = value.longValue
   }
@@ -66,7 +66,7 @@ class MutableJavaLong()
     * @throws NumberFormatException if the string cannot be parsed into a long
     * @since 2.5
     */
-  def this(value: String) {
+  def this(value: String) = {
     this()
     this.value = JavaLong.parseLong(value)
   }

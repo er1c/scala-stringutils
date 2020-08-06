@@ -222,7 +222,7 @@ lazy val root = project.in(file("."))
   .enablePlugins(ScalaUnidocPlugin)
   .aggregate(
     coreJVM, coreJS,
-    apacheCommonsLang3StringUtilsJVM, apacheCommonsLang3StringUtilsJS,
+    apacheCommonsLang3JVM, apacheCommonsLang3JS,
   )
   .configure(defaultPlugins)
   .settings(sharedSettings)
@@ -309,7 +309,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
 lazy val coreJVM = core.jvm
 lazy val coreJS  = core.js
 
-lazy val apacheCommonsLang3StringUtils = crossProject(JSPlatform, JVMPlatform)
+lazy val apacheCommonsLang3 = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Full)
   .in(file("apache-commons-lang3"))
   .configureCross(defaultCrossProjectConfiguration)
@@ -320,6 +320,10 @@ lazy val apacheCommonsLang3StringUtils = crossProject(JSPlatform, JVMPlatform)
       "org.scalatest"     %%% "scalatest"        % ScalaTestVersion % Test,
       "org.scalatestplus" %%% "scalacheck-1-14"  % ScalaTestPlusVersion % Test,
       "org.scalacheck"    %%% "scalacheck"       % ScalaCheckVersion % Test,
+    ),
+    scalacOptions --= Seq(
+      "-deprecation",
+      "-Xlint:deprecation",
     ),
     headerLicense := Some(HeaderLicense.Custom(
       s"""|Licensed to the Apache Software Foundation (ASF) under one or more
@@ -338,8 +342,8 @@ lazy val apacheCommonsLang3StringUtils = crossProject(JSPlatform, JVMPlatform)
           |limitations under the License.""".stripMargin)),
   )
 
-lazy val apacheCommonsLang3StringUtilsJVM = apacheCommonsLang3StringUtils.jvm
-lazy val apacheCommonsLang3StringUtilsJS  = apacheCommonsLang3StringUtils.js
+lazy val apacheCommonsLang3JVM = apacheCommonsLang3.jvm
+lazy val apacheCommonsLang3JS  = apacheCommonsLang3.js
 
 lazy val generator = project.in(file("generator"))
   .disablePlugins(MimaPlugin)
