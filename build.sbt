@@ -106,7 +106,7 @@ lazy val sharedSettings = Seq(
   }),
 
   // Turning off fatal warnings for doc generation
-  scalacOptions.in(Compile, doc) ~= filterConsoleScalacOptions,
+//  scalacOptions.in(Compile, doc) ~= filterConsoleScalacOptions,
   // Silence all warnings from src_managed files
   scalacOptions += "-P:silencer:pathFilters=.*[/]src_managed[/].*",
 
@@ -267,7 +267,7 @@ lazy val site = project.in(file("site"))
       ),
       micrositeCompilingDocsTool := WithMdoc,
       fork in mdoc := true,
-      scalacOptions.in(Tut) ~= filterConsoleScalacOptions,
+//      scalacOptions.in(Tut) ~= filterConsoleScalacOptions,
       libraryDependencies += "com.47deg" %% "github4s" % GitHub4sVersion,
       micrositePushSiteWith := GitHub4s,
       micrositeGithubToken := sys.env.get("GITHUB_TOKEN"),
