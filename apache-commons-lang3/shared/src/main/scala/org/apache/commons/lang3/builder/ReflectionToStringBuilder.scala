@@ -23,6 +23,7 @@ import java.util
 import org.apache.commons.lang3.ArrayUtils
 import org.apache.commons.lang3.ClassUtils
 import org.apache.commons.lang3.Validate
+import scala.collection.JavaConverters._
 
 /**
   * <p>
@@ -363,8 +364,8 @@ object ReflectionToStringBuilder {
     * @return A new array of Strings.
     */
   private[builder] def toNoNullStringArray(collection: util.Collection[String]): Array[String] = {
-    if (collection == null) return ArrayUtils.EMPTY_STRING_ARRAY
-    toNoNullStringArray(collection.toArray)
+    if (collection == null) ArrayUtils.EMPTY_STRING_ARRAY
+    else toNoNullStringArray(collection.asScala.toArray.asInstanceOf[Array[Any]])
   }
 
   /**

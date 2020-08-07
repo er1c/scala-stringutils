@@ -207,5 +207,5 @@ abstract class Pair[L, R] extends util.Map.Entry[L, R] with Comparable[Pair[L, R
     * @param format the format string, optionally containing {@code %1$s} and {@code %2$s}, not null
     * @return the formatted string, not null
     */
-  def toString(format: String): String = String.format(format, getLeft, getRight)
+  def toString(format: String): String = format.format(getLeft, getRight)
 }

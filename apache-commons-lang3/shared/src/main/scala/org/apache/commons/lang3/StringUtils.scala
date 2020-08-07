@@ -321,14 +321,14 @@ object StringUtils {
     val minAbbrevWidth = abbrevMarkerLength + 1
     val minAbbrevWidthOffset = abbrevMarkerLength + abbrevMarkerLength + 1
 
-    if (maxWidth < minAbbrevWidth) throw new IllegalArgumentException(String.format("Minimum abbreviation width is %d", minAbbrevWidth))
+    if (maxWidth < minAbbrevWidth) throw new IllegalArgumentException("Minimum abbreviation width is %d".format(minAbbrevWidth))
     if (str.length <= maxWidth) return str
 
     var _offset = if (offset > str.length) str.length else offset
 
     if (str.length - _offset < maxWidth - abbrevMarkerLength) _offset = str.length - (maxWidth - abbrevMarkerLength)
     if (_offset <= abbrevMarkerLength + 1) return str.substring(0, maxWidth - abbrevMarkerLength) + abbrevMarker
-    if (maxWidth < minAbbrevWidthOffset) throw new IllegalArgumentException(String.format("Minimum abbreviation width with offset is %d", minAbbrevWidthOffset))
+    if (maxWidth < minAbbrevWidthOffset) throw new IllegalArgumentException("Minimum abbreviation width with offset is %d".format(minAbbrevWidthOffset))
     if (_offset + maxWidth - abbrevMarkerLength < str.length) return abbrevMarker + abbreviate(str.substring(_offset), abbrevMarker, maxWidth - abbrevMarkerLength)
     abbrevMarker + str.substring(str.length - (maxWidth - abbrevMarkerLength))
   }
@@ -2475,7 +2475,7 @@ object StringUtils {
     */
   def indexOfAny(str: CharSequence, searchStrs: CharSequence*)(implicit d: DummyImplicit): Int = {
     if (str == null || searchStrs == null) return INDEX_NOT_FOUND
-    
+
     // String's can't have a MAX_VALUEth index.
     var ret = Integer.MAX_VALUE
     var tmp = 0

@@ -2397,7 +2397,10 @@ object ArrayUtils {
       * @since 3.4
       */
     def isSorted[T <: Comparable[T]](array: Array[T]): Boolean = {
-      val cmp: Comparator[T] = (p1: T, p2: T) => p1 compareTo p2
+      val cmp: Comparator[T] = new Comparator[T] {
+        override def compare(p1: T, p2: T): Int = p1 compareTo p2
+      }
+
       isSorted(array, cmp)
     }
 

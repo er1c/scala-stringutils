@@ -68,19 +68,19 @@ object Boilerplate {
         (unmanagedSourceDirectories in sc).value.flatMap { dir =>
           Seq(
             scalaPartV.value match {
-              case Some((2, y)) if y == 11 => new File(dir.getPath + "_2.11")
-              case Some((2, y)) if y == 12 => new File(dir.getPath + "_2.12")
-              case Some((2, y)) if y >= 13 => new File(dir.getPath + "_2.13")
+              case Some((2, y)) if y == 11 => new File(dir.getPath + "-2.11")
+              case Some((2, y)) if y == 12 => new File(dir.getPath + "-2.12")
+              case Some((2, y)) if y >= 13 => new File(dir.getPath + "-2.13")
             },
 
             scalaPartV.value match {
-              case Some((2, n)) if n >= 12 => new File(dir.getPath + "_2.12+")
-              case _                       => new File(dir.getPath + "_2.12-")
+              case Some((2, n)) if n >= 12 => new File(dir.getPath + "-2.12+")
+              case _                       => new File(dir.getPath + "-2.12-")
             },
 
             scalaPartV.value match {
-              case Some((2, n)) if n >= 13 => new File(dir.getPath + "_2.13+")
-              case _                       => new File(dir.getPath + "_2.13-")
+              case Some((2, n)) if n >= 13 => new File(dir.getPath + "-2.13+")
+              case _                       => new File(dir.getPath + "-2.13-")
             },
           )
         }

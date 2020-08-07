@@ -87,7 +87,7 @@ object Validate {
     * @see #isTrue(boolean, String, Object...)
     */
   def isTrue(expression: Boolean, message: String, value: Long): Unit = {
-    if (!expression) throw new IllegalArgumentException(String.format(message, value))
+    if (!expression) throw new IllegalArgumentException(message.format(value))
   }
 
   /**
@@ -110,7 +110,7 @@ object Validate {
     * @see #isTrue(boolean, String, Object...)
     */
   def isTrue(expression: Boolean, message: String, value: Double): Unit = {
-    if (!expression) throw new IllegalArgumentException(String.format(message, value))
+    if (!expression) throw new IllegalArgumentException(message.format(value))
   }
 
   /**
@@ -189,8 +189,10 @@ object Validate {
     * @throws NullPointerException if the object is {@code null}
     * @see #notNull(Object)
     */
-  def notNull[T](`object`: T, message: String, values: Any*): T =
-    Objects.requireNonNull(`object`, () => String.format(message, values))
+  def notNull[T](`object`: T, message: String, values: Any*): T = {
+    @inline def msg: String = message.format(values)
+    Objects.requireNonNull(`object`, msg)
+  }
 
   /**
     * <p>Validate that the specified argument array is neither {@code null}
@@ -209,8 +211,9 @@ object Validate {
     * @see #notEmpty(Object[])
     */
   def notEmpty[T](array: Array[T], message: String, values: Any*): Array[T] = {
-    Objects.requireNonNull(array, () => String.format(message, values))
-    if (array.length == 0) throw new IllegalArgumentException(String.format(message, values))
+    @inline def msg: String = message.format(values)
+    Objects.requireNonNull(array, msg)
+    if (array.length == 0) throw new IllegalArgumentException(msg)
     array
   }
 
@@ -250,8 +253,9 @@ object Validate {
     * @see #notEmpty(Object[])
     */
   def notEmpty[T <: util.Collection[_]](collection: T, message: String, values: Any*): T = {
-    Objects.requireNonNull(collection, () => String.format(message, values))
-    if (collection.isEmpty) throw new IllegalArgumentException(String.format(message, values))
+    @inline def msg: String = message.format(values)
+    Objects.requireNonNull(collection, msg)
+    if (collection.isEmpty) throw new IllegalArgumentException(msg)
     collection
   }
 
@@ -291,8 +295,9 @@ object Validate {
     * @see #notEmpty(Object[])
     */
   def notEmpty[T <: util.Map[_, _]](map: T, message: String, values: Any*)(implicit ev: DummyImplicit): T = {
-    Objects.requireNonNull(map, () => String.format(message, values))
-    if (map.isEmpty) throw new IllegalArgumentException(String.format(message, values))
+    @inline def msg: String = message.format(values)
+    Objects.requireNonNull(map, msg)
+    if (map.isEmpty) throw new IllegalArgumentException(msg)
     map
   }
 
@@ -332,8 +337,9 @@ object Validate {
     * @see #notEmpty(CharSequence)
     */
   def notEmpty[T <: CharSequence](chars: T, message: String, values: AnyRef*): T = {
-    Objects.requireNonNull(chars, () => String.format(message, values))
-    if (chars.length == 0) throw new IllegalArgumentException(String.format(message, values))
+    @inline def msg: String = message.format(values)
+    Objects.requireNonNull(chars, msg)
+    if (chars.length == 0) throw new IllegalArgumentException(msg)
     chars
   }
 
@@ -376,8 +382,9 @@ object Validate {
     * @since 3.0
     */
   def notBlank[T <: CharSequence](chars: T, message: String, values: Any*): T = {
-    Objects.requireNonNull(chars, () => String.format(message, values))
-    if (StringUtils.isBlank(chars)) throw new IllegalArgumentException(String.format(message, values))
+    @inline def msg: String = message.format(values)
+    Objects.requireNonNull(chars, msg)
+    if (StringUtils.isBlank(chars)) throw new IllegalArgumentException(msg)
     chars
   }
 
@@ -835,7 +842,8 @@ object Validate {
     * @since 3.0
     */
   def inclusiveBetween[T](start: T, `end`: T, value: Comparable[T]): Unit = { // TODO when breaking BC, consider returning value
-    if (value.compareTo(start) < 0 || value.compareTo(`end`) > 0) throw new IllegalArgumentException(String.format(DEFAULT_INCLUSIVE_BETWEEN_EX_MESSAGE, value, start, `end`))
+    if (value.compareTo(start) < 0 || value.compareTo(`end`) > 0)
+      throw new IllegalArgumentException(DEFAULT_INCLUSIVE_BETWEEN_EX_MESSAGE.format(value, start, `end`))
   }
 
   /**
@@ -872,7 +880,8 @@ object Validate {
     * @since 3.3
     */
   @SuppressWarnings(Array("boxing")) def inclusiveBetween(start: Long, `end`: Long, value: Long): Unit = {
-    if (value < start || value > `end`) throw new IllegalArgumentException(String.format(DEFAULT_INCLUSIVE_BETWEEN_EX_MESSAGE, value, start, `end`))
+    if (value < start || value > `end`)
+      throw new IllegalArgumentException(DEFAULT_INCLUSIVE_BETWEEN_EX_MESSAGE.format(value, start, `end`))
   }
 
   /**
@@ -906,7 +915,8 @@ object Validate {
     * @since 3.3
     */
   @SuppressWarnings(Array("boxing")) def inclusiveBetween(start: Double, `end`: Double, value: Double): Unit = {
-    if (value < start || value > `end`) throw new IllegalArgumentException(String.format(DEFAULT_INCLUSIVE_BETWEEN_EX_MESSAGE, value, start, `end`))
+    if (value < start || value > `end`)
+      throw new IllegalArgumentException(DEFAULT_INCLUSIVE_BETWEEN_EX_MESSAGE.format(value, start, `end`))
   }
 
   /**
@@ -942,7 +952,8 @@ object Validate {
     * @since 3.0
     */
   def exclusiveBetween[T](start: T, `end`: T, value: Comparable[T]): Unit = {
-    if (value.compareTo(start) <= 0 || value.compareTo(`end`) >= 0) throw new IllegalArgumentException(String.format(DEFAULT_EXCLUSIVE_BETWEEN_EX_MESSAGE, value, start, `end`))
+    if (value.compareTo(start) <= 0 || value.compareTo(`end`) >= 0)
+      throw new IllegalArgumentException(DEFAULT_EXCLUSIVE_BETWEEN_EX_MESSAGE.format(value, start, `end`))
   }
 
   /**
@@ -979,7 +990,8 @@ object Validate {
     * @since 3.3
     */
   @SuppressWarnings(Array("boxing")) def exclusiveBetween(start: Long, `end`: Long, value: Long): Unit = {
-    if (value <= start || value >= `end`) throw new IllegalArgumentException(String.format(DEFAULT_EXCLUSIVE_BETWEEN_EX_MESSAGE, value, start, `end`))
+    if (value <= start || value >= `end`)
+      throw new IllegalArgumentException(DEFAULT_EXCLUSIVE_BETWEEN_EX_MESSAGE.format(value, start, `end`))
   }
 
   /**
@@ -1013,7 +1025,8 @@ object Validate {
     * @since 3.3
     */
   @SuppressWarnings(Array("boxing")) def exclusiveBetween(start: Double, `end`: Double, value: Double): Unit = {
-    if (value <= start || value >= `end`) throw new IllegalArgumentException(String.format(DEFAULT_EXCLUSIVE_BETWEEN_EX_MESSAGE, value, start, `end`))
+    if (value <= start || value >= `end`)
+      throw new IllegalArgumentException(DEFAULT_EXCLUSIVE_BETWEEN_EX_MESSAGE.format(value, start, `end`))
   }
 
   /**

@@ -90,8 +90,9 @@ lazy val sharedSettings = Seq(
   githubRelativeRepositoryID := "scala-stringutils",
 
   organization := "io.github.er1c",
-  scalaVersion := "2.13.3",
-  crossScalaVersions := Seq("2.12.12", "2.13.3"),
+  //scalaVersion := "2.13.3",
+  scalaVersion := "2.12.12",
+  crossScalaVersions := Seq("2.11.12", "2.12.12", "2.13.3"),
 
   // More version specific compiler options
   scalacOptions ++= (CrossVersion.partialVersion(scalaVersion.value) match {
@@ -321,6 +322,17 @@ lazy val apacheCommonsLang3 = crossProject(JSPlatform, JVMPlatform)
       "org.scalatestplus" %%% "scalacheck-1-14"  % ScalaTestPlusVersion % Test,
       "org.scalacheck"    %%% "scalacheck"       % ScalaCheckVersion % Test,
     ),
+    scalacOptions --= (CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, v)) if v >= 13 =>
+        Seq(
+          "-Xlint:deprecation"
+        )
+      case _ =>
+        Seq(
+          "-Xfatal-warnings"
+        )
+    }),
+
     scalacOptions --= Seq(
       "-deprecation",
       "-Xlint:deprecation",

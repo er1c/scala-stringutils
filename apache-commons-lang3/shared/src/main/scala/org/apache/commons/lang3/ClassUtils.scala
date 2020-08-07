@@ -132,7 +132,7 @@ object ClassUtils {
     "short"   -> "S",
     "byte"    -> "B",
     "double"  -> "D",
-    "char"    -> "C",
+    "char"    -> "C"
   )
 
   /**

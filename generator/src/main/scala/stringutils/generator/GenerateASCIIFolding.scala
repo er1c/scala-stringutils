@@ -72,7 +72,7 @@ object GenerateASCIIFolding {
 
   def generate(): Unit = {
     val groupedByAscii: Vector[(String,Vector[UnicodeChar])] = 
-      getMapping.groupBy{ _._2 }.view.mapValues{ _.map{ _._1 } }.toVector.sortBy{ _._1 }
+      getMapping.groupBy{ _._2 }.mapValues{ _.map{ _._1 } }.toVector.sortBy{ _._1 }
 
     val maxExpandedLength: Int = groupedByAscii.map{ _._1.length }.max
 

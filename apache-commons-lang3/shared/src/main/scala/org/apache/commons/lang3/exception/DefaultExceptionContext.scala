@@ -49,7 +49,14 @@ class DefaultExceptionContext extends ExceptionContext with Serializable {
   }
 
   override def setContextValue(label: String, value: Any): DefaultExceptionContext = {
-    contextValues.removeIf((p: Pair[String, Any]) => StringUtils.equals(label, p.getKey))
+    import java.util.function.{Predicate ⇒ JPredicate}
+    contextValues.removeIf(
+      // Explicit for 2.11 compat
+      new JPredicate[Pair[String, Any]] {
+        override def test(p: Pair[String, Any]): Boolean = StringUtils.equals(label, p.getKey)
+      }
+    )
+
     addContextValue(label, value)
     this
   }
