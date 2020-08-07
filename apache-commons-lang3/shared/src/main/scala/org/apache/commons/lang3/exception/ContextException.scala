@@ -87,8 +87,7 @@ import org.apache.commons.lang3.tuple.Pair
   * @since         3.0
   */
 @SerialVersionUID(20110706L)
-class ContextedException(message: String, cause: Throwable)
-  extends Exception(message, cause) with ExceptionContext {
+class ContextedException(message: String, cause: Throwable) extends Exception(message, cause) with ExceptionContext {
   /** The context where the data is stored. */
   final private var exceptionContext: ExceptionContext = new DefaultExceptionContext
 
@@ -109,7 +108,6 @@ class ContextedException(message: String, cause: Throwable)
     * @param cause the underlying cause of the exception, may be null
     */
   def this(cause: Throwable) = this(null, cause)
-
 
   /**
     * Instantiates ContextedException with cause, message, and ExceptionContext.

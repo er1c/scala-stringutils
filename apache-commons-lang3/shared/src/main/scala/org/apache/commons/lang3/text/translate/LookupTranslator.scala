@@ -38,7 +38,6 @@ import java.util
  * limitations under the License.
  */
 
-
 /**
   * Translates a value using a lookup table.
   *
@@ -57,7 +56,7 @@ import java.util
   *
   * @param lookup CharSequence[][] table of size [*][2]
   */
-  (val lookup: Array[CharSequence]*)
+(val lookup: Array[CharSequence]*)
 
 /**
   * Define the lookup table to be used in translation
@@ -90,7 +89,6 @@ import java.util
 
   shortest = _shortest
   longest = _longest
-
 
   /**
     * {@inheritDoc }

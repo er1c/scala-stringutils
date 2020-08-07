@@ -188,20 +188,26 @@ object CharSequenceUtils {
     * @return the index where the search sequence was found
     */
   private[lang3] def lastIndexOf(cs: CharSequence, searchChar: CharSequence, start: Int): Int = {
-    if (searchChar.isInstanceOf[String]) if (cs.isInstanceOf[String]) return cs.asInstanceOf[String].lastIndexOf(searchChar.asInstanceOf[String], start)
-    else if (cs.isInstanceOf[StringBuilder]) return cs.asInstanceOf[StringBuilder].lastIndexOf(searchChar.asInstanceOf[String], start)
-    else if (cs.isInstanceOf[StringBuffer]) return cs.asInstanceOf[StringBuffer].lastIndexOf(searchChar.asInstanceOf[String], start)
+    if (searchChar.isInstanceOf[String])
+      if (cs.isInstanceOf[String]) return cs.asInstanceOf[String].lastIndexOf(searchChar.asInstanceOf[String], start)
+      else if (cs.isInstanceOf[StringBuilder])
+        return cs.asInstanceOf[StringBuilder].lastIndexOf(searchChar.asInstanceOf[String], start)
+      else if (cs.isInstanceOf[StringBuffer])
+        return cs.asInstanceOf[StringBuffer].lastIndexOf(searchChar.asInstanceOf[String], start)
     val len1 = cs.length
     val len2 = searchChar.length
 
-    var startIndex = if (start > len1)  len1 else start
+    var startIndex = if (start > len1) len1 else start
 
     if (startIndex < 0 || len2 < 0 || len2 > len1) return -1
     if (len2 == 0) return startIndex
 
-    if (len2 <= TO_STRING_LIMIT) if (cs.isInstanceOf[String]) return cs.asInstanceOf[String].lastIndexOf(searchChar.toString, startIndex)
-    else if (cs.isInstanceOf[StringBuilder]) return cs.asInstanceOf[StringBuilder].lastIndexOf(searchChar.toString, startIndex)
-    else if (cs.isInstanceOf[StringBuffer]) return cs.asInstanceOf[StringBuffer].lastIndexOf(searchChar.toString, startIndex)
+    if (len2 <= TO_STRING_LIMIT)
+      if (cs.isInstanceOf[String]) return cs.asInstanceOf[String].lastIndexOf(searchChar.toString, startIndex)
+      else if (cs.isInstanceOf[StringBuilder])
+        return cs.asInstanceOf[StringBuilder].lastIndexOf(searchChar.toString, startIndex)
+      else if (cs.isInstanceOf[StringBuffer])
+        return cs.asInstanceOf[StringBuffer].lastIndexOf(searchChar.toString, startIndex)
 
     if (startIndex + len2 > len1) startIndex = len1 - len2
     val char0 = searchChar.charAt(0)
@@ -222,7 +228,7 @@ object CharSequenceUtils {
   private def checkLaterThan1(cs: CharSequence, searchChar: CharSequence, len2: Int, start1: Int): Boolean = {
     var i = 1
     var j = len2 - 1
-    while ( {
+    while ({
       i <= j
     }) {
       if (cs.charAt(start1 + i) != searchChar.charAt(i) || cs.charAt(start1 + j) != searchChar.charAt(j)) return false
@@ -265,8 +271,15 @@ object CharSequenceUtils {
     * @param length     character length of the region
     * @return whether the region matched
     */
-  private[lang3] def regionMatches(cs: CharSequence, ignoreCase: Boolean, thisStart: Int, substring: CharSequence, start: Int, length: Int): Boolean = {
-    if (cs.isInstanceOf[String] && substring.isInstanceOf[String]) return cs.asInstanceOf[String].regionMatches(ignoreCase, thisStart, substring.asInstanceOf[String], start, length)
+  private[lang3] def regionMatches(
+    cs: CharSequence,
+    ignoreCase: Boolean,
+    thisStart: Int,
+    substring: CharSequence,
+    start: Int,
+    length: Int): Boolean = {
+    if (cs.isInstanceOf[String] && substring.isInstanceOf[String])
+      return cs.asInstanceOf[String].regionMatches(ignoreCase, thisStart, substring.asInstanceOf[String], start, length)
     var index1 = thisStart
     var index2 = start
     var tmpLen = length

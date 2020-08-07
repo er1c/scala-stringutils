@@ -157,22 +157,25 @@ object HashCodeBuilder {
     * @param excludeFields
     * Collection of String field names to exclude from use in calculation of hash code
     */
-  private def reflectionAppend(`object`: Any, clazz: Class[_], builder: HashCodeBuilder, useTransients: Boolean, excludeFields: Array[String]): Unit = {
+  private def reflectionAppend(
+    `object`: Any,
+    clazz: Class[_],
+    builder: HashCodeBuilder,
+    useTransients: Boolean,
+    excludeFields: Array[String]): Unit = {
     if (isRegistered(`object`)) return
     try {
       register(`object`)
       // The elements in the returned array are not sorted and are not in any particular order.
       val fields: Array[Field] = clazz.getDeclaredFields
-      fields.foreach{ _.setAccessible(true) }
+      fields.foreach { _.setAccessible(true) }
 
       for (field <- fields.sortBy(_.getName)) {
-        if (
-          !ArrayUtils.contains(excludeFields, field.getName) &&
+        if (!ArrayUtils.contains(excludeFields, field.getName) &&
           !field.getName.contains("$") &&
           (useTransients || !Modifier.isTransient(field.getModifiers)) &&
           !Modifier.isStatic(field.getModifiers) &&
-          !field.isAnnotationPresent(classOf[HashCodeExclude])
-        ) try {
+          !field.isAnnotationPresent(classOf[HashCodeExclude])) try {
           val fieldValue = field.get(`object`)
           builder.append(fieldValue)
         } catch {
@@ -268,7 +271,11 @@ object HashCodeBuilder {
     * if the number is zero or even
     * @see HashCodeExclude
     */
-  def reflectionHashCode(initialNonZeroOddNumber: Int, multiplierNonZeroOddNumber: Int, `object`: Any, testTransients: Boolean): Int =
+  def reflectionHashCode(
+    initialNonZeroOddNumber: Int,
+    multiplierNonZeroOddNumber: Int,
+    `object`: Any,
+    testTransients: Boolean): Int =
     reflectionHashCode(initialNonZeroOddNumber, multiplierNonZeroOddNumber, `object`, testTransients, null)
 
   /**
@@ -320,7 +327,13 @@ object HashCodeBuilder {
     * @see HashCodeExclude
     * @since 2.0
     */
-  def reflectionHashCode[T](initialNonZeroOddNumber: Int, multiplierNonZeroOddNumber: Int, `object`: T, testTransients: Boolean, reflectUpToClass: Class[_ >: T], excludeFields: String*): Int = {
+  def reflectionHashCode[T](
+    initialNonZeroOddNumber: Int,
+    multiplierNonZeroOddNumber: Int,
+    `object`: T,
+    testTransients: Boolean,
+    reflectUpToClass: Class[_ >: T],
+    excludeFields: String*): Int = {
     Validate.notNull(`object`, "The object to build a hash code for must not be null")
 
     val builder = new HashCodeBuilder(initialNonZeroOddNumber, multiplierNonZeroOddNumber)
@@ -405,7 +418,7 @@ object HashCodeBuilder {
     * @see HashCodeExclude
     */
   def reflectionHashCode(`object`: Any, excludeFields: util.Collection[String]): Int =
-    reflectionHashCode(`object`, ReflectionToStringBuilder.toNoNullStringArray(excludeFields):_*)
+    reflectionHashCode(`object`, ReflectionToStringBuilder.toNoNullStringArray(excludeFields): _*)
 
   /**
     * <p>
@@ -442,7 +455,7 @@ object HashCodeBuilder {
     * @see HashCodeExclude
     */
   def reflectionHashCode(`object`: Any, excludeFields: String*): Int =
-    reflectionHashCode(DEFAULT_INITIAL_VALUE, DEFAULT_MULTIPLIER_VALUE, `object`, false, null, excludeFields:_*)
+    reflectionHashCode(DEFAULT_INITIAL_VALUE, DEFAULT_MULTIPLIER_VALUE, `object`, false, null, excludeFields: _*)
 
   /**
     * <p>
@@ -519,7 +532,7 @@ class HashCodeBuilder()
     */
   def this(initialOddNumber: Int, multiplierOddNumber: Int) = {
     this()
-    Validate.isTrue(initialOddNumber % 2 != 0, "HashCodeBuilder requires an odd initial value")
+    Validate.isTrue(initialOddNumber    % 2 != 0, "HashCodeBuilder requires an odd initial value")
     Validate.isTrue(multiplierOddNumber % 2 != 0, "HashCodeBuilder requires an odd multiplier")
     iConstant = multiplierOddNumber
     iTotal = initialOddNumber
@@ -562,9 +575,10 @@ class HashCodeBuilder()
     */
   def append(array: Array[Boolean]): HashCodeBuilder = {
     if (array == null) iTotal = iTotal * iConstant
-    else for (element <- array) {
-      append(element)
-    }
+    else
+      for (element <- array) {
+        append(element)
+      }
     this
   }
 
@@ -593,9 +607,10 @@ class HashCodeBuilder()
     */
   def append(array: Array[Byte]): HashCodeBuilder = {
     if (array == null) iTotal = iTotal * iConstant
-    else for (element <- array) {
-      append(element)
-    }
+    else
+      for (element <- array) {
+        append(element)
+      }
     this
   }
 
@@ -624,9 +639,10 @@ class HashCodeBuilder()
     */
   def append(array: Array[Char]): HashCodeBuilder = {
     if (array == null) iTotal = iTotal * iConstant
-    else for (element <- array) {
-      append(element)
-    }
+    else
+      for (element <- array) {
+        append(element)
+      }
     this
   }
 
@@ -652,9 +668,10 @@ class HashCodeBuilder()
     */
   def append(array: Array[Double]): HashCodeBuilder = {
     if (array == null) iTotal = iTotal * iConstant
-    else for (element <- array) {
-      append(element)
-    }
+    else
+      for (element <- array) {
+        append(element)
+      }
     this
   }
 
@@ -683,9 +700,10 @@ class HashCodeBuilder()
     */
   def append(array: Array[Float]): HashCodeBuilder = {
     if (array == null) iTotal = iTotal * iConstant
-    else for (element <- array) {
-      append(element)
-    }
+    else
+      for (element <- array) {
+        append(element)
+      }
     this
   }
 
@@ -714,9 +732,10 @@ class HashCodeBuilder()
     */
   def append(array: Array[Int]): HashCodeBuilder = {
     if (array == null) iTotal = iTotal * iConstant
-    else for (element <- array) {
-      append(element)
-    }
+    else
+      for (element <- array) {
+        append(element)
+      }
     this
   }
 
@@ -749,9 +768,10 @@ class HashCodeBuilder()
     */
   def append(array: Array[Long]): HashCodeBuilder = {
     if (array == null) iTotal = iTotal * iConstant
-    else for (element <- array) {
-      append(element)
-    }
+    else
+      for (element <- array) {
+        append(element)
+      }
     this
   }
 
@@ -769,8 +789,7 @@ class HashCodeBuilder()
     else if (`object`.getClass.isArray) { // factor out array case in order to keep method small enough
       // to be inlined
       appendArray(`object`)
-    }
-    else iTotal = iTotal * iConstant + `object`.hashCode
+    } else iTotal = iTotal * iConstant + `object`.hashCode
     this
   }
 
@@ -809,9 +828,10 @@ class HashCodeBuilder()
     */
   def append(array: Array[AnyRef]): HashCodeBuilder = {
     if (array == null) iTotal = iTotal * iConstant
-    else for (element <- array) {
-      append(element)
-    }
+    else
+      for (element <- array) {
+        append(element)
+      }
     this
   }
 
@@ -840,9 +860,10 @@ class HashCodeBuilder()
     */
   def append(array: Array[Short]): HashCodeBuilder = {
     if (array == null) iTotal = iTotal * iConstant
-    else for (element <- array) {
-      append(element)
-    }
+    else
+      for (element <- array) {
+        append(element)
+      }
     this
   }
 

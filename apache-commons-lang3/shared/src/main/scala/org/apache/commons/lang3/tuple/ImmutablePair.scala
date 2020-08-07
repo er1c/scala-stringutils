@@ -58,7 +58,8 @@ object ImmutablePair {
     * @return the empty array singleton that can be assigned without compiler warning.
     * @since 3.10.
     */
-  @SuppressWarnings(Array("unchecked")) def emptyArray[L, R]: Array[ImmutablePair[L, R]] = EMPTY_ARRAY.asInstanceOf[Array[ImmutablePair[L, R]]]
+  @SuppressWarnings(Array("unchecked")) def emptyArray[L, R]: Array[ImmutablePair[L, R]] =
+    EMPTY_ARRAY.asInstanceOf[Array[ImmutablePair[L, R]]]
 
   /**
     * <p>Creates an immutable pair of two objects inferring the generic types.</p>
@@ -138,9 +139,9 @@ object ImmutablePair {
 }
 
 @SerialVersionUID(4954918890077093841L)
-final class ImmutablePair[L, R](/** Left object */
+final class ImmutablePair[L, R](
+  /** Left object */
   val left: L,
-
   /** Right object */
   val right: R)
 

@@ -321,15 +321,18 @@ object StringUtils {
     val minAbbrevWidth = abbrevMarkerLength + 1
     val minAbbrevWidthOffset = abbrevMarkerLength + abbrevMarkerLength + 1
 
-    if (maxWidth < minAbbrevWidth) throw new IllegalArgumentException("Minimum abbreviation width is %d".format(minAbbrevWidth))
+    if (maxWidth < minAbbrevWidth)
+      throw new IllegalArgumentException("Minimum abbreviation width is %d".format(minAbbrevWidth))
     if (str.length <= maxWidth) return str
 
     var _offset = if (offset > str.length) str.length else offset
 
     if (str.length - _offset < maxWidth - abbrevMarkerLength) _offset = str.length - (maxWidth - abbrevMarkerLength)
     if (_offset <= abbrevMarkerLength + 1) return str.substring(0, maxWidth - abbrevMarkerLength) + abbrevMarker
-    if (maxWidth < minAbbrevWidthOffset) throw new IllegalArgumentException("Minimum abbreviation width with offset is %d".format(minAbbrevWidthOffset))
-    if (_offset + maxWidth - abbrevMarkerLength < str.length) return abbrevMarker + abbreviate(str.substring(_offset), abbrevMarker, maxWidth - abbrevMarkerLength)
+    if (maxWidth < minAbbrevWidthOffset)
+      throw new IllegalArgumentException("Minimum abbreviation width with offset is %d".format(minAbbrevWidthOffset))
+    if (_offset + maxWidth - abbrevMarkerLength < str.length)
+      return abbrevMarker + abbreviate(str.substring(_offset), abbrevMarker, maxWidth - abbrevMarkerLength)
     abbrevMarker + str.substring(str.length - (maxWidth - abbrevMarkerLength))
   }
 
@@ -381,7 +384,11 @@ object StringUtils {
     * @param suffixes   Additional suffixes that are valid terminators (optional).
     * @return A new String if suffix was appended, the same string otherwise.
     */
-  private def appendIfMissing(str: String, suffix: CharSequence, ignoreCase: Boolean, suffixes: CharSequence*): String = {
+  private def appendIfMissing(
+    str: String,
+    suffix: CharSequence,
+    ignoreCase: Boolean,
+    suffixes: CharSequence*): String = {
     if (str == null || isEmpty(suffix) || endsWith(str, suffix, ignoreCase)) return str
     if (suffixes.nonEmpty) for (s <- suffixes) {
       if (endsWith(str, s, ignoreCase)) return str
@@ -421,7 +428,8 @@ object StringUtils {
     * @return A new String if suffix was appended, the same string otherwise.
     * @since 3.2
     */
-  def appendIfMissing(str: String, suffix: CharSequence, suffixes: CharSequence*): String = appendIfMissing(str, suffix, false, suffixes:_*)
+  def appendIfMissing(str: String, suffix: CharSequence, suffixes: CharSequence*): String =
+    appendIfMissing(str, suffix, false, suffixes: _*)
 
   /**
     * Appends the suffix to the end of the string if the string does not
@@ -455,7 +463,8 @@ object StringUtils {
     * @return A new String if suffix was appended, the same string otherwise.
     * @since 3.2
     */
-  def appendIfMissingIgnoreCase(str: String, suffix: CharSequence, suffixes: CharSequence*): String = appendIfMissing(str, suffix, true, suffixes:_*)
+  def appendIfMissingIgnoreCase(str: String, suffix: CharSequence, suffixes: CharSequence*): String =
+    appendIfMissing(str, suffix, true, suffixes: _*)
 
   /**
     * <p>Capitalizes a String changing the first character to title case as
@@ -637,8 +646,9 @@ object StringUtils {
 
     var lastIdx = str.length - 1
     val last = str.charAt(lastIdx)
-    if (last == CharUtils.LF) if (str.charAt(lastIdx - 1) == CharUtils.CR) lastIdx -= 1
-    else if (last != CharUtils.CR) lastIdx += 1
+    if (last == CharUtils.LF)
+      if (str.charAt(lastIdx - 1) == CharUtils.CR) lastIdx -= 1
+      else if (last != CharUtils.CR) lastIdx += 1
 
     str.substring(0, lastIdx)
   }
@@ -873,10 +883,12 @@ object StringUtils {
     */
   def compareIgnoreCase(str1: String, str2: String, nullIsLess: Boolean): Int = {
     if (str1 eq str2) return 0
-    if (str1 == null) return if (nullIsLess) -1
-    else 1
-    if (str2 == null) return if (nullIsLess) 1
-    else -1
+    if (str1 == null)
+      return if (nullIsLess) -1
+      else 1
+    if (str2 == null)
+      return if (nullIsLess) 1
+      else -1
     str1.compareToIgnoreCase(str2)
   }
 
@@ -969,8 +981,7 @@ object StringUtils {
             return true
           }
           if (i < csLast && searchChars(j + 1) == cs.charAt(i + 1)) return true
-        }
-        else { // ch is in the Basic Multilingual Plane
+        } else { // ch is in the Basic Multilingual Plane
           return true
         }
       }
@@ -1115,8 +1126,7 @@ object StringUtils {
         if (searchChars(j) == ch) if (Character.isHighSurrogate(ch)) {
           if (j == searchLast) return false
           if (i < csLast && searchChars(j + 1) == cs.charAt(i + 1)) return false
-        }
-        else return false
+        } else return false
       }
     }
     true
@@ -1147,7 +1157,7 @@ object StringUtils {
     */
   def containsNone(cs: CharSequence, invalidChars: String): Boolean = {
     if (cs == null || invalidChars == null) return true
-    containsNone(cs, invalidChars.toCharArray:_*)
+    containsNone(cs, invalidChars.toCharArray: _*)
   }
 
   /**
@@ -1177,7 +1187,7 @@ object StringUtils {
     if (valid == null || cs == null) return false
     if (cs.length == 0) return true
     if (valid.length == 0) return false
-    indexOfAnyBut(cs, valid:_*) == INDEX_NOT_FOUND
+    indexOfAnyBut(cs, valid: _*) == INDEX_NOT_FOUND
   }
 
   /**
@@ -1205,7 +1215,7 @@ object StringUtils {
     */
   def containsOnly(cs: CharSequence, validChars: String): Boolean =
     if (cs == null || validChars == null) false
-    else containsOnly(cs, validChars.toCharArray:_*)
+    else containsOnly(cs, validChars.toCharArray: _*)
 
   /**
     * <p>Check whether the given CharSequence contains any whitespace characters.</p>
@@ -1287,7 +1297,7 @@ object StringUtils {
     if (isEmpty(str) || isEmpty(sub)) return 0
     var count = 0
     var idx = 0
-    while ({idx = CharSequenceUtils.indexOf(str, sub, idx); idx } != INDEX_NOT_FOUND) {
+    while ({ idx = CharSequenceUtils.indexOf(str, sub, idx); idx } != INDEX_NOT_FOUND) {
       count += 1
       idx += sub.length
     }
@@ -1402,7 +1412,7 @@ object StringUtils {
     var count = 0
     for (i <- 0 until sz) {
       if (!Character.isWhitespace(str.charAt(i)))
-        chs({count += 1; count - 1}) = str.charAt(i)
+        chs({ count += 1; count - 1 }) = str.charAt(i)
     }
 
     if (count == sz) str
@@ -2437,10 +2447,10 @@ object StringUtils {
     for (i <- 0 until csLen) {
       val ch = cs.charAt(i)
       for (j <- 0 until searchLen) {
-        if (searchChars(j) == ch) if (i < csLast && j < searchLast && Character.isHighSurrogate(ch)) { // ch is a supplementary character
-          if (searchChars(j + 1) == cs.charAt(i + 1)) return i
-        }
-        else return i
+        if (searchChars(j) == ch)
+          if (i < csLast && j < searchLast && Character.isHighSurrogate(ch)) { // ch is a supplementary character
+            if (searchChars(j + 1) == cs.charAt(i + 1)) return i
+          } else return i
       }
     }
     INDEX_NOT_FOUND
@@ -2600,8 +2610,7 @@ object StringUtils {
       if (i + 1 < strLen && Character.isHighSurrogate(ch)) {
         val ch2 = seq.charAt(i + 1)
         if (chFound && CharSequenceUtils.indexOf(searchChars, ch2.toInt, 0) < 0) return i
-      }
-      else if (!chFound) return i
+      } else if (!chFound) return i
     }
     INDEX_NOT_FOUND
   }
@@ -2652,8 +2661,7 @@ object StringUtils {
       if (cs == null) {
         anyStringNull = true
         shortestStrLen = 0
-      }
-      else {
+      } else {
         allStringsNull = false
         shortestStrLen = Math.min(cs.length, shortestStrLen)
         longestStrLen = Math.max(cs.length, longestStrLen)
@@ -2667,12 +2675,12 @@ object StringUtils {
     var firstDiff = -1
     var stringPos: Int = 0
 
-    while(stringPos < shortestStrLen && firstDiff != -1) {
+    while (stringPos < shortestStrLen && firstDiff != -1) {
       stringPos += 1
 
       val comparisonChar = css(0).charAt(stringPos)
       var arrayPos: Int = 1
-      while(arrayPos < arrayLen) {
+      while (arrayPos < arrayLen) {
         arrayPos += 1
 
         if (css(arrayPos).charAt(stringPos) != comparisonChar) {
@@ -3243,7 +3251,7 @@ object StringUtils {
     * @return {@code true} if none of the CharSequences are empty or null or whitespace only
     * @since 3.2
     */
-  def isNoneBlank(css: CharSequence*): Boolean = !isAnyBlank(css:_*)
+  def isNoneBlank(css: CharSequence*): Boolean = !isAnyBlank(css: _*)
 
   /**
     * <p>Checks if none of the CharSequences are empty ("") or null.</p>
@@ -3265,7 +3273,7 @@ object StringUtils {
     * @return {@code true} if none of the CharSequences are empty or null
     * @since 3.2
     */
-  def isNoneEmpty(css: CharSequence*): Boolean = !isAnyEmpty(css:_*)
+  def isNoneEmpty(css: CharSequence*): Boolean = !isAnyEmpty(css: _*)
 
   /**
     * <p>Checks if a CharSequence is not empty (""), not null and not whitespace only.</p>
@@ -3617,7 +3625,7 @@ object StringUtils {
     // two or more elements
     val buf = new StringBuilder(STRING_BUILDER_SIZE) // Java default is 16, probably too small
     if (first != null) buf.append(first)
-    while ( {
+    while ({
       iterator.hasNext
     }) {
       buf.append(separator)
@@ -3647,7 +3655,7 @@ object StringUtils {
     if (!iterator.hasNext) return Objects.toString(first, "")
     val buf = new StringBuilder(STRING_BUILDER_SIZE)
     if (first != null) buf.append(first)
-    while ( {
+    while ({
       iterator.hasNext
     }) {
       if (separator != null) buf.append(separator)
@@ -3851,7 +3859,7 @@ object StringUtils {
   def join(array: Array[Any], separator: String, startIndex: Int, endIndex: Int): String = {
     if (array == null) return null
 
-    val newSeparator: String = if (separator == null) EMPTY else  separator
+    val newSeparator: String = if (separator == null) EMPTY else separator
 
     // endIndex - startIndex > 0:   Len = NofStrings *(len(firstString) + len(newSeparator))
     //           (Assuming that all Strings are roughly equally long)
@@ -4254,7 +4262,8 @@ object StringUtils {
     * @since 2.5
     * @since 3.0 Changed signature from lastOrdinalIndexOf(String, String, int) to lastOrdinalIndexOf(CharSequence, CharSequence, int)
     */
-  def lastOrdinalIndexOf(str: CharSequence, searchStr: CharSequence, ordinal: Int): Int = ordinalIndexOf(str, searchStr, ordinal, true)
+  def lastOrdinalIndexOf(str: CharSequence, searchStr: CharSequence, ordinal: Int): Int =
+    ordinalIndexOf(str, searchStr, ordinal, true)
 
   /**
     * <p>Gets the leftmost {@code len} characters of a String.</p>
@@ -4368,7 +4377,6 @@ object StringUtils {
     if (pads <= 0) return str
     if (padLen == 1 && pads <= PAD_LIMIT) return leftPad(str, size, newPadStr.charAt(0))
     if (pads == padLen) newPadStr.concat(str)
-
     else if (pads < padLen) newPadStr.substring(0, pads).concat(str)
     else {
       val padding = new Array[Char](pads)
@@ -4418,7 +4426,6 @@ object StringUtils {
     if (str == null) null
     else str.toLowerCase
 
-
   /**
     * <p>Converts a String to lower case as per {@link String# toLowerCase ( Locale )}.</p>
     *
@@ -4438,7 +4445,6 @@ object StringUtils {
   def lowerCase(str: String, locale: Locale): String =
     if (str == null) null
     else str.toLowerCase(locale)
-
 
 //  private def matches(first: CharSequence, second: CharSequence): Array[Int] = {
 //    var max: CharSequence = null
@@ -4613,19 +4619,22 @@ object StringUtils {
           count += 1; count - 1
         }) = SPACE.charAt(0)
         whitespacesCount += 1
-      }
-      else {
+      } else {
         startWhitespaces = false
         newChars({
           count += 1; count - 1
-        }) = if (actualChar == 160) 32
-        else actualChar
+        }) =
+          if (actualChar == 160) 32
+          else actualChar
         whitespacesCount = 0
       }
     }
     if (startWhitespaces) return EMPTY
-    new String(newChars, 0, count - (if (whitespacesCount > 0) 1
-    else 0)).trim
+    new String(
+      newChars,
+      0,
+      count - (if (whitespacesCount > 0) 1
+               else 0)).trim
   }
 
   /**
@@ -4678,7 +4687,8 @@ object StringUtils {
     * @since 2.1
     * @since 3.0 Changed signature from ordinalIndexOf(String, String, int) to ordinalIndexOf(CharSequence, CharSequence, int)
     */
-  def ordinalIndexOf(str: CharSequence, searchStr: CharSequence, ordinal: Int): Int = ordinalIndexOf(str, searchStr, ordinal, false)
+  def ordinalIndexOf(str: CharSequence, searchStr: CharSequence, ordinal: Int): Int =
+    ordinalIndexOf(str, searchStr, ordinal, false)
 
   /**
     * <p>Finds the n-th index within a String, handling {@code null}.
@@ -4697,19 +4707,21 @@ object StringUtils {
   // Shared code between ordinalIndexOf(String, String, int) and lastOrdinalIndexOf(String, String, int)
   private def ordinalIndexOf(str: CharSequence, searchStr: CharSequence, ordinal: Int, lastIndex: Boolean): Int = {
     if (str == null || searchStr == null || ordinal <= 0) return INDEX_NOT_FOUND
-    if (searchStr.length == 0) return if (lastIndex) str.length
-    else 0
+    if (searchStr.length == 0)
+      return if (lastIndex) str.length
+      else 0
     var found = 0
     // set the initial index beyond the end of the string
     // this is to allow for the initial index decrement/increment
-    var index = if (lastIndex) str.length
-    else INDEX_NOT_FOUND
+    var index =
+      if (lastIndex) str.length
+      else INDEX_NOT_FOUND
     do {
       if (lastIndex) index = CharSequenceUtils.lastIndexOf(str, searchStr, index - 1) // step backwards thru string
       else index = CharSequenceUtils.indexOf(str, searchStr, index + 1) // step forwards through string
       if (index < 0) return index
       found += 1
-    } while ( {
+    } while ({
       found < ordinal
     })
     index
@@ -4778,7 +4790,11 @@ object StringUtils {
     * @param prefixes   Additional prefixes that are valid (optional).
     * @return A new String if prefix was prepended, the same string otherwise.
     */
-  private def prependIfMissing(str: String, prefix: CharSequence, ignoreCase: Boolean, prefixes: CharSequence*): String = {
+  private def prependIfMissing(
+    str: String,
+    prefix: CharSequence,
+    ignoreCase: Boolean,
+    prefixes: CharSequence*): String = {
     if (str == null || isEmpty(prefix) || startsWith(str, prefix, ignoreCase)) return str
 
     if (prefixes.nonEmpty) for (p <- prefixes) {
@@ -4820,7 +4836,7 @@ object StringUtils {
     * @since 3.2
     */
   def prependIfMissing(str: String, prefix: CharSequence, prefixes: CharSequence*): String =
-    prependIfMissing(str, prefix, false, prefixes:_*)
+    prependIfMissing(str, prefix, false, prefixes: _*)
 
   /**
     * Prepends the prefix to the start of the string if the string does not
@@ -4855,7 +4871,7 @@ object StringUtils {
     * @since 3.2
     */
   def prependIfMissingIgnoreCase(str: String, prefix: CharSequence, prefixes: CharSequence*): String =
-    prependIfMissing(str, prefix, true, prefixes:_*)
+    prependIfMissing(str, prefix, true, prefixes: _*)
 
   /**
     * <p>Removes all occurrences of a character from within the source string.</p>
@@ -4912,7 +4928,7 @@ object StringUtils {
     * @since 2.1
     */
   def remove(str: String, remove: String): String = {
-    if (isEmpty(str) || isEmpty(remove))  str
+    if (isEmpty(str) || isEmpty(remove)) str
     else replace(str, remove, EMPTY, -1)
   }
 
@@ -5395,7 +5411,12 @@ object StringUtils {
     * @return the text with any replacements processed,
     *         {@code null} if null String input
     */
-  private def replace(text: String, searchString: String, replacement: String, max: Int, ignoreCase: Boolean): String = {
+  private def replace(
+    text: String,
+    searchString: String,
+    replacement: String,
+    max: Int,
+    ignoreCase: Boolean): String = {
     if (isEmpty(text) || isEmpty(searchString) || replacement == null || max == 0) return text
     val needle = if (ignoreCase) searchString.toLowerCase else searchString
 
@@ -5482,7 +5503,8 @@ object StringUtils {
     * @since 3.5
     * @deprecated Moved to RegExUtils.
     */
-  @deprecated def replaceAll(text: String, regex: String, replacement: String): String = RegExUtils.replaceAll(text, regex, replacement)
+  @deprecated def replaceAll(text: String, regex: String, replacement: String): String =
+    RegExUtils.replaceAll(text, regex, replacement)
 
   /**
     * <p>Replaces all occurrences of a character in a String with another.
@@ -5610,7 +5632,8 @@ object StringUtils {
     * and/or size 0)
     * @since 2.4
     */
-  def replaceEach(text: String, searchList: Array[String], replacementList: Array[String]): String = replaceEach(text, searchList, replacementList, false, 0)
+  def replaceEach(text: String, searchList: Array[String], replacementList: Array[String]): String =
+    replaceEach(text, searchList, replacementList, false, 0)
 
   /**
     * <p>
@@ -5662,7 +5685,12 @@ object StringUtils {
     * and/or size 0)
     * @since 2.4
     */
-  private def replaceEach(text: String, searchList: Array[String], replacementList: Array[String], repeat: Boolean, timeToLive: Int): String = { // mchyzer Performance note: This creates very few new objects (one major goal)
+  private def replaceEach(
+    text: String,
+    searchList: Array[String],
+    replacementList: Array[String],
+    repeat: Boolean,
+    timeToLive: Int): String = { // mchyzer Performance note: This creates very few new objects (one major goal)
     // let me know if there are performance requests, we can create a harness to measure
     // if recursing, this shouldn't be less than 0
     if (timeToLive < 0) {
@@ -5670,19 +5698,22 @@ object StringUtils {
       val replacementSet = new util.HashSet[String](replacementList.toList.asJava)
 
       searchSet.retainAll(replacementSet)
-      if (searchSet.size > 0) throw new IllegalStateException("Aborting to protect against StackOverflowError - " + "output of one loop is the input of another")
+      if (searchSet.size > 0)
+        throw new IllegalStateException(
+          "Aborting to protect against StackOverflowError - " + "output of one loop is the input of another")
     }
 
     if (isEmpty(text) ||
       ArrayUtils.isEmpty(searchList) ||
       ArrayUtils.isEmpty(replacementList) ||
-      (ArrayUtils.isNotEmpty(searchList) && timeToLive == -1)
-    ) return text
+      (ArrayUtils.isNotEmpty(searchList) && timeToLive == -1)) return text
 
     val searchLength = searchList.length
     val replacementLength = replacementList.length
     // make sure lengths are ok, these need to be equal
-    if (searchLength != replacementLength) throw new IllegalArgumentException("Search and Replace array lengths don't match: " + searchLength + " vs " + replacementLength)
+    if (searchLength != replacementLength)
+      throw new IllegalArgumentException(
+        "Search and Replace array lengths don't match: " + searchLength + " vs " + replacementLength)
     // keep track of which still have matches
     val noMoreMatchesForReplIndex = new Array[Boolean](searchLength)
     // index on index that the match was found
@@ -5736,7 +5767,8 @@ object StringUtils {
       // NOTE: logic mostly duplicated above START
       for {
         i <- 0 until searchLength
-        if !(noMoreMatchesForReplIndex(i) || searchList(i) == null || searchList(i).isEmpty || replacementList(i) == null)
+        if !(noMoreMatchesForReplIndex(i) || searchList(i) == null || searchList(i).isEmpty || replacementList(
+          i) == null)
       } {
         tempIndex = text.indexOf(searchList(i), start)
         if (tempIndex == -1) noMoreMatchesForReplIndex(i) = true
@@ -5803,8 +5835,9 @@ object StringUtils {
     */
   def replaceEachRepeatedly(text: String, searchList: Array[String], replacementList: Array[String]): String = { // timeToLive should be 0 if not used or nothing to replace, else it's
     // the length of the replace array
-    val timeToLive = if (searchList == null) 0
-    else searchList.length
+    val timeToLive =
+      if (searchList == null) 0
+      else searchList.length
     replaceEach(text, searchList, replacementList, true, timeToLive)
   }
 
@@ -5913,7 +5946,8 @@ object StringUtils {
     *         {@code null} if null String input
     * @since 3.5
     */
-  def replaceIgnoreCase(text: String, searchString: String, replacement: String, max: Int): String = replace(text, searchString, replacement, max, true)
+  def replaceIgnoreCase(text: String, searchString: String, replacement: String, max: Int): String =
+    replace(text, searchString, replacement, max, true)
 
   /**
     * <p>Replaces a String with another String inside a larger String, once.</p>
@@ -5938,7 +5972,8 @@ object StringUtils {
     * @return the text with any replacements processed,
     *         {@code null} if null String input
     */
-  def replaceOnce(text: String, searchString: String, replacement: String): String = replace(text, searchString, replacement, 1)
+  def replaceOnce(text: String, searchString: String, replacement: String): String =
+    replace(text, searchString, replacement, 1)
 
   /**
     * <p>Case insensitively replaces a String with another String inside a larger String, once.</p>
@@ -5965,7 +6000,8 @@ object StringUtils {
     *         {@code null} if null String input
     * @since 3.5
     */
-  def replaceOnceIgnoreCase(text: String, searchString: String, replacement: String): String = replaceIgnoreCase(text, searchString, replacement, 1)
+  def replaceOnceIgnoreCase(text: String, searchString: String, replacement: String): String =
+    replaceIgnoreCase(text, searchString, replacement, 1)
 
   /**
     * <p>Replaces each substring of the source String that matches the given regular expression with the given
@@ -6008,7 +6044,8 @@ object StringUtils {
     * @since 3.5 Changed {@code null} reference passed to this method is a no-op.
     * @deprecated Moved to RegExUtils.
     */
-  @deprecated def replacePattern(source: String, regex: String, replacement: String): String = RegExUtils.replacePattern(source, regex, replacement)
+  @deprecated def replacePattern(source: String, regex: String, replacement: String): String =
+    RegExUtils.replacePattern(source, regex, replacement)
 
   /**
     * <p>Reverses a String as per {@link StringBuilder# reverse ( )}.</p>
@@ -6442,7 +6479,8 @@ object StringUtils {
     *                  {@code null} splits on whitespace
     * @return an array of parsed Strings, {@code null} if null String was input
     */
-  def splitByWholeSeparator(str: String, separator: String): Array[String] = splitByWholeSeparatorWorker(str, separator, -1, false)
+  def splitByWholeSeparator(str: String, separator: String): Array[String] =
+    splitByWholeSeparatorWorker(str, separator, -1, false)
 
   /**
     * <p>Splits the provided text into an array, separator string specified.
@@ -6471,7 +6509,8 @@ object StringUtils {
     *                  array. A zero or negative value implies no limit.
     * @return an array of parsed Strings, {@code null} if null String was input
     */
-  def splitByWholeSeparator(str: String, separator: String, max: Int): Array[String] = splitByWholeSeparatorWorker(str, separator, max, false)
+  def splitByWholeSeparator(str: String, separator: String, max: Int): Array[String] =
+    splitByWholeSeparatorWorker(str, separator, max, false)
 
   /**
     * <p>Splits the provided text into an array, separator string specified. </p>
@@ -6498,7 +6537,8 @@ object StringUtils {
     * @return an array of parsed Strings, {@code null} if null String was input
     * @since 2.4
     */
-  def splitByWholeSeparatorPreserveAllTokens(str: String, separator: String): Array[String] = splitByWholeSeparatorWorker(str, separator, -1, true)
+  def splitByWholeSeparatorPreserveAllTokens(str: String, separator: String): Array[String] =
+    splitByWholeSeparatorWorker(str, separator, -1, true)
 
   /**
     * <p>Splits the provided text into an array, separator string specified.
@@ -6529,7 +6569,8 @@ object StringUtils {
     * @return an array of parsed Strings, {@code null} if null String was input
     * @since 2.4
     */
-  def splitByWholeSeparatorPreserveAllTokens(str: String, separator: String, max: Int): Array[String] = splitByWholeSeparatorWorker(str, separator, max, true)
+  def splitByWholeSeparatorPreserveAllTokens(str: String, separator: String, max: Int): Array[String] =
+    splitByWholeSeparatorWorker(str, separator, max, true)
 
   /**
     * Performs the logic for the {@code splitByWholeSeparatorPreserveAllTokens} methods.
@@ -6545,7 +6586,11 @@ object StringUtils {
     * @return an array of parsed Strings, {@code null} if null String input
     * @since 2.4
     */
-  private def splitByWholeSeparatorWorker(str: String, separator: String, max: Int, preserveAllTokens: Boolean): Array[String] = {
+  private def splitByWholeSeparatorWorker(
+    str: String,
+    separator: String,
+    max: Int,
+    preserveAllTokens: Boolean): Array[String] = {
     if (str == null) return null
     val len = str.length
     if (len == 0) return ArrayUtils.EMPTY_STRING_ARRAY
@@ -6557,7 +6602,7 @@ object StringUtils {
     var numberOfSubstrings = 0
     var beg = 0
     var `end` = 0
-    while ( {
+    while ({
       `end` < len
     }) {
       `end` = str.indexOf(separator, beg)
@@ -6566,8 +6611,7 @@ object StringUtils {
         if (numberOfSubstrings == max) {
           `end` = len
           substrings.add(str.substring(beg))
-        }
-        else { // The following is OK, because String.substring( beg, end ) excludes
+        } else { // The following is OK, because String.substring( beg, end ) excludes
           // the character at the position 'end'.
           substrings.add(str.substring(beg, `end`))
           // Set the starting point for the next search.
@@ -6575,15 +6619,13 @@ object StringUtils {
           // which is the right calculation:
           beg = `end` + separatorLength
         }
-      }
-      else { // We found a consecutive occurrence of the separator, so skip it.
+      } else { // We found a consecutive occurrence of the separator, so skip it.
         if (preserveAllTokens) {
           numberOfSubstrings += 1
           if (numberOfSubstrings == max) {
             `end` = len
             substrings.add(str.substring(beg))
-          }
-          else substrings.add(EMPTY)
+          } else substrings.add(EMPTY)
         }
         beg = `end` + separatorLength
       }
@@ -6688,7 +6730,8 @@ object StringUtils {
     * @return an array of parsed Strings, {@code null} if null String input
     * @since 2.1
     */
-  def splitPreserveAllTokens(str: String, separatorChars: String): Array[String] = splitWorker(str, separatorChars, -1, true)
+  def splitPreserveAllTokens(str: String, separatorChars: String): Array[String] =
+    splitWorker(str, separatorChars, -1, true)
 
   /**
     * <p>Splits the provided text into an array with a maximum length,
@@ -6726,7 +6769,8 @@ object StringUtils {
     * @return an array of parsed Strings, {@code null} if null String input
     * @since 2.1
     */
-  def splitPreserveAllTokens(str: String, separatorChars: String, max: Int): Array[String] = splitWorker(str, separatorChars, max, true)
+  def splitPreserveAllTokens(str: String, separatorChars: String, max: Int): Array[String] =
+    splitWorker(str, separatorChars, max, true)
 
   /**
     * Performs the logic for the {@code split} and
@@ -6797,7 +6841,7 @@ object StringUtils {
     var `match` = false
     var lastMatch = false
     if (separatorChars == null) { // Null separator means use whitespace
-      while ( {
+      while ({
         i < len
       }) {
         if (Character.isWhitespace(str.charAt(i))) {
@@ -6819,10 +6863,9 @@ object StringUtils {
           i += 1
         }
       }
-    }
-    else if (separatorChars.length == 1) { // Optimise 1 character case
+    } else if (separatorChars.length == 1) { // Optimise 1 character case
       val sep = separatorChars.charAt(0)
-      while ( {
+      while ({
         i < len
       }) {
         if (str.charAt(i) == sep) {
@@ -6844,8 +6887,7 @@ object StringUtils {
           i += 1
         }
       }
-    }
-    else { // standard case
+    } else { // standard case
       while (i < len) {
         if (separatorChars.indexOf(str.charAt(i).toInt) >= 0) {
           if (`match` || preserveAllTokens) {
@@ -7134,13 +7176,14 @@ object StringUtils {
   def stripEnd(str: String, stripChars: String): String = {
     var `end` = length(str)
     if (`end` == 0) return str
-    if (stripChars == null) while ( {
+    if (stripChars == null) while ({
       `end` != 0 && Character.isWhitespace(str.charAt(`end` - 1))
     }) `end` -= 1
     else if (stripChars.isEmpty) return str
-    else while ( {
-      `end` != 0 && stripChars.indexOf(str.charAt(`end` - 1).toInt) != INDEX_NOT_FOUND
-    }) `end` -= 1
+    else
+      while ({
+        `end` != 0 && stripChars.indexOf(str.charAt(`end` - 1).toInt) != INDEX_NOT_FOUND
+      }) `end` -= 1
     str.substring(0, `end`)
   }
 
@@ -7172,13 +7215,14 @@ object StringUtils {
     val strLen = length(str)
     if (strLen == 0) return str
     var start = 0
-    if (stripChars == null) while ( {
+    if (stripChars == null) while ({
       start != strLen && Character.isWhitespace(str.charAt(start))
     }) start += 1
     else if (stripChars.isEmpty) return str
-    else while ( {
-      start != strLen && stripChars.indexOf(str.charAt(start).toInt) != INDEX_NOT_FOUND
-    }) start += 1
+    else
+      while ({
+        start != strLen && stripChars.indexOf(str.charAt(start).toInt) != INDEX_NOT_FOUND
+      }) start += 1
     str.substring(start)
   }
 
@@ -7204,8 +7248,9 @@ object StringUtils {
     * @return the trimmed String, or an empty String if {@code null} input
     * @since 2.0
     */
-  def stripToEmpty(str: String): String = if (str == null) EMPTY
-  else strip(str, null)
+  def stripToEmpty(str: String): String =
+    if (str == null) EMPTY
+    else strip(str, null)
 
   /**
     * <p>Strips whitespace from the start and end of a String  returning
@@ -7644,7 +7689,7 @@ object StringUtils {
     val openLen = open.length
     val list = new util.ArrayList[String]
     var pos = 0
-    while ( {
+    while ({
       pos < strLen - closeLen
     }) {
       var start = str.indexOf(open, pos)
@@ -7692,12 +7737,13 @@ object StringUtils {
     val newCodePoints = new Array[Int](strLen)
     var outOffset = 0
     var i = 0
-    while ( {
+    while ({
       i < strLen
     }) {
       val oldCodepoint = str.codePointAt(i)
       var newCodePoint = 0
-      if (Character.isUpperCase(oldCodepoint) || Character.isTitleCase(oldCodepoint)) newCodePoint = Character.toLowerCase(oldCodepoint)
+      if (Character.isUpperCase(oldCodepoint) || Character.isTitleCase(oldCodepoint))
+        newCodePoint = Character.toLowerCase(oldCodepoint)
       else if (Character.isLowerCase(oldCodepoint)) newCodePoint = Character.toUpperCase(oldCodepoint)
       else newCodePoint = oldCodepoint
       newCodePoints({
@@ -7759,8 +7805,9 @@ object StringUtils {
     * @return the given source String as a lower-case using the {@link Locale# ROOT} locale or null.
     * @since 3.10
     */
-  def toRootLowerCase(source: String): String = if (source == null) null
-  else source.toLowerCase(Locale.ROOT)
+  def toRootLowerCase(source: String): String =
+    if (source == null) null
+    else source.toLowerCase(Locale.ROOT)
 
   /**
     * Converts the given source String as a upper-case using the {@link Locale# ROOT} locale in a null-safe manner.
@@ -7769,8 +7816,9 @@ object StringUtils {
     * @return the given source String as a upper-case using the {@link Locale# ROOT} locale or null.
     * @since 3.10
     */
-  def toRootUpperCase(source: String): String = if (source == null) null
-  else source.toUpperCase(Locale.ROOT)
+  def toRootUpperCase(source: String): String =
+    if (source == null) null
+    else source.toUpperCase(Locale.ROOT)
 
   /**
     * Converts a {@code byte[]} to a String using the specified character encoding.
@@ -7789,8 +7837,9 @@ object StringUtils {
     */
   @deprecated
   @throws[UnsupportedEncodingException]
-  def toString(bytes: Array[Byte], charsetName: String): String = if (charsetName != null) new String(bytes, charsetName)
-  else new String(bytes, Charset.defaultCharset)
+  def toString(bytes: Array[Byte], charsetName: String): String =
+    if (charsetName != null) new String(bytes, charsetName)
+    else new String(bytes, Charset.defaultCharset)
 
   /**
     * <p>Removes control characters (char &lt;= 32) from both
@@ -7815,8 +7864,9 @@ object StringUtils {
     * @param str the String to be trimmed, may be null
     * @return the trimmed string, {@code null} if null String input
     */
-  def trim(str: String): String = if (str == null) null
-  else str.trim
+  def trim(str: String): String =
+    if (str == null) null
+    else str.trim
 
   /**
     * <p>Removes control characters (char &lt;= 32) from both
@@ -7839,8 +7889,9 @@ object StringUtils {
     * @return the trimmed String, or an empty String if {@code null} input
     * @since 2.0
     */
-  def trimToEmpty(str: String): String = if (str == null) EMPTY
-  else str.trim
+  def trimToEmpty(str: String): String =
+    if (str == null) EMPTY
+    else str.trim
 
   /**
     * <p>Removes control characters (char &lt;= 32) from both
@@ -8009,7 +8060,7 @@ object StringUtils {
       outOffset += 1; outOffset - 1
     }) = newCodePoint
     var inOffset = Character.charCount(firstCodepoint)
-    while ( {
+    while ({
       inOffset < strLen
     }) {
       val codepoint = str.codePointAt(inOffset)
@@ -8149,8 +8200,9 @@ object StringUtils {
     * @see String#valueOf(char[])
     * @since 3.9
     */
-  def valueOf(value: Array[Char]): String = if (value == null) null
-  else String.valueOf(value)
+  def valueOf(value: Array[Char]): String =
+    if (value == null) null
+    else String.valueOf(value)
 
   /**
     * <p>

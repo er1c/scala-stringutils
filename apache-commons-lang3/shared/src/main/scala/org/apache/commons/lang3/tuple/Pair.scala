@@ -39,7 +39,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder
  * limitations under the License.
  */
 
-
 /**
   * <p>A pair consisting of two elements.</p>
   *
@@ -85,7 +84,8 @@ object Pair {
     * @return the empty array singleton that can be assigned without compiler warning.
     * @since 3.10.
     */
-  @SuppressWarnings(Array("unchecked")) def emptyArray[L, R]: Array[Pair[L, R]] = EMPTY_ARRAY.asInstanceOf[Array[Pair[L, R]]]
+  @SuppressWarnings(Array("unchecked")) def emptyArray[L, R]: Array[Pair[L, R]] =
+    EMPTY_ARRAY.asInstanceOf[Array[Pair[L, R]]]
 
   /**
     * <p>Creates an immutable pair of two objects inferring the generic types.</p>
@@ -125,7 +125,8 @@ abstract class Pair[L, R] extends util.Map.Entry[L, R] with Comparable[Pair[L, R
     * @param other the other pair, not null
     * @return negative if this is less, zero if equal, positive if greater
     */
-  override def compareTo(other: Pair[L, R]): Int = new CompareToBuilder().append(getLeft, other.getLeft).append(getRight, other.getRight).toComparison
+  override def compareTo(other: Pair[L, R]): Int =
+    new CompareToBuilder().append(getLeft, other.getLeft).append(getRight, other.getRight).toComparison
 
   /**
     * <p>Compares this pair to another based on the two elements.</p>

@@ -54,7 +54,8 @@ object Validate {
   private val DEFAULT_IS_NULL_EX_MESSAGE = "The validated object is null"
   private val DEFAULT_IS_TRUE_EX_MESSAGE = "The validated expression is false"
   private val DEFAULT_NO_NULL_ELEMENTS_ARRAY_EX_MESSAGE = "The validated array contains null element at index: %d"
-  private val DEFAULT_NO_NULL_ELEMENTS_COLLECTION_EX_MESSAGE = "The validated collection contains null element at index: %d"
+  private val DEFAULT_NO_NULL_ELEMENTS_COLLECTION_EX_MESSAGE =
+    "The validated collection contains null element at index: %d"
   private val DEFAULT_NOT_BLANK_EX_MESSAGE = "The validated character sequence is blank"
   private val DEFAULT_NOT_EMPTY_ARRAY_EX_MESSAGE = "The validated array is empty"
   private val DEFAULT_NOT_EMPTY_CHAR_SEQUENCE_EX_MESSAGE = "The validated character sequence is empty"
@@ -492,7 +493,7 @@ object Validate {
     notNull(iterable)
     var i = 0
     val it = iterable.iterator
-    while ( {
+    while ({
       it.hasNext
     }) {
       if (it.next() == null) {
@@ -526,7 +527,8 @@ object Validate {
     * @throws IllegalArgumentException if an element is {@code null}
     * @see #noNullElements(Iterable, String, Object...)
     */
-  def noNullElements[T <: Iterable[Any]](iterable: T): T = noNullElements(iterable, DEFAULT_NO_NULL_ELEMENTS_COLLECTION_EX_MESSAGE)
+  def noNullElements[T <: Iterable[Any]](iterable: T): T =
+    noNullElements(iterable, DEFAULT_NO_NULL_ELEMENTS_COLLECTION_EX_MESSAGE)
 
   /**
     * <p>Validates that the index is within the bounds of the argument
@@ -576,7 +578,8 @@ object Validate {
     * @see #validIndex(Object[], int, String, Object...)
     * @since 3.0
     */
-  def validIndex[T <: AnyRef](array: Array[T], index: Int): Array[T] = validIndex(array, index, DEFAULT_VALID_INDEX_ARRAY_EX_MESSAGE, Integer.valueOf(index))
+  def validIndex[T <: AnyRef](array: Array[T], index: Int): Array[T] =
+    validIndex(array, index, DEFAULT_VALID_INDEX_ARRAY_EX_MESSAGE, Integer.valueOf(index))
 
   /**
     * <p>Validates that the index is within the bounds of the argument
@@ -647,7 +650,8 @@ object Validate {
     * @see #validIndex(CharSequence, int)
     * @since 3.0
     */
-  def validIndex[T <: CharSequence](chars: T, index: Int, message: String, values: Any*)(implicit ev: DummyImplicit): T = {
+  def validIndex[T <: CharSequence](chars: T, index: Int, message: String, values: Any*)(implicit
+    ev: DummyImplicit): T = {
     notNull(chars)
     if (index < 0 || index >= chars.length) throw new IndexOutOfBoundsException(String.format(message, values))
     chars
@@ -735,7 +739,8 @@ object Validate {
     * @since 3.0
     */
   def matchesPattern(input: CharSequence, pattern: String): Unit = { // TODO when breaking BC, consider returning input
-    if (!Pattern.matches(pattern, input)) throw new IllegalArgumentException(String.format(DEFAULT_MATCHES_PATTERN_EX, input, pattern))
+    if (!Pattern.matches(pattern, input))
+      throw new IllegalArgumentException(String.format(DEFAULT_MATCHES_PATTERN_EX, input, pattern))
   }
 
   /**
@@ -824,7 +829,8 @@ object Validate {
     * @since 3.5
     */
   def finite(value: Double, message: String, values: Any*): Unit = {
-    if (JavaDouble.isNaN(value) || JavaDouble.isInfinite(value)) throw new IllegalArgumentException(String.format(message, values))
+    if (JavaDouble.isNaN(value) || JavaDouble.isInfinite(value))
+      throw new IllegalArgumentException(String.format(message, values))
   }
 
   /**
@@ -864,7 +870,8 @@ object Validate {
     * @since 3.0
     */
   def inclusiveBetween[T](start: T, `end`: T, value: Comparable[T], message: String, values: Any*): Unit = {
-    if (value.compareTo(start) < 0 || value.compareTo(`end`) > 0) throw new IllegalArgumentException(String.format(message, values))
+    if (value.compareTo(start) < 0 || value.compareTo(`end`) > 0)
+      throw new IllegalArgumentException(String.format(message, values))
   }
 
   /**
@@ -974,7 +981,8 @@ object Validate {
     * @since 3.0
     */
   def exclusiveBetween[T](start: T, `end`: T, value: Comparable[T], message: String, values: Any*): Unit = {
-    if (value.compareTo(start) <= 0 || value.compareTo(`end`) >= 0) throw new IllegalArgumentException(String.format(message, values))
+    if (value.compareTo(start) <= 0 || value.compareTo(`end`) >= 0)
+      throw new IllegalArgumentException(String.format(message, values))
   }
 
   /**
@@ -1063,8 +1071,13 @@ object Validate {
     * @since 3.0
     */
   def isInstanceOf(`type`: Class[_], obj: Any): Unit = { // TODO when breaking BC, consider returning obj
-    if (!`type`.isInstance(obj)) throw new IllegalArgumentException(String.format(DEFAULT_IS_INSTANCE_OF_EX_MESSAGE, `type`.getName, if (obj == null) "null"
-    else obj.getClass.getName))
+    if (!`type`.isInstance(obj))
+      throw new IllegalArgumentException(
+        String.format(
+          DEFAULT_IS_INSTANCE_OF_EX_MESSAGE,
+          `type`.getName,
+          if (obj == null) "null"
+          else obj.getClass.getName))
   }
 
   /**
@@ -1103,8 +1116,13 @@ object Validate {
     * @since 3.0
     */
   def isAssignableFrom(superType: Class[_], `type`: Class[_]): Unit = { // TODO when breaking BC, consider returning type
-    if (!superType.isAssignableFrom(`type`)) throw new IllegalArgumentException(String.format(DEFAULT_IS_ASSIGNABLE_EX_MESSAGE, if (`type` == null) "null"
-    else `type`.getName, superType.getName))
+    if (!superType.isAssignableFrom(`type`))
+      throw new IllegalArgumentException(
+        String.format(
+          DEFAULT_IS_ASSIGNABLE_EX_MESSAGE,
+          if (`type` == null) "null"
+          else `type`.getName,
+          superType.getName))
   }
 
   /**

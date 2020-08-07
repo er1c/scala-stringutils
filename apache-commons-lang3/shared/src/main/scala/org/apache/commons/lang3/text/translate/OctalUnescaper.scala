@@ -49,7 +49,8 @@ import java.io.Writer
       builder.append(input.charAt(next))
       if (remaining > 1 && isOctalDigit(input.charAt(next2))) {
         builder.append(input.charAt(next2))
-        if (remaining > 2 && isZeroToThree(input.charAt(next)) && isOctalDigit(input.charAt(next3))) builder.append(input.charAt(next3))
+        if (remaining > 2 && isZeroToThree(input.charAt(next)) && isOctalDigit(input.charAt(next3)))
+          builder.append(input.charAt(next3))
       }
       out.write(Integer.parseInt(builder.toString, 8))
       return 1 + builder.length

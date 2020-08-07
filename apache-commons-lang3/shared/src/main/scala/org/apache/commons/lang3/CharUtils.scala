@@ -33,7 +33,8 @@ object CharUtils {
     String.valueOf(c)
   }.toArray
 
-  private val HEX_DIGITS: Array[Char] = Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f')
+  private val HEX_DIGITS: Array[Char] =
+    Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f')
   /**
     * Linefeed character LF ({@code '\n'}, Unicode 000a).
     *
@@ -189,7 +190,8 @@ object CharUtils {
     * @throws IllegalArgumentException if the character is not ASCII numeric
     */
   def toIntValue(ch: Char): Int = {
-    if (!isAsciiNumeric(ch)) throw new IllegalArgumentException("The character " + ch + " is not in the range '0' - '9'")
+    if (!isAsciiNumeric(ch))
+      throw new IllegalArgumentException("The character " + ch + " is not in the range '0' - '9'")
     ch - 48
   }
 
@@ -310,11 +312,12 @@ object CharUtils {
     * @param ch the character to convert
     * @return the escaped Unicode string
     */
-  def unicodeEscaped(ch: Char): String = "\\u" +
-    HEX_DIGITS((ch >> 12) & 15) +
-    HEX_DIGITS((ch >> 8) & 15) +
-    HEX_DIGITS((ch >> 4) & 15) +
-    HEX_DIGITS(ch & 15)
+  def unicodeEscaped(ch: Char): String =
+    "\\u" +
+      HEX_DIGITS((ch >> 12) & 15) +
+      HEX_DIGITS((ch >> 8) & 15) +
+      HEX_DIGITS((ch >> 4) & 15) +
+      HEX_DIGITS(ch & 15)
 
   /**
     * <p>Converts the string to the Unicode format '\u0020'.</p>

@@ -340,8 +340,9 @@ class MutableJavaDouble()
     * @param obj the object to compare with, null returns false
     * @return {@code true} if the objects are the same; {@code false} otherwise.
     */
-  override def equals(obj: Any): Boolean = obj.isInstanceOf[MutableJavaDouble] &&
-    JavaDouble.doubleToLongBits(obj.asInstanceOf[MutableJavaDouble].value) == JavaDouble.doubleToLongBits(value)
+  override def equals(obj: Any): Boolean =
+    obj.isInstanceOf[MutableJavaDouble] &&
+      JavaDouble.doubleToLongBits(obj.asInstanceOf[MutableJavaDouble].value) == JavaDouble.doubleToLongBits(value)
 
   /**
     * Returns a suitable hash code for this mutable.

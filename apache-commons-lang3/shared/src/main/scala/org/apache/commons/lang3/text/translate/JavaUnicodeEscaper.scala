@@ -34,7 +34,6 @@ package org.apache.commons.lang3.text.translate
  * limitations under the License.
  */
 
-
 /**
   * Translates codepoints to their Unicode escaped value suitable for Java source.
   *

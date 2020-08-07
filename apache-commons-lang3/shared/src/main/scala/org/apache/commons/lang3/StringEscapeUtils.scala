@@ -52,7 +52,7 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
     * @since 3.0
     */
   val ESCAPE_JAVA: CharSequenceTranslator = new LookupTranslator(Array("\"", "\\\""), Array("\\", "\\\\"))
-    .`with`(new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE:_*))
+    .`with`(new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE: _*))
     .`with`(JavaUnicodeEscaper.outsideOf(32, 0x7f))
 
   /**
@@ -66,7 +66,7 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
     */
   val ESCAPE_ECMASCRIPT = new AggregateTranslator(
     new LookupTranslator(Array("'", "\\'"), Array("\"", "\\\""), Array("\\", "\\\\"), Array("/", "\\/")),
-    new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE:_*),
+    new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE: _*),
     JavaUnicodeEscaper.outsideOf(32, 0x7f)
   )
 
@@ -81,11 +81,11 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
     */
   val ESCAPE_JSON = new AggregateTranslator(
     new LookupTranslator(Array("\"", "\\\""), Array("\\", "\\\\"), Array("/", "\\/")),
-    new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE:_*),
+    new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE: _*),
     JavaUnicodeEscaper.outsideOf(32, 0x7f)
   )
 
-/*
+  /*
    public static final CharSequenceTranslator ESCAPE_JSON =
         new AggregateTranslator(
             new LookupTranslator(
@@ -97,7 +97,7 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
             new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE()),
             JavaUnicodeEscaper.outsideOf(32, 0x7f)
         );
- */
+   */
 
   /**
     * Translator object for escaping XML.
@@ -110,8 +110,8 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
     * @deprecated use {@link #ESCAPE_XML10} or {@link #ESCAPE_XML11} instead.
     */
   @deprecated val ESCAPE_XML = new AggregateTranslator(
-    new LookupTranslator(EntityArrays.BASIC_ESCAPE:_*),
-    new LookupTranslator(EntityArrays.APOS_ESCAPE:_*)
+    new LookupTranslator(EntityArrays.BASIC_ESCAPE: _*),
+    new LookupTranslator(EntityArrays.APOS_ESCAPE: _*)
   )
 
   /**
@@ -124,9 +124,40 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
     * @since 3.3
     */
   val ESCAPE_XML10 = new AggregateTranslator(
-    new LookupTranslator(EntityArrays.BASIC_ESCAPE:_*),
-    new LookupTranslator(EntityArrays.APOS_ESCAPE:_*),
-    new LookupTranslator(Array("\u0000", StringUtils.EMPTY), Array("\u0001", StringUtils.EMPTY), Array("\u0002", StringUtils.EMPTY), Array("\u0003", StringUtils.EMPTY), Array("\u0004", StringUtils.EMPTY), Array("\u0005", StringUtils.EMPTY), Array("\u0006", StringUtils.EMPTY), Array("\u0007", StringUtils.EMPTY), Array("\u0008", StringUtils.EMPTY), Array("\u000b", StringUtils.EMPTY), Array("\u000c", StringUtils.EMPTY), Array("\u000e", StringUtils.EMPTY), Array("\u000f", StringUtils.EMPTY), Array("\u0010", StringUtils.EMPTY), Array("\u0011", StringUtils.EMPTY), Array("\u0012", StringUtils.EMPTY), Array("\u0013", StringUtils.EMPTY), Array("\u0014", StringUtils.EMPTY), Array("\u0015", StringUtils.EMPTY), Array("\u0016", StringUtils.EMPTY), Array("\u0017", StringUtils.EMPTY), Array("\u0018", StringUtils.EMPTY), Array("\u0019", StringUtils.EMPTY), Array("\u001a", StringUtils.EMPTY), Array("\u001b", StringUtils.EMPTY), Array("\u001c", StringUtils.EMPTY), Array("\u001d", StringUtils.EMPTY), Array("\u001e", StringUtils.EMPTY), Array("\u001f", StringUtils.EMPTY), Array("\ufffe", StringUtils.EMPTY), Array("\uffff", StringUtils.EMPTY)),
+    new LookupTranslator(EntityArrays.BASIC_ESCAPE: _*),
+    new LookupTranslator(EntityArrays.APOS_ESCAPE: _*),
+    new LookupTranslator(
+      Array("\u0000", StringUtils.EMPTY),
+      Array("\u0001", StringUtils.EMPTY),
+      Array("\u0002", StringUtils.EMPTY),
+      Array("\u0003", StringUtils.EMPTY),
+      Array("\u0004", StringUtils.EMPTY),
+      Array("\u0005", StringUtils.EMPTY),
+      Array("\u0006", StringUtils.EMPTY),
+      Array("\u0007", StringUtils.EMPTY),
+      Array("\u0008", StringUtils.EMPTY),
+      Array("\u000b", StringUtils.EMPTY),
+      Array("\u000c", StringUtils.EMPTY),
+      Array("\u000e", StringUtils.EMPTY),
+      Array("\u000f", StringUtils.EMPTY),
+      Array("\u0010", StringUtils.EMPTY),
+      Array("\u0011", StringUtils.EMPTY),
+      Array("\u0012", StringUtils.EMPTY),
+      Array("\u0013", StringUtils.EMPTY),
+      Array("\u0014", StringUtils.EMPTY),
+      Array("\u0015", StringUtils.EMPTY),
+      Array("\u0016", StringUtils.EMPTY),
+      Array("\u0017", StringUtils.EMPTY),
+      Array("\u0018", StringUtils.EMPTY),
+      Array("\u0019", StringUtils.EMPTY),
+      Array("\u001a", StringUtils.EMPTY),
+      Array("\u001b", StringUtils.EMPTY),
+      Array("\u001c", StringUtils.EMPTY),
+      Array("\u001d", StringUtils.EMPTY),
+      Array("\u001e", StringUtils.EMPTY),
+      Array("\u001f", StringUtils.EMPTY),
+      Array("\ufffe", StringUtils.EMPTY),
+      Array("\uffff", StringUtils.EMPTY)),
     NumericEntityEscaper.between(0x7f, 0x84),
     NumericEntityEscaper.between(0x86, 0x9f),
     new UnicodeUnpairedSurrogateRemover
@@ -142,9 +173,14 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
     * @since 3.3
     */
   val ESCAPE_XML11 = new AggregateTranslator(
-    new LookupTranslator(EntityArrays.BASIC_ESCAPE:_*),
-    new LookupTranslator(EntityArrays.APOS_ESCAPE:_*),
-    new LookupTranslator(Array("\u0000", StringUtils.EMPTY), Array("\u000b", "&#11;"), Array("\u000c", "&#12;"), Array("\ufffe", StringUtils.EMPTY), Array("\uffff", StringUtils.EMPTY)),
+    new LookupTranslator(EntityArrays.BASIC_ESCAPE: _*),
+    new LookupTranslator(EntityArrays.APOS_ESCAPE: _*),
+    new LookupTranslator(
+      Array("\u0000", StringUtils.EMPTY),
+      Array("\u000b", "&#11;"),
+      Array("\u000c", "&#12;"),
+      Array("\ufffe", StringUtils.EMPTY),
+      Array("\uffff", StringUtils.EMPTY)),
     NumericEntityEscaper.between(0x1, 0x8),
     NumericEntityEscaper.between(0xe, 0x1f),
     NumericEntityEscaper.between(0x7f, 0x84),
@@ -162,8 +198,8 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
     * @since 3.0
     */
   val ESCAPE_HTML3 = new AggregateTranslator(
-    new LookupTranslator(EntityArrays.BASIC_ESCAPE:_*),
-    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE:_*)
+    new LookupTranslator(EntityArrays.BASIC_ESCAPE: _*),
+    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE: _*)
   )
 
   /**
@@ -176,9 +212,9 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
     * @since 3.0
     */
   val ESCAPE_HTML4 = new AggregateTranslator(
-    new LookupTranslator(EntityArrays.BASIC_ESCAPE:_*),
-    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE:_*),
-    new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE:_*)
+    new LookupTranslator(EntityArrays.BASIC_ESCAPE: _*),
+    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE: _*),
+    new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE: _*)
   )
 
   /**
@@ -206,10 +242,12 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
     @throws[IOException]
     override def translate(input: CharSequence, index: Int, out: Writer): Int = {
       if (index != 0) throw new IllegalStateException("CsvEscaper should never reach the [1] index")
-      if (StringUtils.containsNone(input.toString, CsvEscaper.CSV_SEARCH_CHARS:_*)) out.write(input.toString)
+      if (StringUtils.containsNone(input.toString, CsvEscaper.CSV_SEARCH_CHARS: _*)) out.write(input.toString)
       else {
         out.write(CsvEscaper.CSV_QUOTE.toInt)
-        out.write(StringUtils.replace(input.toString, CsvEscaper.CSV_QUOTE_STR, CsvEscaper.CSV_QUOTE_STR + CsvEscaper.CSV_QUOTE_STR))
+        out.write(
+          StringUtils
+            .replace(input.toString, CsvEscaper.CSV_QUOTE_STR, CsvEscaper.CSV_QUOTE_STR + CsvEscaper.CSV_QUOTE_STR))
         out.write(CsvEscaper.CSV_QUOTE.toInt)
       }
       Character.codePointCount(input, 0, input.length)
@@ -229,7 +267,7 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
   val UNESCAPE_JAVA = new AggregateTranslator(
     new OctalUnescaper, // .between('\1', '\377'),
     new UnicodeUnescaper,
-    new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE:_*),
+    new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE: _*),
     new LookupTranslator(Array("\\\\", "\\"), Array("\\\"", "\""), Array("\\'", "'"), Array("\\", ""))
   )
 
@@ -263,8 +301,8 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
     * @since 3.0
     */
   val UNESCAPE_HTML3 = new AggregateTranslator(
-    new LookupTranslator(EntityArrays.BASIC_UNESCAPE:_*),
-    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE:_*),
+    new LookupTranslator(EntityArrays.BASIC_UNESCAPE: _*),
+    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE: _*),
     new NumericEntityUnescaper
   )
 
@@ -278,9 +316,9 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
     * @since 3.0
     */
   val UNESCAPE_HTML4 = new AggregateTranslator(
-    new LookupTranslator(EntityArrays.BASIC_UNESCAPE:_*),
-    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE:_*),
-    new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE:_*),
+    new LookupTranslator(EntityArrays.BASIC_UNESCAPE: _*),
+    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE: _*),
+    new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE: _*),
     new NumericEntityUnescaper
   )
 
@@ -294,8 +332,8 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
     * @since 3.0
     */
   val UNESCAPE_XML = new AggregateTranslator(
-    new LookupTranslator(EntityArrays.BASIC_UNESCAPE:_*),
-    new LookupTranslator(EntityArrays.APOS_UNESCAPE:_*),
+    new LookupTranslator(EntityArrays.BASIC_UNESCAPE: _*),
+    new LookupTranslator(EntityArrays.APOS_UNESCAPE: _*),
     new NumericEntityUnescaper
   )
 
@@ -328,9 +366,10 @@ import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
       // strip quotes
       val quoteless = input.subSequence(1, input.length - 1).toString
       if (StringUtils.containsAny(quoteless, CsvUnescaper.CSV_SEARCH_CHARS)) { // deal with escaped quotes; ie) ""
-        out.write(StringUtils.replace(quoteless, CsvUnescaper.CSV_QUOTE_STR + CsvUnescaper.CSV_QUOTE_STR, CsvUnescaper.CSV_QUOTE_STR))
-      }
-      else out.write(input.toString)
+        out.write(
+          StringUtils
+            .replace(quoteless, CsvUnescaper.CSV_QUOTE_STR + CsvUnescaper.CSV_QUOTE_STR, CsvUnescaper.CSV_QUOTE_STR))
+      } else out.write(input.toString)
       Character.codePointCount(input, 0, input.length)
     }
   }

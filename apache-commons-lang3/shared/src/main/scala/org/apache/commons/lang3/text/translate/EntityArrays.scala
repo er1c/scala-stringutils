@@ -34,7 +34,6 @@ package org.apache.commons.lang3.text.translate
  * limitations under the License.
  */
 
-
 /**
   * Class holding various entity data for HTML and XML - generally for use with
   * the LookupTranslator.
@@ -54,7 +53,8 @@ package org.apache.commons.lang3.text.translate
     */
   def ISO8859_1_ESCAPE: Array[Array[CharSequence]] = _ISO8859_1_ESCAPE.clone
 
-  private val _ISO8859_1_ESCAPE: Array[Array[CharSequence]] = Array(Array("\u00A0", "&nbsp;"), // non-breaking space
+  private val _ISO8859_1_ESCAPE: Array[Array[CharSequence]] = Array(
+    Array("\u00A0", "&nbsp;"), // non-breaking space
     Array("\u00A1", "&iexcl;"), // inverted exclamation mark
     Array("\u00A2", "&cent;"), // cent sign
     Array("\u00A3", "&pound;"), // pound sign
@@ -149,7 +149,8 @@ package org.apache.commons.lang3.text.translate
     Array("\u00FC", "&uuml;"), // ü - lowercase u, umlaut
     Array("\u00FD", "&yacute;"), // ý - lowercase y, acute accent
     Array("\u00FE", "&thorn;"), // þ - lowercase thorn, Icelandic
-    Array("\u00FF", "&yuml;")) // ÿ - lowercase y, umlaut
+    Array("\u00FF", "&yuml;")
+  ) // ÿ - lowercase y, umlaut
 
   /**
     * Reverse of {@link #ISO8859_1_ESCAPE ( )} for unescaping purposes.
@@ -359,7 +360,8 @@ package org.apache.commons.lang3.text.translate
     // <!-- lsaquo is proposed but not yet ISO standardized -->
     Array("\u203A", "&rsaquo;"), // single right-pointing angle quotation mark, U+203A ISO proposed -->
     // <!-- rsaquo is proposed but not yet ISO standardized -->
-    Array("\u20AC", "&euro;")) // -- euro sign, U+20AC NEW -->
+    Array("\u20AC", "&euro;")
+  ) // -- euro sign, U+20AC NEW -->
 
   /**
     * Reverse of {@link #HTML40_EXTENDED_ESCAPE ( )} for unescaping purposes.
@@ -379,10 +381,12 @@ package org.apache.commons.lang3.text.translate
     */
   def BASIC_ESCAPE: Array[Array[CharSequence]] = _BASIC_ESCAPE.clone
 
-  private val _BASIC_ESCAPE: Array[Array[CharSequence]] = Array(Array("\"", "&quot;"), // " - double-quote
+  private val _BASIC_ESCAPE: Array[Array[CharSequence]] = Array(
+    Array("\"", "&quot;"), // " - double-quote
     Array("&", "&amp;"), // & - ampersand
     Array("<", "&lt;"), // < - less-than
-    Array(">", "&gt;")) // > - greater-than
+    Array(">", "&gt;")
+  ) // > - greater-than
 
   /**
     * Reverse of {@link #BASIC_ESCAPE ( )} for unescaping purposes.
@@ -420,7 +424,8 @@ package org.apache.commons.lang3.text.translate
     */
   def JAVA_CTRL_CHARS_ESCAPE: Array[Array[CharSequence]] = _JAVA_CTRL_CHARS_ESCAPE.clone
 
-  private val _JAVA_CTRL_CHARS_ESCAPE: Array[Array[CharSequence]] = Array(Array("\b", "\\b"), Array("\n", "\\n"), Array("\t", "\\t"), Array("\f", "\\f"), Array("\r", "\\r"))
+  private val _JAVA_CTRL_CHARS_ESCAPE: Array[Array[CharSequence]] =
+    Array(Array("\b", "\\b"), Array("\n", "\\n"), Array("\t", "\\t"), Array("\f", "\\f"), Array("\r", "\\r"))
 
   /**
     * Reverse of {@link #JAVA_CTRL_CHARS_ESCAPE ( )} for unescaping purposes.

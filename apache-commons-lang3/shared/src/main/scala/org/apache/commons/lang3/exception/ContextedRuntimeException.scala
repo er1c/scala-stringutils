@@ -93,7 +93,7 @@ class ContextedRuntimeException
   * @param message the exception message, may be null
   * @param cause   the underlying cause of the exception, may be null
   */
-  (message: String, cause: Throwable)
+(message: String, cause: Throwable)
   extends RuntimeException(message, cause) with ExceptionContext {
   /** The context where the data is stored. */
   final private var exceptionContext: ExceptionContext = new DefaultExceptionContext
@@ -205,5 +205,6 @@ class ContextedRuntimeException
     */
   def getRawMessage: String = super.getMessage
 
-  override def getFormattedExceptionMessage(baseMessage: String): String = exceptionContext.getFormattedExceptionMessage(baseMessage)
+  override def getFormattedExceptionMessage(baseMessage: String): String =
+    exceptionContext.getFormattedExceptionMessage(baseMessage)
 }

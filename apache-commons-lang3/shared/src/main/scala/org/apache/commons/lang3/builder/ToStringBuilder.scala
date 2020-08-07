@@ -152,7 +152,8 @@ object ToStringBuilder {
     * @return the String result
     * @see ReflectionToStringBuilder#toString(Object,ToStringStyle)
     */
-  def reflectionToString(`object`: Any, style: ToStringStyle): String = ReflectionToStringBuilder.toString(`object`, style)
+  def reflectionToString(`object`: Any, style: ToStringStyle): String =
+    ReflectionToStringBuilder.toString(`object`, style)
 
   /**
     * <p>Uses {@code ReflectionToStringBuilder} to generate a
@@ -164,7 +165,8 @@ object ToStringBuilder {
     * @return the String result
     * @see ReflectionToStringBuilder#toString(Object,ToStringStyle,boolean)
     */
-  def reflectionToString(`object`: Any, style: ToStringStyle, outputTransients: Boolean): String = ReflectionToStringBuilder.toString(`object`, style, outputTransients, false, null)
+  def reflectionToString(`object`: Any, style: ToStringStyle, outputTransients: Boolean): String =
+    ReflectionToStringBuilder.toString(`object`, style, outputTransients, false, null)
 
   /**
     * <p>Uses {@code ReflectionToStringBuilder} to generate a
@@ -179,9 +181,13 @@ object ToStringBuilder {
     * @see ReflectionToStringBuilder#toString(Object,ToStringStyle,boolean,boolean,Class)
     * @since 2.0
     */
-  def reflectionToString[T](`object`: T, style: ToStringStyle, outputTransients: Boolean, reflectUpToClass: Class[_ >: T]): String = ReflectionToStringBuilder.toString(`object`, style, outputTransients, false, reflectUpToClass)
+  def reflectionToString[T](
+    `object`: T,
+    style: ToStringStyle,
+    outputTransients: Boolean,
+    reflectUpToClass: Class[_ >: T]): String =
+    ReflectionToStringBuilder.toString(`object`, style, outputTransients, false, reflectUpToClass)
 }
-
 
 /**
   * <p>Constructs a builder for the specified object.</p>

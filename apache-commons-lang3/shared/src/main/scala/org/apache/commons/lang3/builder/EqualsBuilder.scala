@@ -200,7 +200,7 @@ object EqualsBuilder {
     * @see EqualsExclude
     */
   def reflectionEquals(lhs: Any, rhs: Any, excludeFields: util.Collection[String]): Boolean =
-    reflectionEquals(lhs, rhs, ReflectionToStringBuilder.toNoNullStringArray(excludeFields):_*)
+    reflectionEquals(lhs, rhs, ReflectionToStringBuilder.toNoNullStringArray(excludeFields): _*)
 
   /**
     * <p>This method uses reflection to determine if the two {@code Object}s
@@ -224,7 +224,7 @@ object EqualsBuilder {
     * @see EqualsExclude
     */
   def reflectionEquals(lhs: Any, rhs: Any, excludeFields: String*): Boolean =
-    reflectionEquals(lhs, rhs, false, null, excludeFields:_*)
+    reflectionEquals(lhs, rhs, false, null, excludeFields: _*)
 
   /**
     * <p>This method uses reflection to determine if the two {@code Object}s
@@ -248,7 +248,8 @@ object EqualsBuilder {
     * @return {@code true} if the two Objects have tested equals.
     * @see EqualsExclude
     */
-  def reflectionEquals(lhs: Any, rhs: Any, testTransients: Boolean): Boolean = reflectionEquals(lhs, rhs, testTransients, null)
+  def reflectionEquals(lhs: Any, rhs: Any, testTransients: Boolean): Boolean =
+    reflectionEquals(lhs, rhs, testTransients, null)
 
   /**
     * <p>This method uses reflection to determine if the two {@code Object}s
@@ -278,8 +279,13 @@ object EqualsBuilder {
     * @see EqualsExclude
     * @since 2.0
     */
-  def reflectionEquals(lhs: Any, rhs: Any, testTransients: Boolean, reflectUpToClass: Class[_], excludeFields: String*): Boolean =
-    reflectionEquals(lhs, rhs, testTransients, reflectUpToClass, false, excludeFields:_*)
+  def reflectionEquals(
+    lhs: Any,
+    rhs: Any,
+    testTransients: Boolean,
+    reflectUpToClass: Class[_],
+    excludeFields: String*): Boolean =
+    reflectionEquals(lhs, rhs, testTransients, reflectUpToClass, false, excludeFields: _*)
 
   /**
     * <p>This method uses reflection to determine if the two {@code Object}s
@@ -316,13 +322,19 @@ object EqualsBuilder {
     * @see EqualsExclude
     * @since 3.6
     */
-  def reflectionEquals(lhs: Any, rhs: Any, testTransients: Boolean, reflectUpToClass: Class[_], testRecursive: Boolean, excludeFields: String*): Boolean = {
+  def reflectionEquals(
+    lhs: Any,
+    rhs: Any,
+    testTransients: Boolean,
+    reflectUpToClass: Class[_],
+    testRecursive: Boolean,
+    excludeFields: String*): Boolean = {
     //if (lhs eq rhs) return true
     assert(false, "unimplemented")
     //???
     if (lhs == null || rhs == null) return false
     new EqualsBuilder()
-      .setExcludeFields(excludeFields:_*)
+      .setExcludeFields(excludeFields: _*)
       .setReflectUpToClass(reflectUpToClass)
       .setTestTransients(testTransients)
       .setTestRecursive(testRecursive)
@@ -485,10 +497,11 @@ class EqualsBuilder()
     try {
       if (testClass.isArray) append(lhs, rhs)
       else { //If either class is being excluded, call normal object equals method on lhsClass.
-        if (bypassReflectionClasses != null && (bypassReflectionClasses.contains(lhsClass) || bypassReflectionClasses.contains(rhsClass))) _isEquals = lhs == rhs
+        if (bypassReflectionClasses != null && (bypassReflectionClasses.contains(lhsClass) || bypassReflectionClasses
+            .contains(rhsClass))) _isEquals = lhs == rhs
         else {
           reflectionAppend(lhs, rhs, testClass)
-          while ( {
+          while ({
             testClass.getSuperclass != null && (testClass ne reflectUpToClass)
           }) {
             testClass = testClass.getSuperclass
@@ -522,18 +535,16 @@ class EqualsBuilder()
     try {
       EqualsBuilder.register(lhs, rhs)
       val fields = clazz.getDeclaredFields
-      fields.foreach{ _.setAccessible(true) }
+      fields.foreach { _.setAccessible(true) }
 
       var i = 0
       while (i < fields.length && _isEquals) {
         val f = fields(i)
-        if (
-          !ArrayUtils.contains(excludeFields, f.getName) &&
-            !f.getName.contains("$") &&
-            (testTransients || !Modifier.isTransient(f.getModifiers)) &&
-            !Modifier.isStatic(f.getModifiers) &&
-            !f.isAnnotationPresent(classOf[EqualsExclude])
-        ) try {
+        if (!ArrayUtils.contains(excludeFields, f.getName) &&
+          !f.getName.contains("$") &&
+          (testTransients || !Modifier.isTransient(f.getModifiers)) &&
+          !Modifier.isStatic(f.getModifiers) &&
+          !f.isAnnotationPresent(classOf[EqualsExclude])) try {
           append(f.get(lhs), f.get(rhs))
         } catch {
           case _: IllegalAccessException =>
@@ -584,8 +595,7 @@ class EqualsBuilder()
     if (lhsClass.isArray) { // factor out array case in order to keep method small enough
       // to be inlined
       appendArray(lhs, rhs)
-    }
-    else { // The simple case, not an array, just test the element
+    } else { // The simple case, not an array, just test the element
       if (testRecursive && !ClassUtils.isPrimitiveOrWrapper(lhsClass)) reflectionAppend(lhs, rhs)
       else _isEquals = lhs == rhs
     }
@@ -609,7 +619,8 @@ class EqualsBuilder()
     else if (lhs.isInstanceOf[Array[Byte]]) append(lhs.asInstanceOf[Array[Byte]], rhs.asInstanceOf[Array[Byte]])
     else if (lhs.isInstanceOf[Array[Double]]) append(lhs.asInstanceOf[Array[Double]], rhs.asInstanceOf[Array[Double]])
     else if (lhs.isInstanceOf[Array[Float]]) append(lhs.asInstanceOf[Array[Float]], rhs.asInstanceOf[Array[Float]])
-    else if (lhs.isInstanceOf[Array[Boolean]]) append(lhs.asInstanceOf[Array[Boolean]], rhs.asInstanceOf[Array[Boolean]])
+    else if (lhs.isInstanceOf[Array[Boolean]])
+      append(lhs.asInstanceOf[Array[Boolean]], rhs.asInstanceOf[Array[Boolean]])
     else { // Not an array of primitives
       append(lhs.asInstanceOf[Array[AnyRef]], rhs.asInstanceOf[Array[AnyRef]])
     }
@@ -760,7 +771,7 @@ class EqualsBuilder()
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && _isEquals
     }) {
       append(lhs(i), rhs(i))
@@ -792,7 +803,7 @@ class EqualsBuilder()
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && _isEquals
     }) {
       append(lhs(i), rhs(i))
@@ -824,7 +835,7 @@ class EqualsBuilder()
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && _isEquals
     }) {
       append(lhs(i), rhs(i))
@@ -856,7 +867,7 @@ class EqualsBuilder()
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && _isEquals
     }) {
       append(lhs(i), rhs(i))
@@ -888,7 +899,7 @@ class EqualsBuilder()
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && _isEquals
     }) {
       append(lhs(i), rhs(i))
@@ -920,7 +931,7 @@ class EqualsBuilder()
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && _isEquals
     }) {
       append(lhs(i), rhs(i))
@@ -952,7 +963,7 @@ class EqualsBuilder()
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && _isEquals
     }) {
       append(lhs(i), rhs(i))
@@ -984,7 +995,7 @@ class EqualsBuilder()
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && _isEquals
     }) {
       append(lhs(i), rhs(i))
@@ -1016,7 +1027,7 @@ class EqualsBuilder()
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && _isEquals
     }) {
       append(lhs(i), rhs(i))

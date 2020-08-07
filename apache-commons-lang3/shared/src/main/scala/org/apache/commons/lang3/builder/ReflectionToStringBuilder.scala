@@ -189,7 +189,8 @@ object ReflectionToStringBuilder {
     * @see ToStringExclude
     * @see ToStringSummary
     */
-  def toString(`object`: Any, style: ToStringStyle, outputTransients: Boolean): String = toString(`object`, style, outputTransients, false, null)
+  def toString(`object`: Any, style: ToStringStyle, outputTransients: Boolean): String =
+    toString(`object`, style, outputTransients, false, null)
 
   /**
     * <p>
@@ -235,7 +236,8 @@ object ReflectionToStringBuilder {
     * @see ToStringSummary
     * @since 2.1
     */
-  def toString(`object`: Any, style: ToStringStyle, outputTransients: Boolean, outputStatics: Boolean): String = toString(`object`, style, outputTransients, outputStatics, null)
+  def toString(`object`: Any, style: ToStringStyle, outputTransients: Boolean, outputStatics: Boolean): String =
+    toString(`object`, style, outputTransients, outputStatics, null)
 
   /**
     * <p>
@@ -286,7 +288,13 @@ object ReflectionToStringBuilder {
     * @see ToStringSummary
     * @since 2.1
     */
-  def toString[T](`object`: T, style: ToStringStyle, outputTransients: Boolean, outputStatics: Boolean, reflectUpToClass: Class[_ >: T]): String = new ReflectionToStringBuilder(`object`, style, null, reflectUpToClass, outputTransients, outputStatics).toString
+  def toString[T](
+    `object`: T,
+    style: ToStringStyle,
+    outputTransients: Boolean,
+    outputStatics: Boolean,
+    reflectUpToClass: Class[_ >: T]): String =
+    new ReflectionToStringBuilder(`object`, style, null, reflectUpToClass, outputTransients, outputStatics).toString
 
   /**
     * <p>
@@ -339,8 +347,21 @@ object ReflectionToStringBuilder {
     * @see ToStringSummary
     * @since 3.6
     */
-  def toString[T](`object`: T, style: ToStringStyle, outputTransients: Boolean, outputStatics: Boolean, excludeNullValues: Boolean, reflectUpToClass: Class[_ >: T]): String =
-    new ReflectionToStringBuilder(`object`, style, null, reflectUpToClass, outputTransients, outputStatics, excludeNullValues).toString
+  def toString[T](
+    `object`: T,
+    style: ToStringStyle,
+    outputTransients: Boolean,
+    outputStatics: Boolean,
+    excludeNullValues: Boolean,
+    reflectUpToClass: Class[_ >: T]): String =
+    new ReflectionToStringBuilder(
+      `object`,
+      style,
+      null,
+      reflectUpToClass,
+      outputTransients,
+      outputStatics,
+      excludeNullValues).toString
 
   /**
     * Builds a String for a toString method excluding the given field names.
@@ -352,7 +373,7 @@ object ReflectionToStringBuilder {
     * @return The toString value.
     */
   def toStringExclude(`object`: Any, excludeFieldNames: util.Collection[String]): String =
-    toStringExclude(`object`, toNoNullStringArray(excludeFieldNames):_*)
+    toStringExclude(`object`, toNoNullStringArray(excludeFieldNames): _*)
 
   /**
     * Converts the given Collection into an array of Strings. The returned array does not contain {@code null}
@@ -396,7 +417,7 @@ object ReflectionToStringBuilder {
     */
   def toStringExclude(`object`: Any, excludeFieldNames: String*): String =
     new ReflectionToStringBuilder(`object`)
-      .setExcludeFieldNames(excludeFieldNames:_*)
+      .setExcludeFieldNames(excludeFieldNames: _*)
       .toString
 
   private def checkNotNull(obj: Any) = Validate.notNull(obj, "The Object passed in should not be null.")
@@ -543,7 +564,14 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     *          whether to exclude fields who value is null
     * @since 3.6
     */
-  def this(`object`: T, style: ToStringStyle, buffer: StringBuffer, reflectUpToClass: Class[_ >: T], outputTransients: Boolean, outputStatics: Boolean, excludeNullValues: Boolean) = {
+  def this(
+    `object`: T,
+    style: ToStringStyle,
+    buffer: StringBuffer,
+    reflectUpToClass: Class[_ >: T],
+    outputTransients: Boolean,
+    outputStatics: Boolean,
+    excludeNullValues: Boolean) = {
     this(`object`, style, buffer)
     this.setUpToClass(reflectUpToClass)
     this.setAppendTransients(outputTransients)
@@ -564,10 +592,13 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     * @return Whether or not to append the given {@code Field}.
     */
   protected def accept(field: Field): Boolean = {
-    if (field.getName.indexOf(ClassUtils.INNER_CLASS_SEPARATOR_CHAR.toInt) != -1) false // Reject field from inner class.
+    if (field.getName.indexOf(ClassUtils.INNER_CLASS_SEPARATOR_CHAR.toInt) != -1)
+      false // Reject field from inner class.
     else if (Modifier.isTransient(field.getModifiers) && !this.isAppendTransients) false // Reject transient fields.
     else if (Modifier.isStatic(field.getModifiers) && !this.isAppendStatics) false // Reject static fields.
-    else if (this.excludeFieldNames != null && util.Arrays.binarySearch(this.excludeFieldNames.map{ s: String => s: Object }, field.getName) >= 0) false // Reject fields from the getExcludeFieldNames list.
+    else if (this.excludeFieldNames != null && util.Arrays
+        .binarySearch(this.excludeFieldNames.map { s: String => s: Object }, field.getName) >= 0)
+      false // Reject fields from the getExcludeFieldNames list.
     else !field.isAnnotationPresent(classOf[ToStringExclude])
   }
 
@@ -591,14 +622,15 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     }
     // The elements in the returned array are not sorted and are not in any particular order.
     val fields = clazz.getDeclaredFields
-    fields.foreach{ _.setAccessible(true) }
+    fields.foreach { _.setAccessible(true) }
 
-    for (field <- fields.sortBy{ _.getName }) {
+    for (field <- fields.sortBy { _.getName }) {
       val fieldName = field.getName
       if (this.accept(field)) try { // Warning: Field.get(Object) creates wrappers objects
         // for primitive types.
         val fieldValue = this.getValue(field)
-        if (!excludeNullValues || fieldValue != null) this.append(fieldName, fieldValue, !field.isAnnotationPresent(classOf[ToStringSummary]))
+        if (!excludeNullValues || fieldValue != null)
+          this.append(fieldName, fieldValue, !field.isAnnotationPresent(classOf[ToStringSummary]))
       } catch {
         case ex: IllegalAccessException =>
           //this can't happen. Would get a Security exception instead
@@ -730,7 +762,8 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
   def setExcludeFieldNames(excludeFieldNamesParam: String*): ReflectionToStringBuilder[_] = {
     if (excludeFieldNamesParam == null) this.excludeFieldNames = null
     else { //clone and remove nulls
-      this.excludeFieldNames = ReflectionToStringBuilder.toNoNullStringArray(excludeFieldNamesParam.toArray: Array[Any]).sorted
+      this.excludeFieldNames =
+        ReflectionToStringBuilder.toNoNullStringArray(excludeFieldNamesParam.toArray: Array[Any]).sorted
     }
     this
   }
@@ -746,7 +779,8 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
   def setUpToClass(clazz: Class[_]): Unit = {
     if (clazz != null) {
       val `object` = getObject
-      if (`object` != null && !clazz.isInstance(`object`)) throw new IllegalArgumentException("Specified class is not a superclass of the object")
+      if (`object` != null && !clazz.isInstance(`object`))
+        throw new IllegalArgumentException("Specified class is not a superclass of the object")
     }
     this.upToClass = clazz
   }
@@ -762,7 +796,7 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
     if (this.getObject == null) return this.getStyle.getNullText
     var clazz = this.getObject.getClass
     this.appendFieldsIn(clazz)
-    while ( {
+    while ({
       clazz.getSuperclass != null && (clazz ne this.getUpToClass)
     }) {
       clazz = clazz.getSuperclass

@@ -36,7 +36,8 @@ import java.io.Writer
     */
   @throws[IOException]
   override def translate(input: CharSequence, index: Int, out: Writer): Int = {
-    if (input.charAt(index) == '\\' && index + 1 < input.length && input.charAt(index + 1) == 'u') { // consume optional additional 'u' chars
+    if (input.charAt(index) == '\\' && index + 1 < input.length && input
+        .charAt(index + 1) == 'u') { // consume optional additional 'u' chars
       var i = 2
       while (index + i < input.length && input.charAt(index + i) == 'u') i += 1
 
@@ -52,7 +53,9 @@ import java.io.Writer
         }
         return i + 4
       }
-      throw new IllegalArgumentException("Less than 4 hex digits in unicode value: '" + input.subSequence(index, input.length) + "' due to end of CharSequence")
+      throw new IllegalArgumentException(
+        "Less than 4 hex digits in unicode value: '" + input
+          .subSequence(index, input.length) + "' due to end of CharSequence")
     }
     0
   }

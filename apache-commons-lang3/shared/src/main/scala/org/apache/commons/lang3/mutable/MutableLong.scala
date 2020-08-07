@@ -284,7 +284,6 @@ class MutableJavaLong()
     */
   override def floatValue: Float = value.toFloat
 
-
   /**
     * Returns the value of this MutableJavaLong as a double.
     *

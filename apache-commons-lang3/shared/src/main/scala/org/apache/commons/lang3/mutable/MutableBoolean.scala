@@ -153,8 +153,9 @@ class MutableBoolean()
     *
     * @return the hash code returned by {@code JavaBoolean.TRUE} or {@code JavaBoolean.FALSE}
     */
-  override def hashCode: Int = if (value) JavaBoolean.TRUE.hashCode
-  else JavaBoolean.FALSE.hashCode
+  override def hashCode: Int =
+    if (value) JavaBoolean.TRUE.hashCode
+    else JavaBoolean.FALSE.hashCode
 
   /**
     * Compares this mutable to another in ascending order.

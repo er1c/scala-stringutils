@@ -26,7 +26,7 @@ package org.apache.commons.lang3.builder
   * This is necessary to disambiguate the occasional duplicate
   * identityHashCodes that can occur.
   */
-final class IDKey private[builder](val value: Any) {
+final class IDKey private[builder] (val value: Any) {
   private val id: Int = System.identityHashCode(value)
 
   /**

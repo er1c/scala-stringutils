@@ -36,7 +36,6 @@ import java.lang.annotation.{Annotation, ElementType, Retention, RetentionPolicy
  * limitations under the License.
  */
 
-
 /**
   * Use this annotation on the fields to get the summary instead of the detailed
   * information when using {@link ReflectionToStringBuilder}.

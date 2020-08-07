@@ -40,8 +40,7 @@ import java.io.Writer
   }
 }
 
-@deprecated class NumericEntityUnescaper
-  extends CharSequenceTranslator {
+@deprecated class NumericEntityUnescaper extends CharSequenceTranslator {
 
   // TODO?: Create an OptionsSet class to hide some of the conditional logic below
   final private var options: Set[NumericEntityUnescaper.OPTION] =
@@ -96,20 +95,20 @@ import java.io.Writer
       }
       var `end` = start
       // Note that this supports character codes without a ; on the end
-      while (
-        `end` < seqEnd &&
-          (
-            input.charAt(`end`) >= '0' && input.charAt(`end`) <= '9' ||
-              input.charAt(`end`) >= 'a' && input.charAt(`end`) <= 'f' ||
-              input.charAt(`end`) >= 'A' &&
-              input.charAt(`end`) <= 'F'
-          )
-      ) `end` += 1
+      while (`end` < seqEnd &&
+        (
+          input.charAt(`end`) >= '0' && input.charAt(`end`) <= '9' ||
+          input.charAt(`end`) >= 'a' && input.charAt(`end`) <= 'f' ||
+          input.charAt(`end`) >= 'A' &&
+          input.charAt(`end`) <= 'F'
+        )) `end` += 1
 
       val semiNext = `end` != seqEnd && input.charAt(`end`) == ';'
 
-      if (!semiNext) if (isSet(NumericEntityUnescaper.OPTION.semiColonRequired)) return 0
-      else if (isSet(NumericEntityUnescaper.OPTION.errorIfNoSemiColon)) throw new IllegalArgumentException("Semi-colon required at end of numeric entity")
+      if (!semiNext)
+        if (isSet(NumericEntityUnescaper.OPTION.semiColonRequired)) return 0
+        else if (isSet(NumericEntityUnescaper.OPTION.errorIfNoSemiColon))
+          throw new IllegalArgumentException("Semi-colon required at end of numeric entity")
 
       var entityValue = 0
 
@@ -120,7 +119,7 @@ import java.io.Writer
         case _: NumberFormatException => return 0
       }
 
-      if (entityValue > 0xFFFF) {
+      if (entityValue > 0xffff) {
         val chars = Character.toChars(entityValue)
         out.write(chars(0).toInt)
         out.write(chars(1).toInt)

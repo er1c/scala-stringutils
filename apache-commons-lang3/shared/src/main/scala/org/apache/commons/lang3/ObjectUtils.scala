@@ -42,7 +42,9 @@ import java.io.IOException
   * @since 1.0
   */
 //@Immutable
-@SuppressWarnings(Array("deprecation")) // deprecated class StrBuilder is imported // because it is part of the signature of deprecated methods
+@SuppressWarnings(
+  Array("deprecation")
+) // deprecated class StrBuilder is imported // because it is part of the signature of deprecated methods
 object ObjectUtils {
 
   /**
@@ -59,7 +61,7 @@ object ObjectUtils {
     * cannot be stored.</p>
     */
   @SerialVersionUID(7092611880189329093L)
-  class Null private[lang3]()
+  class Null private[lang3] ()
 
   /**
     * Restricted constructor - singleton.
@@ -729,7 +731,10 @@ object ObjectUtils {
   @throws[IOException]
   def identityToString(appendable: Appendable, `object`: Any): Unit = {
     Validate.notNull(`object`, "Cannot get the toString of a null object")
-    appendable.append(`object`.getClass.getName).append(AT_SIGN).append(Integer.toHexString(System.identityHashCode(`object`)))
+    appendable
+      .append(`object`.getClass.getName)
+      .append(AT_SIGN)
+      .append(Integer.toHexString(System.identityHashCode(`object`)))
     ()
   }
 //

@@ -42,7 +42,20 @@ object ExceptionUtils {
     * <p>The names of methods commonly used to access a wrapped exception.</p>
     */
   // TODO: Remove in Lang 4.0
-  private val CAUSE_METHOD_NAMES = Array("getCause", "getNextException", "getTargetException", "getException", "getSourceException", "getRootCause", "getCausedByException", "getNested", "getLinkedException", "getNestedException", "getLinkedCause", "getThrowable")
+  private val CAUSE_METHOD_NAMES = Array(
+    "getCause",
+    "getNextException",
+    "getTargetException",
+    "getException",
+    "getSourceException",
+    "getRootCause",
+    "getCausedByException",
+    "getNested",
+    "getLinkedException",
+    "getNestedException",
+    "getLinkedCause",
+    "getThrowable"
+  )
   /**
     * <p>Used when printing stack frames to denote the start of a
     * wrapped exception.</p>
@@ -102,10 +115,8 @@ object ExceptionUtils {
       CAUSE_METHOD_NAMES
     } else methodNames
 
-    for (
-      methodName <- _methodNames
-      if methodName != null
-    ) {
+    for (methodName <- _methodNames
+      if methodName != null) {
       val legacyCause = getCauseUsingMethodName(throwable, methodName)
       if (legacyCause != null) return legacyCause
     }
@@ -130,7 +141,7 @@ object ExceptionUtils {
       // exception ignored
     }
 
-    if (method != null && classOf[Throwable].isAssignableFrom(method.getReturnType))  {
+    if (method != null && classOf[Throwable].isAssignableFrom(method.getReturnType)) {
       try {
         return method.invoke(throwable).asInstanceOf[Throwable]
       } catch {
@@ -205,8 +216,9 @@ object ExceptionUtils {
     */
   def getRootCauseMessage(th: Throwable): String = {
     var root = getRootCause(th)
-    root = if (root == null) th
-    else root
+    root =
+      if (root == null) th
+      else root
     getMessage(root)
   }
 
@@ -232,7 +244,7 @@ object ExceptionUtils {
     var nextTrace = getStackFrameList(throwables(count - 1))
     var i = count
 
-    while ({i -= 1; i} >= 0) {
+    while ({ i -= 1; i } >= 0) {
       val trace = nextTrace
       if (i != 0) {
         nextTrace = getStackFrameList(throwables(i - 1))
@@ -291,7 +303,7 @@ object ExceptionUtils {
     val linebreak = System.lineSeparator
     val frames = new StringTokenizer(stackTrace, linebreak)
     val list = new util.ArrayList[String]
-    while ( {
+    while ({
       frames.hasMoreTokens
     }) list.add(frames.nextToken)
 
@@ -448,9 +460,10 @@ object ExceptionUtils {
     if (subclass) for (i <- startIndex until throwables.length) {
       if (`type`.isAssignableFrom(throwables(i).getClass)) return i
     }
-    else for (i <- startIndex until throwables.length) {
-      if (`type` == throwables(i).getClass) return i
-    }
+    else
+      for (i <- startIndex until throwables.length) {
+        if (`type` == throwables(i).getClass) return i
+      }
     NOT_FOUND
   }
 
@@ -489,7 +502,8 @@ object ExceptionUtils {
     *                  negative treated as zero, larger than chain size returns -1
     * @return the index into the throwable chain, -1 if no match or null input
     */
-  def indexOfThrowable(throwable: Throwable, clazz: Class[_ <: Throwable], fromIndex: Int): Int = indexOf(throwable, clazz, fromIndex, false)
+  def indexOfThrowable(throwable: Throwable, clazz: Class[_ <: Throwable], fromIndex: Int): Int =
+    indexOf(throwable, clazz, fromIndex, false)
 
   /**
     * <p>Returns the (zero-based) index of the first {@code Throwable}
@@ -528,7 +542,8 @@ object ExceptionUtils {
     * @return the index into the throwable chain, -1 if no match or null input
     * @since 2.1
     */
-  def indexOfType(throwable: Throwable, `type`: Class[_ <: Throwable], fromIndex: Int): Int = indexOf(throwable, `type`, fromIndex, true)
+  def indexOfType(throwable: Throwable, `type`: Class[_ <: Throwable], fromIndex: Int): Int =
+    indexOf(throwable, `type`, fromIndex, true)
 
   /**
     * <p>Prints a compact stack trace for the root cause of a throwable
@@ -571,7 +586,9 @@ object ExceptionUtils {
     * @throws NullPointerException if the printStream is {@code null}
     * @since 2.0
     */
-  @SuppressWarnings(Array("resource")) def printRootCauseStackTrace(throwable: Throwable, printStream: PrintStream): Unit = {
+  @SuppressWarnings(Array("resource")) def printRootCauseStackTrace(
+    throwable: Throwable,
+    printStream: PrintStream): Unit = {
     if (throwable == null) return
     Objects.requireNonNull(printStream, "printStream")
     val trace = getRootCauseStackTrace(throwable)
@@ -600,7 +617,9 @@ object ExceptionUtils {
     * @throws NullPointerException if the printWriter is {@code null}
     * @since 2.0
     */
-  @SuppressWarnings(Array("resource")) def printRootCauseStackTrace(throwable: Throwable, printWriter: PrintWriter): Unit = {
+  @SuppressWarnings(Array("resource")) def printRootCauseStackTrace(
+    throwable: Throwable,
+    printWriter: PrintWriter): Unit = {
     if (throwable == null) return
     Objects.requireNonNull(printWriter, "printWriter")
     val trace = getRootCauseStackTrace(throwable)
@@ -622,7 +641,7 @@ object ExceptionUtils {
     if (causeFrames == null || wrapperFrames == null) throw new IllegalArgumentException("The List must not be null")
     var causeFrameIndex = causeFrames.size - 1
     var wrapperFrameIndex = wrapperFrames.size - 1
-    while ( {
+    while ({
       causeFrameIndex >= 0 && wrapperFrameIndex >= 0
     }) { // Remove the frame from the cause trace if it is the same
       // as in the wrapper trace
@@ -705,18 +724,24 @@ object ExceptionUtils {
     *                  using references
     * @return throwable of the {@code type} within throwables nested within the specified {@code throwable}
     */
-  private def throwableOf[T <: Throwable](throwable: Throwable, `type`: Class[T], fromIndex: Int, subclass: Boolean): T = {
+  private def throwableOf[T <: Throwable](
+    throwable: Throwable,
+    `type`: Class[T],
+    fromIndex: Int,
+    subclass: Boolean): T = {
     if (throwable == null || `type` == null) return null.asInstanceOf[T]
 
-    val startIndex:  Int = if (fromIndex < 0) 0 else fromIndex
+    val startIndex: Int = if (fromIndex < 0) 0 else fromIndex
     val throwables = getThrowables(throwable)
     if (startIndex >= throwables.length) return null.asInstanceOf[T]
 
     if (subclass) for (i <- startIndex until throwables.length) {
       if (`type`.isAssignableFrom(throwables(i).getClass)) return `type`.cast(throwables(i))
-    } else for (i <- startIndex until throwables.length) {
-      if (`type` == throwables(i).getClass) return `type`.cast(throwables(i))
     }
+    else
+      for (i <- startIndex until throwables.length) {
+        if (`type` == throwables(i).getClass) return `type`.cast(throwables(i))
+      }
 
     null.asInstanceOf[T]
   }

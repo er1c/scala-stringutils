@@ -64,7 +64,7 @@ import java.io.Writer
   def between(codepointLow: Int, codepointHigh: Int) = new UnicodeEscaper(codepointLow, codepointHigh, true)
 }
 
-@deprecated class UnicodeEscaper protected(val below: Int, val above: Int, val between: Boolean)
+@deprecated class UnicodeEscaper protected (val below: Int, val above: Int, val between: Boolean)
 
 /**
   * <p>Constructs a {@code UnicodeEscaper} for the specified range. This is
@@ -89,8 +89,9 @@ import java.io.Writer
     */
   @throws[IOException]
   override def translate(codepoint: Int, out: Writer): Boolean = {
-    if (between) if (codepoint < below || codepoint > above) return false
-    else if (codepoint >= below && codepoint <= above) return false
+    if (between)
+      if (codepoint < below || codepoint > above) return false
+      else if (codepoint >= below && codepoint <= above) return false
     // TODO: Handle potential + sign per various Unicode escape implementations
     if (codepoint > 0xffff) out.write(toUtf16Escape(codepoint))
     else {

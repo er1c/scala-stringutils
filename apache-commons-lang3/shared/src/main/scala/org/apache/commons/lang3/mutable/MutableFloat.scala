@@ -342,8 +342,9 @@ class MutableJavaFloat()
     * @return {@code true} if the objects are the same; {@code false} otherwise.
     * @see java.lang.JavaFloat#floatToIntBits(float)
     */
-  override def equals(obj: Any): Boolean = obj.isInstanceOf[MutableJavaFloat] &&
-    JavaFloat.floatToIntBits(obj.asInstanceOf[MutableJavaFloat].value) == JavaFloat.floatToIntBits(value)
+  override def equals(obj: Any): Boolean =
+    obj.isInstanceOf[MutableJavaFloat] &&
+      JavaFloat.floatToIntBits(obj.asInstanceOf[MutableJavaFloat].value) == JavaFloat.floatToIntBits(value)
 
   /**
     * Returns a suitable hash code for this mutable.

@@ -27,6 +27,6 @@ import java.lang.annotation.{Annotation, ElementType, Retention, RetentionPolicy
   */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(Array(ElementType.FIELD))
-class ToStringExclude extends Annotation  {
+class ToStringExclude extends Annotation {
   override def annotationType: Class[_ <: java.lang.annotation.Annotation] = classOf[ToStringExclude]
 }

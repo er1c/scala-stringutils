@@ -33,7 +33,8 @@ import java.util.Locale
   *             CharSequenceTranslator</a> instead
   */
 @deprecated object CharSequenceTranslator {
-  private[translate] val HEX_DIGITS = Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
+  private[translate] val HEX_DIGITS =
+    Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
 
   /**
     * <p>Returns an upper case hexadecimal {@code String} for the given
@@ -131,6 +132,6 @@ import java.util.Locale
     val newArray = new Array[CharSequenceTranslator](translators.length + 1)
     newArray(0) = this
     System.arraycopy(translators, 0, newArray, 1, translators.length)
-    new AggregateTranslator(newArray:_*)
+    new AggregateTranslator(newArray: _*)
   }
 }

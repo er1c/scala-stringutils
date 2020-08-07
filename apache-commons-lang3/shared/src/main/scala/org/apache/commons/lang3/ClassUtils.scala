@@ -22,7 +22,14 @@ import java.lang.reflect.Modifier
 import java.util
 import java.util.Collections
 import org.apache.commons.lang3.mutable.MutableObject
-import java.lang.{Boolean => JavaBoolean, Byte => JavaByte, Double => JavaDouble, Float => JavaFloat, Long => JavaLong, Short => JavaShort}
+import java.lang.{
+  Boolean => JavaBoolean,
+  Byte => JavaByte,
+  Double => JavaDouble,
+  Float => JavaFloat,
+  Long => JavaLong,
+  Short => JavaShort
+}
 import scala.collection.JavaConverters._
 
 /**
@@ -48,11 +55,9 @@ object ClassUtils {
   object Interfaces extends Enumeration {
     type Interfaces = Value
     val
-      /** Includes interfaces. */
-      INCLUDE,
-
-      /** Excludes interfaces. */
-      EXCLUDE = Value
+    /** Includes interfaces. */
+    INCLUDE, /** Excludes interfaces. */
+    EXCLUDE = Value
   }
 
   /**
@@ -76,14 +81,14 @@ object ClassUtils {
     */
   private val namePrimitiveMap: Map[String, Class[_]] = Map(
     "boolean" -> JavaBoolean.TYPE,
-    "byte"    -> JavaByte.TYPE,
-    "char"    -> Character.TYPE,
-    "short"   -> JavaShort.TYPE,
-    "int"     -> Integer.TYPE,
-    "long"    -> JavaLong.TYPE,
-    "double"  -> JavaDouble.TYPE,
-    "float"   -> JavaFloat.TYPE,
-    "void"    -> Void.TYPE
+    "byte" -> JavaByte.TYPE,
+    "char" -> Character.TYPE,
+    "short" -> JavaShort.TYPE,
+    "int" -> Integer.TYPE,
+    "long" -> JavaLong.TYPE,
+    "double" -> JavaDouble.TYPE,
+    "float" -> JavaFloat.TYPE,
+    "void" -> Void.TYPE
   )
 
   /**
@@ -91,14 +96,14 @@ object ClassUtils {
     */
   private val primitiveWrapperMap: Map[Class[_], Class[_]] = Map(
     JavaBoolean.TYPE -> classOf[Boolean],
-    JavaByte.TYPE    -> classOf[Byte],
-    Character.TYPE   -> classOf[Character],
-    JavaShort.TYPE   -> classOf[Short],
-    Integer.TYPE     -> classOf[Integer],
-    JavaLong.TYPE    -> classOf[Long],
-    JavaDouble.TYPE  -> classOf[Double],
-    JavaFloat.TYPE   -> classOf[Float],
-    Void.TYPE        -> Void.TYPE
+    JavaByte.TYPE -> classOf[Byte],
+    Character.TYPE -> classOf[Character],
+    JavaShort.TYPE -> classOf[Short],
+    Integer.TYPE -> classOf[Integer],
+    JavaLong.TYPE -> classOf[Long],
+    JavaDouble.TYPE -> classOf[Double],
+    JavaFloat.TYPE -> classOf[Float],
+    Void.TYPE -> Void.TYPE
   )
 
   /**
@@ -108,7 +113,7 @@ object ClassUtils {
     //???
     Map.empty
   }
-/*
+  /*
     private static final Map<Class<?>, Class<?>> wrapperPrimitiveMap = new HashMap<>();
     static {
         for (final Map.Entry<Class<?>, Class<?>> entry : primitiveWrapperMap.entrySet()) {
@@ -119,26 +124,26 @@ object ClassUtils {
             }
         }
     }
- */
+   */
 
   /**
     * Maps a primitive class name to its corresponding abbreviation used in array class names.
     */
   private val abbreviationMap: Map[String, String] = Map(
-    "int"     -> "I",
+    "int" -> "I",
     "boolean" -> "Z",
-    "float"   -> "F",
-    "long"    -> "J",
-    "short"   -> "S",
-    "byte"    -> "B",
-    "double"  -> "D",
-    "char"    -> "C"
+    "float" -> "F",
+    "long" -> "J",
+    "short" -> "S",
+    "byte" -> "B",
+    "double" -> "D",
+    "char" -> "C"
   )
 
   /**
     * Maps an abbreviation used in array class names to corresponding primitive class name.
     */
-  private val reverseAbbreviationMap: Map[String, String] = abbreviationMap.map{ v => v._2 -> v._1 }
+  private val reverseAbbreviationMap: Map[String, String] = abbreviationMap.map { v => v._2 -> v._1 }
 
   /**
     * <p>Gets the class name of the {@code object} without the package name or names.</p>
@@ -218,10 +223,10 @@ object ClassUtils {
         _className = reverseAbbreviationMap(_className)
     }
     val lastDotIdx = _className.lastIndexOf(PACKAGE_SEPARATOR_CHAR.toInt)
-    val innerIdx = _className.indexOf(INNER_CLASS_SEPARATOR_CHAR.toInt,
+    val innerIdx = _className.indexOf(
+      INNER_CLASS_SEPARATOR_CHAR.toInt,
       if (lastDotIdx == -1) 0
-      else lastDotIdx + 1
-    )
+      else lastDotIdx + 1)
     var out = _className.substring(lastDotIdx + 1)
     if (innerIdx != -1) out = out.replace(INNER_CLASS_SEPARATOR_CHAR, PACKAGE_SEPARATOR_CHAR)
     out + arrayPrefix
@@ -247,8 +252,9 @@ object ClassUtils {
     * @since 3.0
     * @see Class#getSimpleName()
     */
-  def getSimpleName(cls: Class[_], valueIfNull: String): String = if (cls == null) valueIfNull
-  else cls.getSimpleName
+  def getSimpleName(cls: Class[_], valueIfNull: String): String =
+    if (cls == null) valueIfNull
+    else cls.getSimpleName
 
   /**
     * <p>Null-safe version of {@code object.getClass().getSimpleName()}</p>
@@ -276,8 +282,9 @@ object ClassUtils {
     * @since 3.0
     * @see Class#getSimpleName()
     */
-  def getSimpleName(`object`: Any, valueIfNull: String): String = if (`object` == null) valueIfNull
-  else `object`.getClass.getSimpleName
+  def getSimpleName(`object`: Any, valueIfNull: String): String =
+    if (`object` == null) valueIfNull
+    else `object`.getClass.getSimpleName
 
   /**
     * <p>Null-safe version of {@code cls.getName()}</p>
@@ -298,8 +305,9 @@ object ClassUtils {
     * @since 3.7
     * @see Class#getName()
     */
-  def getName(cls: Class[_], valueIfNull: String): String = if (cls == null) valueIfNull
-  else cls.getName
+  def getName(cls: Class[_], valueIfNull: String): String =
+    if (cls == null) valueIfNull
+    else cls.getName
 
   /**
     * <p>Null-safe version of {@code object.getClass().getName()}</p>
@@ -320,8 +328,9 @@ object ClassUtils {
     * @since 3.0
     * @see Class#getName()
     */
-  def getName(`object`: Any, valueIfNull: String): String = if (`object` == null) valueIfNull
-  else `object`.getClass.getName
+  def getName(`object`: Any, valueIfNull: String): String =
+    if (`object` == null) valueIfNull
+    else `object`.getClass.getName
 
   /**
     * <p>Gets the package name of an {@code Object}.</p>
@@ -434,16 +443,15 @@ object ClassUtils {
     while (source < abbreviated.length) { // copy the next part
       var runAheadTarget = target
       while (source < abbreviated.length && abbreviated(source) != '.') {
-        abbreviated({runAheadTarget += 1; runAheadTarget - 1}) =
-          abbreviated({source += 1; source - 1})
+        abbreviated({ runAheadTarget += 1; runAheadTarget - 1 }) = abbreviated({ source += 1; source - 1 })
       }
 
       target += 1
-      if (useFull(runAheadTarget, source, abbreviated.length, lengthHint) || target > runAheadTarget) target = runAheadTarget
+      if (useFull(runAheadTarget, source, abbreviated.length, lengthHint) || target > runAheadTarget)
+        target = runAheadTarget
       // copy the '.' unless it was the last part
       if (source < abbreviated.length)
-        abbreviated({target += 1; target - 1}) =
-          abbreviated({source += 1; source - 1})
+        abbreviated({ target += 1; target - 1 }) = abbreviated({ source += 1; source - 1 })
     }
 
     new String(abbreviated, 0, target)
@@ -456,7 +464,7 @@ object ClassUtils {
     * is the simple name of the class. In this case the {@code source}
     * index, from where the characters are copied points one position
     * after the last character, a.k.a. {@code source ==
-     * originalLength}</p>
+    * originalLength}</p>
     *
     * <p>If the part is not the last one then it can be kept
     * unabridged if the number of the characters copied so far plus
@@ -788,14 +796,18 @@ object ClassUtils {
 
     if (_cls.isPrimitive) {
       if (!toClass.isPrimitive) return false
-      if (Integer.TYPE == _cls) return JavaLong.TYPE == toClass || JavaFloat.TYPE == toClass || JavaDouble.TYPE == toClass
+      if (Integer.TYPE == _cls)
+        return JavaLong.TYPE == toClass || JavaFloat.TYPE == toClass || JavaDouble.TYPE == toClass
       if (JavaLong.TYPE == _cls) return JavaFloat.TYPE == toClass || JavaDouble.TYPE == toClass
       if (JavaBoolean.TYPE == _cls) return false
       if (JavaDouble.TYPE == _cls) return false
       if (JavaFloat.TYPE == _cls) return JavaDouble.TYPE == toClass
-      if (Character.TYPE == _cls) return Integer.TYPE == toClass || JavaLong.TYPE == toClass || JavaFloat.TYPE == toClass || JavaDouble.TYPE == toClass
-      if (JavaShort.TYPE == _cls) return Integer.TYPE == toClass || JavaLong.TYPE == toClass || JavaFloat.TYPE == toClass || JavaDouble.TYPE == toClass
-      if (JavaByte.TYPE == _cls) return JavaShort.TYPE == toClass || Integer.TYPE == toClass || JavaLong.TYPE == toClass || JavaFloat.TYPE == toClass || JavaDouble.TYPE == toClass
+      if (Character.TYPE == _cls)
+        return Integer.TYPE == toClass || JavaLong.TYPE == toClass || JavaFloat.TYPE == toClass || JavaDouble.TYPE == toClass
+      if (JavaShort.TYPE == _cls)
+        return Integer.TYPE == toClass || JavaLong.TYPE == toClass || JavaFloat.TYPE == toClass || JavaDouble.TYPE == toClass
+      if (JavaByte.TYPE == _cls)
+        return JavaShort.TYPE == toClass || Integer.TYPE == toClass || JavaLong.TYPE == toClass || JavaFloat.TYPE == toClass || JavaDouble.TYPE == toClass
       // should never get here
       return false
     }
@@ -907,23 +919,27 @@ object ClassUtils {
     * @throws ClassNotFoundException if the class is not found
     */
   @throws[ClassNotFoundException]
-  def getClass(classLoader: ClassLoader, className: String, initialize: Boolean): Class[_] = try {
-    var clazz: Class[_] = null
-    if (namePrimitiveMap.contains(className)) clazz = namePrimitiveMap(className)
-    else clazz = Class.forName(toCanonicalName(className), initialize, classLoader)
-    clazz
-  } catch {
-    case ex: ClassNotFoundException =>
-      // allow path separators (.) as inner class name separators
-      val lastDotIndex = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR.toInt)
-      if (lastDotIndex != -1) try {
-        return getClass(classLoader, className.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR_CHAR + className.substring(lastDotIndex + 1), initialize)
-      } catch {
-        case _: ClassNotFoundException => // NOPMD
-        // ignore exception
-      }
-      throw ex
-  }
+  def getClass(classLoader: ClassLoader, className: String, initialize: Boolean): Class[_] =
+    try {
+      var clazz: Class[_] = null
+      if (namePrimitiveMap.contains(className)) clazz = namePrimitiveMap(className)
+      else clazz = Class.forName(toCanonicalName(className), initialize, classLoader)
+      clazz
+    } catch {
+      case ex: ClassNotFoundException =>
+        // allow path separators (.) as inner class name separators
+        val lastDotIndex = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR.toInt)
+        if (lastDotIndex != -1) try {
+          return getClass(
+            classLoader,
+            className.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR_CHAR + className.substring(lastDotIndex + 1),
+            initialize)
+        } catch {
+          case _: ClassNotFoundException => // NOPMD
+          // ignore exception
+        }
+        throw ex
+    }
 
   /**
     * Returns the (initialized) class represented by {@code className}
@@ -1000,18 +1016,18 @@ object ClassUtils {
     */
   @throws[NoSuchMethodException]
   def getPublicMethod(cls: Class[_], methodName: String, parameterTypes: Class[_]*): Method = {
-    val declaredMethod = cls.getMethod(methodName, parameterTypes:_*)
+    val declaredMethod = cls.getMethod(methodName, parameterTypes: _*)
     if (Modifier.isPublic(declaredMethod.getDeclaringClass.getModifiers)) return declaredMethod
     val candidateClasses = new util.ArrayList[Class[_]]()
     candidateClasses.addAll(getAllInterfaces(cls))
     candidateClasses.addAll(getAllSuperclasses(cls))
 
-    candidateClasses.iterator.asScala.filter{ cls: Class[_] =>
+    candidateClasses.iterator.asScala.filter { cls: Class[_] =>
       Modifier.isPublic(cls.getModifiers)
     }.foreach { cls: Class[_] =>
       var candidateMethod: Method = null
       try {
-        candidateMethod = cls.getMethod(methodName, parameterTypes:_*)
+        candidateMethod = cls.getMethod(methodName, parameterTypes: _*)
       } catch {
         case _: NoSuchMethodException =>
       }
@@ -1019,7 +1035,8 @@ object ClassUtils {
         return candidateMethod
     }
 
-    throw new NoSuchMethodException("Can't find a public method for " + methodName + " " + ArrayUtils.toString(parameterTypes.toArray))
+    throw new NoSuchMethodException(
+      "Can't find a public method for " + methodName + " " + ArrayUtils.toString(parameterTypes.toArray))
   }
 
   /**

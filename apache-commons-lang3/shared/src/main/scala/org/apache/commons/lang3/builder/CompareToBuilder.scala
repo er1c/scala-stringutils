@@ -149,7 +149,8 @@ object CompareToBuilder {
     * @throws ClassCastException   if {@code rhs} is not assignment-compatible
     *                              with {@code lhs}
     */
-  def reflectionCompare(lhs: Any, rhs: Any, compareTransients: Boolean): Int = reflectionCompare(lhs, rhs, compareTransients, null)
+  def reflectionCompare(lhs: Any, rhs: Any, compareTransients: Boolean): Int =
+    reflectionCompare(lhs, rhs, compareTransients, null)
 
   /**
     * <p>Compares two {@code Object}s via reflection.</p>
@@ -181,7 +182,7 @@ object CompareToBuilder {
     * @since 2.2
     */
   def reflectionCompare(lhs: Any, rhs: Any, excludeFields: util.Collection[String]): Int =
-    reflectionCompare(lhs, rhs, ReflectionToStringBuilder.toNoNullStringArray(excludeFields):_*)
+    reflectionCompare(lhs, rhs, ReflectionToStringBuilder.toNoNullStringArray(excludeFields): _*)
 
   /**
     * <p>Compares two {@code Object}s via reflection.</p>
@@ -213,7 +214,7 @@ object CompareToBuilder {
     * @since 2.2
     */
   def reflectionCompare(lhs: Any, rhs: Any, excludeFields: String*): Int =
-    reflectionCompare(lhs, rhs, false, null, excludeFields:_*)
+    reflectionCompare(lhs, rhs, false, null, excludeFields: _*)
 
   /**
     * <p>Compares two {@code Object}s via reflection.</p>
@@ -247,9 +248,14 @@ object CompareToBuilder {
     *                              with {@code lhs}
     * @since 2.2 (2.0 as {@code reflectionCompare(Object, Object, boolean, Class)})
     */
-  def reflectionCompare(lhs: Any, rhs: Any, compareTransients: Boolean, reflectUpToClass: Class[_], excludeFields: String*): Int = {
+  def reflectionCompare(
+    lhs: Any,
+    rhs: Any,
+    compareTransients: Boolean,
+    reflectUpToClass: Class[_],
+    excludeFields: String*): Int = {
     //if (lhs eq rhs) return 0
-    assert(false,"unimplemented")
+    assert(false, "unimplemented")
     Objects.requireNonNull(lhs, "lhs")
     Objects.requireNonNull(rhs, "rhs")
     var lhsClazz = lhs.getClass
@@ -257,7 +263,7 @@ object CompareToBuilder {
     val compareToBuilder = new CompareToBuilder
     reflectionAppend(lhs, rhs, lhsClazz, compareToBuilder, compareTransients, excludeFields.toArray)
 
-    while(lhsClazz.getSuperclass != null && (lhsClazz ne reflectUpToClass)) {
+    while (lhsClazz.getSuperclass != null && (lhsClazz ne reflectUpToClass)) {
       lhsClazz = lhsClazz.getSuperclass
       reflectionAppend(lhs, rhs, lhsClazz, compareToBuilder, compareTransients, excludeFields.toArray)
     }
@@ -275,20 +281,25 @@ object CompareToBuilder {
     * @param useTransients whether to compare transient fields
     * @param excludeFields fields to exclude
     */
-  private def reflectionAppend(lhs: Any, rhs: Any, clazz: Class[_], builder: CompareToBuilder, useTransients: Boolean, excludeFields: Array[String]): Unit = {
+  private def reflectionAppend(
+    lhs: Any,
+    rhs: Any,
+    clazz: Class[_],
+    builder: CompareToBuilder,
+    useTransients: Boolean,
+    excludeFields: Array[String]): Unit = {
     val fields = clazz.getDeclaredFields
     fields.foreach { _.setAccessible(true) }
 
     var i = 0
-    while ( {
+    while ({
       i < fields.length && builder.comparison == 0
     }) {
       val f = fields(i)
       if (!ArrayUtils.contains(excludeFields, f.getName) &&
-          !f.getName.contains("$") &&
-          (useTransients || !Modifier.isTransient(f.getModifiers)) &&
-          !Modifier.isStatic(f.getModifiers)
-      ) try {
+        !f.getName.contains("$") &&
+        (useTransients || !Modifier.isTransient(f.getModifiers)) &&
+        !Modifier.isStatic(f.getModifiers)) try {
         builder.append(f.get(lhs), f.get(rhs))
       } catch {
         case _: IllegalAccessException =>
@@ -384,7 +395,8 @@ class CompareToBuilder()
     (lhs, rhs) match {
       case (null, _) => comparison = -1; return this
       case (_, null) => comparison = 1; return this
-      case (l: AnyRef, _) if l.getClass.isArray => appendArray(lhs, rhs, comparator) // factor out array case in order to keep method small enough to be inlined
+      case (l: AnyRef, _) if l.getClass.isArray =>
+        appendArray(lhs, rhs, comparator) // factor out array case in order to keep method small enough to be inlined
       case (l: AnyRef, r: AnyRef) =>
         if (l eq r) return this
 
@@ -392,8 +404,7 @@ class CompareToBuilder()
           @SuppressWarnings(Array("unchecked")) // assume this can be done; if not throw CCE as per Javadoc
           val comparable: Comparable[AnyRef] = lhs.asInstanceOf[Comparable[AnyRef]]
           comparison = comparable.compareTo(r)
-        }
-        else {
+        } else {
           @SuppressWarnings(Array("unchecked")) val comparator2 = comparator.asInstanceOf[Comparator[AnyRef]]
           comparison = comparator2.compare(l, r)
         }
@@ -412,7 +423,8 @@ class CompareToBuilder()
     else if (lhs.isInstanceOf[Array[Byte]]) append(lhs.asInstanceOf[Array[Byte]], rhs.asInstanceOf[Array[Byte]])
     else if (lhs.isInstanceOf[Array[Double]]) append(lhs.asInstanceOf[Array[Double]], rhs.asInstanceOf[Array[Double]])
     else if (lhs.isInstanceOf[Array[Float]]) append(lhs.asInstanceOf[Array[Float]], rhs.asInstanceOf[Array[Float]])
-    else if (lhs.isInstanceOf[Array[Boolean]]) append(lhs.asInstanceOf[Array[Boolean]], rhs.asInstanceOf[Array[Boolean]])
+    else if (lhs.isInstanceOf[Array[Boolean]])
+      append(lhs.asInstanceOf[Array[Boolean]], rhs.asInstanceOf[Array[Boolean]])
     else { // not an array of primitives
       // throws a ClassCastException if rhs is not an array
       append(lhs.asInstanceOf[Array[AnyRef]], rhs.asInstanceOf[Array[AnyRef]], comparator)
@@ -601,12 +613,13 @@ class CompareToBuilder()
       return this
     }
     if (lhs.length != rhs.length) {
-      comparison = if (lhs.length < rhs.length) -1
-      else 1
+      comparison =
+        if (lhs.length < rhs.length) -1
+        else 1
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && comparison == 0
     }) {
       append(lhs(i), rhs(i), comparator)
@@ -643,12 +656,13 @@ class CompareToBuilder()
       return this
     }
     if (lhs.length != rhs.length) {
-      comparison = if (lhs.length < rhs.length) -1
-      else 1
+      comparison =
+        if (lhs.length < rhs.length) -1
+        else 1
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && comparison == 0
     }) {
       append(lhs(i), rhs(i))
@@ -685,12 +699,13 @@ class CompareToBuilder()
       return this
     }
     if (lhs.length != rhs.length) {
-      comparison = if (lhs.length < rhs.length) -1
-      else 1
+      comparison =
+        if (lhs.length < rhs.length) -1
+        else 1
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && comparison == 0
     }) {
       append(lhs(i), rhs(i))
@@ -727,12 +742,13 @@ class CompareToBuilder()
       return this
     }
     if (lhs.length != rhs.length) {
-      comparison = if (lhs.length < rhs.length) -1
-      else 1
+      comparison =
+        if (lhs.length < rhs.length) -1
+        else 1
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && comparison == 0
     }) {
       append(lhs(i), rhs(i))
@@ -769,12 +785,13 @@ class CompareToBuilder()
       return this
     }
     if (lhs.length != rhs.length) {
-      comparison = if (lhs.length < rhs.length) -1
-      else 1
+      comparison =
+        if (lhs.length < rhs.length) -1
+        else 1
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && comparison == 0
     }) {
       append(lhs(i), rhs(i))
@@ -811,12 +828,13 @@ class CompareToBuilder()
       return this
     }
     if (lhs.length != rhs.length) {
-      comparison = if (lhs.length < rhs.length) -1
-      else 1
+      comparison =
+        if (lhs.length < rhs.length) -1
+        else 1
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && comparison == 0
     }) {
       append(lhs(i), rhs(i))
@@ -853,12 +871,13 @@ class CompareToBuilder()
       return this
     }
     if (lhs.length != rhs.length) {
-      comparison = if (lhs.length < rhs.length) -1
-      else 1
+      comparison =
+        if (lhs.length < rhs.length) -1
+        else 1
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && comparison == 0
     }) {
       append(lhs(i), rhs(i))
@@ -895,12 +914,13 @@ class CompareToBuilder()
       return this
     }
     if (lhs.length != rhs.length) {
-      comparison = if (lhs.length < rhs.length) -1
-      else 1
+      comparison =
+        if (lhs.length < rhs.length) -1
+        else 1
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && comparison == 0
     }) {
       append(lhs(i), rhs(i))
@@ -937,12 +957,13 @@ class CompareToBuilder()
       return this
     }
     if (lhs.length != rhs.length) {
-      comparison = if (lhs.length < rhs.length) -1
-      else 1
+      comparison =
+        if (lhs.length < rhs.length) -1
+        else 1
       return this
     }
     var i = 0
-    while ( {
+    while ({
       i < lhs.length && comparison == 0
     }) {
       append(lhs(i), rhs(i))

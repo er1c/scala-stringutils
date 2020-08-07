@@ -295,8 +295,9 @@ object NumberUtils {
     *         defaultValue if the {@code BigDecimal} is {@code null}.
     * @since 3.8
     */
-  def toDouble(value: BigDecimal, defaultValue: Double): Double = if (value == null) defaultValue
-  else value.doubleValue
+  def toDouble(value: BigDecimal, defaultValue: Double): Double =
+    if (value == null) defaultValue
+    else value.doubleValue
 
   /**
     * <p>Convert a {@code String} to a {@code byte}, returning
@@ -414,10 +415,10 @@ object NumberUtils {
     */
   def toScaledBigDecimal(value: BigDecimal, scale: Int, roundingMode: RoundingMode): BigDecimal = {
     if (value == null) return BigDecimal.ZERO
-    value.setScale(scale,
+    value.setScale(
+      scale,
       if (roundingMode == null) RoundingMode.HALF_EVEN
-      else roundingMode
-    )
+      else roundingMode)
   }
 
   /**
@@ -599,16 +600,13 @@ object NumberUtils {
           throw new NumberFormatException(str + " is not a valid number.")
         }
         dec = str.substring(decPos + 1, expPos)
-      }
-      else dec = str.substring(decPos + 1)
+      } else dec = str.substring(decPos + 1)
       mant = getMantissa(str, decPos)
-    }
-    else {
+    } else {
       if (expPos > -1) {
         if (expPos > length) throw new NumberFormatException(str + " is not a valid number.")
         mant = getMantissa(str, expPos)
-      }
-      else mant = getMantissa(str)
+      } else mant = getMantissa(str)
       dec = null
     }
     if (!Character.isDigit(lastChar) && lastChar != '.') {
@@ -620,11 +618,11 @@ object NumberUtils {
       lastChar match {
         case 'l' =>
         case 'L' =>
-          if (dec == null && exp == null && (!numeric.isEmpty && numeric.charAt(0) == '-' && isDigits(numeric.substring(1)) || isDigits(numeric))) {
+          if (dec == null && exp == null && (!numeric.isEmpty && numeric.charAt(0) == '-' && isDigits(
+              numeric.substring(1)) || isDigits(numeric))) {
             try return createLong(numeric)
             catch {
               case _: NumberFormatException =>
-
               // NOPMD
               // Too big for a long
             }
@@ -635,13 +633,12 @@ object NumberUtils {
         case 'F' =>
           try {
             val f = createFloat(str)
-            if (!(f.isInfinite || f.floatValue == 0.0F && !(allZeros))) { //If it's too big for a float or the float value = 0 and the string
+            if (!(f.isInfinite || f.floatValue == 0.0f && !(allZeros))) { //If it's too big for a float or the float value = 0 and the string
               //has non-zeros in it, then float does not have the precision we want
               return f
             }
           } catch {
             case _: NumberFormatException =>
-
             // ignore the bad number
           }
         //$FALL-THROUGH$
@@ -649,15 +646,13 @@ object NumberUtils {
         case 'D' =>
           try {
             val d = createDouble(str)
-            if (!(d.isInfinite || d.floatValue == 0.0D && !(allZeros))) return d
+            if (!(d.isInfinite || d.floatValue == 0.0d && !(allZeros))) return d
           } catch {
             case _: NumberFormatException =>
-
           }
           try return createBigDecimal(numeric)
           catch {
             case _: NumberFormatException =>
-
           }
         case _ =>
           throw new NumberFormatException(str + " is not a valid number.")
@@ -673,13 +668,11 @@ object NumberUtils {
         return createInteger(str)
       } catch {
         case _: NumberFormatException =>
-
       }
       try {
         return createLong(str)
       } catch {
         case _: NumberFormatException =>
-
       }
       return createBigInteger(str)
     }
@@ -688,15 +681,14 @@ object NumberUtils {
     try {
       val f = createFloat(str)
       val d = createDouble(str)
-      if (!f.isInfinite && !(f.floatValue == 0.0F && !(allZeros)) && f.toString == d.toString) return f
-      if (!d.isInfinite && !(d.doubleValue == 0.0D && !(allZeros))) {
+      if (!f.isInfinite && !(f.floatValue == 0.0f && !(allZeros)) && f.toString == d.toString) return f
+      if (!d.isInfinite && !(d.doubleValue == 0.0d && !(allZeros))) {
         val b = createBigDecimal(str)
         if (b.compareTo(BigDecimal.valueOf(d.doubleValue)) == 0) return d
         return b
       }
     } catch {
       case _: NumberFormatException =>
-
     }
     createBigDecimal(str)
   }
@@ -1080,7 +1072,7 @@ object NumberUtils {
     validateArray(array)
     var max = array(0)
     for (j <- 1 until array.length) {
-      if (Float.NaN ==  array(j)) return Float.NaN
+      if (Float.NaN == array(j)) return Float.NaN
       if (array(j) > max) max = array(j)
     }
     max
@@ -1343,27 +1335,29 @@ object NumberUtils {
     var allowSigns = false
     var foundDigit = false
     // deal with any possible sign up front
-    val start = if (chars(0) == '-' || chars(0) == '+') 1
-    else 0
-    if (sz > start + 1 && chars(start) == '0' && !StringUtils.contains(str, '.')) { // leading 0, skip if is a decimal number
+    val start =
+      if (chars(0) == '-' || chars(0) == '+') 1
+      else 0
+    if (sz > start + 1 && chars(start) == '0' && !StringUtils
+        .contains(str, '.')) { // leading 0, skip if is a decimal number
       if (chars(start + 1) == 'x' || chars(start + 1) == 'X') { // leading 0x/0X
         var i = start + 2
         if (i == sz) return false // str == "0x"
         // checking hex (it can't be anything else)
 
-        while ( {
+        while ({
           i < chars.length
         }) {
-          if ((chars(i) < '0' || chars(i) > '9') && (chars(i) < 'a' || chars(i) > 'f') && (chars(i) < 'A' || chars(i) > 'F')) return false
+          if ((chars(i) < '0' || chars(i) > '9') && (chars(i) < 'a' || chars(i) > 'f') && (chars(i) < 'A' || chars(
+              i) > 'F')) return false
 
           i += 1
         }
         return true
-      }
-      else if (Character.isDigit(chars(start + 1))) { // leading 0, but not hex, must be octal
+      } else if (Character.isDigit(chars(start + 1))) { // leading 0, but not hex, must be octal
         var i = start + 1
 
-        while ( {
+        while ({
           i < chars.length
         }) {
           if (chars(i) < '0' || chars(i) > '7') return false
@@ -1379,34 +1373,30 @@ object NumberUtils {
     var i = start
     // loop to the next to last char or to the last char if we need another digit to
     // make a valid number (e.g. chars[0..5] = "1234E")
-    while ( {
+    while ({
       i < sz || i < sz + 1 && allowSigns && !foundDigit
     }) {
       if (chars(i) >= '0' && chars(i) <= '9') {
         foundDigit = true
         allowSigns = false
-      }
-      else if (chars(i) == '.') {
+      } else if (chars(i) == '.') {
         if (hasDecPoint || hasExp) { // two decimal points or dec in exponent
           return false
         }
         hasDecPoint = true
-      }
-      else if (chars(i) == 'e' || chars(i) == 'E') { // we've already taken care of hex.
+      } else if (chars(i) == 'e' || chars(i) == 'E') { // we've already taken care of hex.
         if (hasExp) { // two E's
           return false
         }
         if (!foundDigit) return false
         hasExp = true
         allowSigns = true
-      }
-      else if (chars(i) == '+' || chars(i) == '-') {
+      } else if (chars(i) == '+' || chars(i) == '-') {
         if (!allowSigns) return false
         allowSigns = false
         foundDigit = false // we need a digit after the E
 
-      }
-      else return false
+      } else return false
       i += 1
     }
     if (i < chars.length) {

@@ -22,7 +22,7 @@ import java.lang.{Boolean => JavaBoolean}
 import java.io.Serializable
 import java.util
 import java.util.Objects
-import org.apache.commons.lang3.{ClassUtils, ObjectUtils, StringEscapeUtils, StringUtils, void}
+import org.apache.commons.lang3.{void, ClassUtils, ObjectUtils, StringEscapeUtils, StringUtils}
 import scala.collection.JavaConverters._
 
 /**
@@ -225,7 +225,7 @@ object ToStringStyle {
     * {@code StandardToStringStyle} to ensure its immutability.</p>
     */
   @SerialVersionUID(1L)
-  final private class DefaultToStringStyle private[builder]()
+  final private class DefaultToStringStyle private[builder] ()
 
   /**
     * <p>Constructor.</p>
@@ -249,7 +249,7 @@ object ToStringStyle {
     * {@code StandardToStringStyle} to ensure its immutability.
     */
   @SerialVersionUID(1L)
-  final private class NoFieldNameToStringStyle private[builder]() extends ToStringStyle {
+  final private class NoFieldNameToStringStyle private[builder] () extends ToStringStyle {
     this.setUseFieldNames(false)
 
     private def readResolve = NO_FIELD_NAMES_STYLE
@@ -263,7 +263,7 @@ object ToStringStyle {
     * {@code StandardToStringStyle} to ensure its immutability.</p>
     */
   @SerialVersionUID(1L)
-  final private class ShortPrefixToStringStyle private[builder]() extends ToStringStyle {
+  final private class ShortPrefixToStringStyle private[builder] () extends ToStringStyle {
     this.setUseShortClassName(true)
     this.setUseIdentityHashCode(false)
 
@@ -283,7 +283,7 @@ object ToStringStyle {
     * {@code StandardToStringStyle} to ensure its immutability.</p>
     */
   @SerialVersionUID(1L)
-  final private class SimpleToStringStyle private[builder]() extends ToStringStyle {
+  final private class SimpleToStringStyle private[builder] () extends ToStringStyle {
     this.setUseClassName(false)
     this.setUseIdentityHashCode(false)
     this.setUseFieldNames(false)
@@ -300,7 +300,7 @@ object ToStringStyle {
     * {@code StandardToStringStyle} to ensure its immutability.</p>
     */
   @SerialVersionUID(1L)
-  final private class MultiLineToStringStyle private[builder]() extends ToStringStyle {
+  final private class MultiLineToStringStyle private[builder] () extends ToStringStyle {
     this.setContentStart("[")
     this.setFieldSeparator(System.lineSeparator + "  ")
     this.setFieldSeparatorAtStart(true)
@@ -317,7 +317,7 @@ object ToStringStyle {
     * {@code StandardToStringStyle} to ensure its immutability.</p>
     */
   @SerialVersionUID(1L)
-  final private class NoClassNameToStringStyle private[builder]() extends ToStringStyle {
+  final private class NoClassNameToStringStyle private[builder] () extends ToStringStyle {
     this.setUseClassName(false)
     this.setUseIdentityHashCode(false)
 
@@ -343,7 +343,7 @@ object ToStringStyle {
   }
 
   @SerialVersionUID(1L)
-  final private class JsonToStringStyle private[builder]()
+  final private class JsonToStringStyle private[builder] ()
 
   /**
     * <p>
@@ -370,62 +370,82 @@ object ToStringStyle {
     this.setSizeEndText(">\"")
 
     override def append(buffer: StringBuffer, fieldName: String, array: Array[AnyRef], fullDetail: Boolean): Unit = {
-      if (fieldName == null) throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
-      if (!isFullDetail(fullDetail)) throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
+      if (fieldName == null)
+        throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
+      if (!isFullDetail(fullDetail))
+        throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
       super.append(buffer, fieldName, array, fullDetail)
     }
 
     override def append(buffer: StringBuffer, fieldName: String, array: Array[Long], fullDetail: Boolean): Unit = {
-      if (fieldName == null) throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
-      if (!isFullDetail(fullDetail)) throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
+      if (fieldName == null)
+        throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
+      if (!isFullDetail(fullDetail))
+        throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
       super.append(buffer, fieldName, array, fullDetail)
     }
 
     override def append(buffer: StringBuffer, fieldName: String, array: Array[Int], fullDetail: Boolean): Unit = {
-      if (fieldName == null) throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
-      if (!isFullDetail(fullDetail)) throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
+      if (fieldName == null)
+        throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
+      if (!isFullDetail(fullDetail))
+        throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
       super.append(buffer, fieldName, array, fullDetail)
     }
 
     override def append(buffer: StringBuffer, fieldName: String, array: Array[Short], fullDetail: Boolean): Unit = {
-      if (fieldName == null) throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
-      if (!isFullDetail(fullDetail)) throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
+      if (fieldName == null)
+        throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
+      if (!isFullDetail(fullDetail))
+        throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
       super.append(buffer, fieldName, array, fullDetail)
     }
 
     override def append(buffer: StringBuffer, fieldName: String, array: Array[Byte], fullDetail: Boolean): Unit = {
-      if (fieldName == null) throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
-      if (!isFullDetail(fullDetail)) throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
+      if (fieldName == null)
+        throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
+      if (!isFullDetail(fullDetail))
+        throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
       super.append(buffer, fieldName, array, fullDetail)
     }
 
     override def append(buffer: StringBuffer, fieldName: String, array: Array[Char], fullDetail: Boolean): Unit = {
-      if (fieldName == null) throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
-      if (!isFullDetail(fullDetail)) throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
+      if (fieldName == null)
+        throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
+      if (!isFullDetail(fullDetail))
+        throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
       super.append(buffer, fieldName, array, fullDetail)
     }
 
     override def append(buffer: StringBuffer, fieldName: String, array: Array[Double], fullDetail: Boolean): Unit = {
-      if (fieldName == null) throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
-      if (!isFullDetail(fullDetail)) throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
+      if (fieldName == null)
+        throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
+      if (!isFullDetail(fullDetail))
+        throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
       super.append(buffer, fieldName, array, fullDetail)
     }
 
     override def append(buffer: StringBuffer, fieldName: String, array: Array[Float], fullDetail: Boolean): Unit = {
-      if (fieldName == null) throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
-      if (!isFullDetail(fullDetail)) throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
+      if (fieldName == null)
+        throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
+      if (!isFullDetail(fullDetail))
+        throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
       super.append(buffer, fieldName, array, fullDetail)
     }
 
     override def append(buffer: StringBuffer, fieldName: String, array: Array[Boolean], fullDetail: Boolean): Unit = {
-      if (fieldName == null) throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
-      if (!isFullDetail(fullDetail)) throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
+      if (fieldName == null)
+        throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
+      if (!isFullDetail(fullDetail))
+        throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
       super.append(buffer, fieldName, array, fullDetail)
     }
 
     override def append(buffer: StringBuffer, fieldName: String, value: Any, fullDetail: Boolean): Unit = {
-      if (fieldName == null) throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
-      if (!isFullDetail(fullDetail)) throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
+      if (fieldName == null)
+        throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
+      if (!isFullDetail(fullDetail))
+        throw new UnsupportedOperationException("FullDetail must be true when using JsonToStringStyle")
       super.append(buffer, fieldName, value, fullDetail)
     }
 
@@ -477,9 +497,11 @@ object ToStringStyle {
       ()
     }
 
-    private def isJsonArray(valueAsString: String) = valueAsString.startsWith(getArrayStart) && valueAsString.endsWith(getArrayEnd)
+    private def isJsonArray(valueAsString: String) =
+      valueAsString.startsWith(getArrayStart) && valueAsString.endsWith(getArrayEnd)
 
-    private def isJsonObject(valueAsString: String) = valueAsString.startsWith(getContentStart) && valueAsString.endsWith(getContentEnd)
+    private def isJsonObject(valueAsString: String) =
+      valueAsString.startsWith(getContentStart) && valueAsString.endsWith(getContentEnd)
 
     /**
       * Appends the given String enclosed in double-quotes to the given StringBuffer.
@@ -493,8 +515,12 @@ object ToStringStyle {
     }
 
     override protected def appendFieldStart(buffer: StringBuffer, fieldName: String): Unit = {
-      if (fieldName == null) throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
-      super.appendFieldStart(buffer, JsonToStringStyle.FIELD_NAME_QUOTE + StringEscapeUtils.escapeJson(fieldName) + JsonToStringStyle.FIELD_NAME_QUOTE)
+      if (fieldName == null)
+        throw new UnsupportedOperationException("Field names are mandatory when using JsonToStringStyle")
+      super.appendFieldStart(
+        buffer,
+        JsonToStringStyle.FIELD_NAME_QUOTE + StringEscapeUtils.escapeJson(
+          fieldName) + JsonToStringStyle.FIELD_NAME_QUOTE)
     }
 
     /**
@@ -511,7 +537,7 @@ object ToStringStyle {
 
 @SuppressWarnings(Array("deprecation"))
 @SerialVersionUID(-2587890625525655916L)
-abstract class ToStringStyle protected()
+abstract class ToStringStyle protected ()
 
 /**
   * <p>Constructor.</p>
@@ -711,33 +737,45 @@ abstract class ToStringStyle protected()
     * @param detail    output detail or not
     */
   protected def appendInternal(buffer: StringBuffer, fieldName: String, value: Any, detail: Boolean): Unit = {
-    if (ToStringStyle.isRegistered(value) && !(value.isInstanceOf[Number] || value.isInstanceOf[Boolean] || value.isInstanceOf[Character])) {
+    if (ToStringStyle.isRegistered(value) && !(value.isInstanceOf[Number] || value.isInstanceOf[Boolean] || value
+        .isInstanceOf[Character])) {
       appendCyclicObject(buffer, fieldName, value)
       return
     }
     ToStringStyle.register(value)
-    try if (value.isInstanceOf[util.Collection[_]]) if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[util.Collection[_]])
-    else appendSummarySize(buffer, fieldName, value.asInstanceOf[util.Collection[_]].size)
-    else if (value.isInstanceOf[util.Map[_, _]]) if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[util.Map[_, _]])
-    else appendSummarySize(buffer, fieldName, value.asInstanceOf[util.Map[_, _]].size)
-    else if (value.isInstanceOf[Array[Long]]) if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Long]])
-    else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Long]])
-    else if (value.isInstanceOf[Array[Int]]) if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Int]])
-    else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Int]])
-    else if (value.isInstanceOf[Array[Short]]) if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Short]])
-    else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Short]])
-    else if (value.isInstanceOf[Array[Byte]]) if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Byte]])
-    else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Byte]])
-    else if (value.isInstanceOf[Array[Char]]) if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Char]])
-    else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Char]])
-    else if (value.isInstanceOf[Array[Double]]) if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Double]])
-    else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Double]])
-    else if (value.isInstanceOf[Array[Float]]) if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Float]])
-    else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Float]])
-    else if (value.isInstanceOf[Array[Boolean]]) if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Boolean]])
-    else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Boolean]])
-    else if (value.getClass.isArray) if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[AnyRef]])
-    else appendSummary(buffer, fieldName, value.asInstanceOf[Array[AnyRef]])
+    try if (value.isInstanceOf[util.Collection[_]])
+      if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[util.Collection[_]])
+      else appendSummarySize(buffer, fieldName, value.asInstanceOf[util.Collection[_]].size)
+    else if (value.isInstanceOf[util.Map[_, _]])
+      if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[util.Map[_, _]])
+      else appendSummarySize(buffer, fieldName, value.asInstanceOf[util.Map[_, _]].size)
+    else if (value.isInstanceOf[Array[Long]])
+      if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Long]])
+      else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Long]])
+    else if (value.isInstanceOf[Array[Int]])
+      if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Int]])
+      else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Int]])
+    else if (value.isInstanceOf[Array[Short]])
+      if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Short]])
+      else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Short]])
+    else if (value.isInstanceOf[Array[Byte]])
+      if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Byte]])
+      else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Byte]])
+    else if (value.isInstanceOf[Array[Char]])
+      if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Char]])
+      else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Char]])
+    else if (value.isInstanceOf[Array[Double]])
+      if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Double]])
+      else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Double]])
+    else if (value.isInstanceOf[Array[Float]])
+      if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Float]])
+      else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Float]])
+    else if (value.isInstanceOf[Array[Boolean]])
+      if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[Boolean]])
+      else appendSummary(buffer, fieldName, value.asInstanceOf[Array[Boolean]])
+    else if (value.getClass.isArray)
+      if (detail) appendDetail(buffer, fieldName, value.asInstanceOf[Array[AnyRef]])
+      else appendSummary(buffer, fieldName, value.asInstanceOf[Array[AnyRef]])
     else if (detail) appendDetail(buffer, fieldName, value)
     else appendSummary(buffer, fieldName, value)
     finally ToStringStyle.unregister(value)
@@ -788,9 +826,12 @@ abstract class ToStringStyle protected()
       var i = 0
 
       for (item <- coll.asScala) {
-        appendDetail(buffer, fieldName, {
-          i += 1; i - 1
-        }, item)
+        appendDetail(
+          buffer,
+          fieldName, {
+            i += 1; i - 1
+          },
+          item)
       }
       buffer.append(arrayEnd)
       return
@@ -1081,7 +1122,8 @@ abstract class ToStringStyle protected()
     * @param array     the array to add to the {@code toString},
     *                  not {@code null}
     */
-  protected def appendDetail(buffer: StringBuffer, fieldName: String, array: Array[Any])(implicit d: DummyImplicit): Unit = {
+  protected def appendDetail(buffer: StringBuffer, fieldName: String, array: Array[Any])(implicit
+    d: DummyImplicit): Unit = {
     buffer.append(arrayStart)
 
     for (i <- 0 until array.length) {

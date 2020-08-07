@@ -79,8 +79,7 @@ class MutableObject[T <: AnyRef]()
     else if (this.getClass eq obj.getClass) {
       val that = obj.asInstanceOf[MutableObject[_]]
       this.value == that.value
-    }
-    else false
+    } else false
   }
 
   /**
@@ -88,14 +87,16 @@ class MutableObject[T <: AnyRef]()
     *
     * @return the value's hash code or {@code 0} if the value is {@code null}.
     */
-  override def hashCode: Int = if (value == null) 0
-  else value.hashCode
+  override def hashCode: Int =
+    if (value == null) 0
+    else value.hashCode
 
   /**
     * Returns the String value of this mutable.
     *
     * @return the mutable value as a string
     */
-  override def toString: String = if (value == null) "null"
-  else value.toString
+  override def toString: String =
+    if (value == null) "null"
+    else value.toString
 }

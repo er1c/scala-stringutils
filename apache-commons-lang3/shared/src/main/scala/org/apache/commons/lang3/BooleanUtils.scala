@@ -185,8 +185,9 @@ object BooleanUtils {
     * @return JavaBoolean.TRUE if non-zero, JavaBoolean.FALSE if zero,
     *         {@code null} if {@code null}
     */
-  def toJavaBooleanObject(value: Int): JavaBoolean = if (value == 0) JavaBoolean.FALSE
-  else JavaBoolean.TRUE
+  def toJavaBooleanObject(value: Int): JavaBoolean =
+    if (value == 0) JavaBoolean.FALSE
+    else JavaBoolean.TRUE
 
   /**
     * <p>Converts an Integer to a JavaBoolean using the convention that {@code zero}
@@ -261,8 +262,7 @@ object BooleanUtils {
     if (value == null) {
       if (trueValue == null) return true
       if (falseValue == null) return false
-    }
-    else if (value == trueValue) return true
+    } else if (value == trueValue) return true
     else if (value == falseValue) return false
     throw new IllegalArgumentException("The Integer did not match either specified value")
   }
@@ -329,8 +329,7 @@ object BooleanUtils {
       if (trueValue == null) return JavaBoolean.TRUE
       if (falseValue == null) return JavaBoolean.FALSE
       if (nullValue == null) return null
-    }
-    else if (value == trueValue) return JavaBoolean.TRUE
+    } else if (value == trueValue) return JavaBoolean.TRUE
     else if (value == falseValue) return JavaBoolean.FALSE
     else if (value == nullValue) return null
     throw new IllegalArgumentException("The Integer did not match any specified value")
@@ -348,8 +347,9 @@ object BooleanUtils {
     * @param bool the boolean to convert
     * @return one if {@code true}, zero if {@code false}
     */
-  def toInteger(bool: JavaBoolean): Int = if (bool) 1
-  else 0
+  def toInteger(bool: JavaBoolean): Int =
+    if (bool) 1
+    else 0
 
   /**
     * <p>Converts a boolean to an Integer using the convention that
@@ -400,8 +400,9 @@ object BooleanUtils {
     * @param falseValue the value to return if {@code false}
     * @return the appropriate value
     */
-  def toInteger(bool: JavaBoolean, trueValue: Int, falseValue: Int): Int = if (bool) trueValue
-  else falseValue
+  def toInteger(bool: JavaBoolean, trueValue: Int, falseValue: Int): Int =
+    if (bool) trueValue
+    else falseValue
 
   /**
     * <p>Converts a JavaBoolean to an int specifying the conversion values.</p>
@@ -513,29 +514,28 @@ object BooleanUtils {
         if (ch0 == 'y' || ch0 == 'Y' || ch0 == 't' || ch0 == 'T' || ch0 == '1') return JavaBoolean.TRUE
         if (ch0 == 'n' || ch0 == 'N' || ch0 == 'f' || ch0 == 'F' || ch0 == '0') return JavaBoolean.FALSE
 
-
       case 2 =>
         val ch0 = str.charAt(0)
         val ch1 = str.charAt(1)
         if ((ch0 == 'o' || ch0 == 'O') && (ch1 == 'n' || ch1 == 'N')) return JavaBoolean.TRUE
         if ((ch0 == 'n' || ch0 == 'N') && (ch1 == 'o' || ch1 == 'O')) return JavaBoolean.FALSE
 
-
       case 3 =>
         val ch0 = str.charAt(0)
         val ch1 = str.charAt(1)
         val ch2 = str.charAt(2)
-        if ((ch0 == 'y' || ch0 == 'Y') && (ch1 == 'e' || ch1 == 'E') && (ch2 == 's' || ch2 == 'S')) return JavaBoolean.TRUE
-        if ((ch0 == 'o' || ch0 == 'O') && (ch1 == 'f' || ch1 == 'F') && (ch2 == 'f' || ch2 == 'F')) return JavaBoolean.FALSE
-
+        if ((ch0 == 'y' || ch0 == 'Y') && (ch1 == 'e' || ch1 == 'E') && (ch2 == 's' || ch2 == 'S'))
+          return JavaBoolean.TRUE
+        if ((ch0 == 'o' || ch0 == 'O') && (ch1 == 'f' || ch1 == 'F') && (ch2 == 'f' || ch2 == 'F'))
+          return JavaBoolean.FALSE
 
       case 4 =>
         val ch0 = str.charAt(0)
         val ch1 = str.charAt(1)
         val ch2 = str.charAt(2)
         val ch3 = str.charAt(3)
-        if ((ch0 == 't' || ch0 == 'T') && (ch1 == 'r' || ch1 == 'R') && (ch2 == 'u' || ch2 == 'U') && (ch3 == 'e' || ch3 == 'E')) return JavaBoolean.TRUE
-
+        if ((ch0 == 't' || ch0 == 'T') && (ch1 == 'r' || ch1 == 'R') && (ch2 == 'u' || ch2 == 'U') && (ch3 == 'e' || ch3 == 'E'))
+          return JavaBoolean.TRUE
 
       case 5 =>
         val ch0 = str.charAt(0)
@@ -543,11 +543,10 @@ object BooleanUtils {
         val ch2 = str.charAt(2)
         val ch3 = str.charAt(3)
         val ch4 = str.charAt(4)
-        if ((ch0 == 'f' || ch0 == 'F') && (ch1 == 'a' || ch1 == 'A') && (ch2 == 'l' || ch2 == 'L') && (ch3 == 's' || ch3 == 'S') && (ch4 == 'e' || ch4 == 'E')) return JavaBoolean.FALSE
-
+        if ((ch0 == 'f' || ch0 == 'F') && (ch1 == 'a' || ch1 == 'A') && (ch2 == 'l' || ch2 == 'L') && (ch3 == 's' || ch3 == 'S') && (ch4 == 'e' || ch4 == 'E'))
+          return JavaBoolean.FALSE
 
       case _ =>
-
     }
     null
   }
@@ -583,8 +582,7 @@ object BooleanUtils {
       if (trueString == null) return JavaBoolean.TRUE
       if (falseString == null) return JavaBoolean.FALSE
       if (nullString == null) return null
-    }
-    else if (str == trueString) return JavaBoolean.TRUE
+    } else if (str == trueString) return JavaBoolean.TRUE
     else if (str == falseString) return JavaBoolean.FALSE
     else if (str == nullString) return null
     // no match
@@ -639,8 +637,9 @@ object BooleanUtils {
   def toJavaBoolean(str: String, trueString: String, falseString: String): JavaBoolean = {
     if (str eq trueString) return true
     else if (str eq falseString) return false
-    else if (str != null) if (str == trueString) return true
-    else if (str == falseString) return false
+    else if (str != null)
+      if (str == trueString) return true
+      else if (str == falseString) return false
     throw new IllegalArgumentException("The String did not match either specified value")
   }
 
@@ -824,7 +823,7 @@ object BooleanUtils {
 
     try {
       val primitive = ArrayUtils.toPrimitive(array.toArray)
-      if (and(primitive:_*)) JavaBoolean.TRUE
+      if (and(primitive: _*)) JavaBoolean.TRUE
       else JavaBoolean.FALSE
     } catch {
       case _: NullPointerException =>
@@ -887,7 +886,7 @@ object BooleanUtils {
 
     try {
       val primitive = ArrayUtils.toPrimitive(array.toArray)
-      if (or(primitive:_*)) JavaBoolean.TRUE
+      if (or(primitive: _*)) JavaBoolean.TRUE
       else JavaBoolean.FALSE
     } catch {
       case _: NullPointerException =>
@@ -944,7 +943,7 @@ object BooleanUtils {
 
     try {
       val primitive = ArrayUtils.toPrimitive(array.toArray)
-      if (xor(primitive:_*)) JavaBoolean.TRUE
+      if (xor(primitive: _*)) JavaBoolean.TRUE
       else JavaBoolean.FALSE
     } catch {
       case _: NullPointerException =>
