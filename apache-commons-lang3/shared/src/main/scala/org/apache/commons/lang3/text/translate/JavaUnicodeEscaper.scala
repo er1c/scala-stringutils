@@ -93,7 +93,7 @@ package org.apache.commons.lang3.text.translate
   def outsideOf(codepointLow: Int, codepointHigh: Int) = new JavaUnicodeEscaper(codepointLow, codepointHigh, false)
 }
 
-@deprecated class JavaUnicodeEscaper(val below: Int, val above: Int, val between: Boolean)
+@deprecated class JavaUnicodeEscaper(below: Int, above: Int, between: Boolean)
 
 /**
   * <p>

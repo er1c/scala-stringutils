@@ -23,6 +23,7 @@ import java.lang.reflect.Method
 import java.lang.reflect.Type
 import java.lang.{Boolean => JavaBoolean, Byte => JavaByte, Double => JavaDouble, Float => JavaFloat, Long => JavaLong, Short => JavaShort}
 import java.{util => ju}
+import org.apache.commons.lang3.builder.EqualsBuilder
 import scala.reflect.ClassTag
 //import java.util.Comparator
 //import java.util.Random
@@ -2103,7 +2104,7 @@ object ArrayUtils {
     * @return {@code true} if the array is empty or {@code null}
     * @since 2.1
     */
-  def isEmpty(array: Array[AnyRef]): Boolean = getLength(array) == 0
+  def isEmpty[T](array: Array[T]): Boolean = getLength(array) == 0
 
   /**
     * <p>Checks if an array of primitive shorts is empty or {@code null}.
@@ -2114,111 +2115,112 @@ object ArrayUtils {
     */
   def isEmpty(array: Array[Short]): Boolean = getLength(array) == 0
 
-  //  /**
-  //    * <p>Compares two arrays, using equals(), handling multi-dimensional arrays
-  //    * correctly.
-  //    *
-  //    * <p>Multi-dimensional primitive arrays are also handled correctly by this method.
-  //    *
-  //    * @param array1 the left hand array to compare, may be {@code null}
-  //    * @param array2 the right hand array to compare, may be {@code null}
-  //    * @return {@code true} if the arrays are equal
-  //    * @deprecated this method has been replaced by {@code java.ju.Objects.deepEquals(Object, Object)} and will be
-  //    *             removed from future releases.
-  //    */
-  //  @deprecated def isEquals(array1: Any, array2: Any): Boolean = new EqualsBuilder().append(array1, array2).isEquals
-  //
-  //  /**
-  //    * <p>Checks if an array of primitive booleans is not empty and not {@code null}.
-  //    *
-  //    * @param array the array to test
-  //    * @return {@code true} if the array is not empty and not {@code null}
-  //    * @since 2.5
-  //    */
-  //  def isNotEmpty(array: Array[Boolean]): Boolean = !isEmpty(array)
-  //
-  //  /**
-  //    * <p>Checks if an array of primitive bytes is not empty and not {@code null}.
-  //    *
-  //    * @param array the array to test
-  //    * @return {@code true} if the array is not empty and not {@code null}
-  //    * @since 2.5
-  //    */
-  //  def isNotEmpty(array: Array[Byte]): Boolean = !isEmpty(array)
-  //
-  //  /**
-  //    * <p>Checks if an array of primitive chars is not empty and not {@code null}.
-  //    *
-  //    * @param array the array to test
-  //    * @return {@code true} if the array is not empty and not {@code null}
-  //    * @since 2.5
-  //    */
-  //  def isNotEmpty(array: Array[Char]): Boolean = !isEmpty(array)
-  //
-  //  /**
-  //    * <p>Checks if an array of primitive doubles is not empty and not {@code null}.
-  //    *
-  //    * @param array the array to test
-  //    * @return {@code true} if the array is not empty and not {@code null}
-  //    * @since 2.5
-  //    */
-  //  def isNotEmpty(array: Array[Double]): Boolean = !isEmpty(array)
-  //
-  //  /**
-  //    * <p>Checks if an array of primitive floats is not empty and not {@code null}.
-  //    *
-  //    * @param array the array to test
-  //    * @return {@code true} if the array is not empty and not {@code null}
-  //    * @since 2.5
-  //    */
-  //  def isNotEmpty(array: Array[Float]): Boolean = !isEmpty(array)
-  //
-  //  /**
-  //    * <p>Checks if an array of primitive ints is not empty and not {@code null}.
-  //    *
-  //    * @param array the array to test
-  //    * @return {@code true} if the array is not empty and not {@code null}
-  //    * @since 2.5
-  //    */
-  //  def isNotEmpty(array: Array[Int]): Boolean = !isEmpty(array)
-  //
-  //  /**
-  //    * <p>Checks if an array of primitive longs is not empty and not {@code null}.
-  //    *
-  //    * @param array the array to test
-  //    * @return {@code true} if the array is not empty and not {@code null}
-  //    * @since 2.5
-  //    */
-  //  def isNotEmpty(array: Array[Long]): Boolean = !isEmpty(array)
-  //
-  //  /**
-  //    * <p>Checks if an array of primitive shorts is not empty and not {@code null}.
-  //    *
-  //    * @param array the array to test
-  //    * @return {@code true} if the array is not empty and not {@code null}
-  //    * @since 2.5
-  //    */
-  //  def isNotEmpty(array: Array[Short]): Boolean = !isEmpty(array)
-  //
-  //  /**
-  //    * <p>Checks if an array of Objects is not empty and not {@code null}.
-  //    *
-  //    * @tparam T    the component type of the array
-  //    * @param array the array to test
-  //    * @return {@code true} if the array is not empty and not {@code null}
-  //    * @since 2.5
-  //    */
-  //  def isNotEmpty[T](array: Array[T]): Boolean = !isEmpty(array)
-  //
-  //  /**
-  //    * <p>Checks whether two arrays are the same length, treating
-  //    * {@code null} arrays as length {@code 0}.
-  //    *
-  //    * @param array1 the first array, may be {@code null}
-  //    * @param array2 the second array, may be {@code null}
-  //    * @return {@code true} if length of arrays matches, treating
-  //    *         {@code null} as an empty array
-  //    */
+  /**
+    * <p>Compares two arrays, using equals(), handling multi-dimensional arrays
+    * correctly.
+    *
+    * <p>Multi-dimensional primitive arrays are also handled correctly by this method.
+    *
+    * @param array1 the left hand array to compare, may be {@code null}
+    * @param array2 the right hand array to compare, may be {@code null}
+    * @return {@code true} if the arrays are equal
+    * @deprecated this method has been replaced by {@code java.ju.Objects.deepEquals(Object, Object)} and will be
+    *             removed from future releases.
+    */
+  @deprecated def isEquals(array1: Any, array2: Any): Boolean =
+    new EqualsBuilder().append(array1, array2).isEquals
+
+  /**
+    * <p>Checks if an array of primitive booleans is not empty and not {@code null}.
+    *
+    * @param array the array to test
+    * @return {@code true} if the array is not empty and not {@code null}
+    * @since 2.5
+    */
+  def isNotEmpty(array: Array[Boolean]): Boolean = !isEmpty(array)
+
+  /**
+    * <p>Checks if an array of primitive bytes is not empty and not {@code null}.
+    *
+    * @param array the array to test
+    * @return {@code true} if the array is not empty and not {@code null}
+    * @since 2.5
+    */
+  def isNotEmpty(array: Array[Byte]): Boolean = !isEmpty(array)
+
+  /**
+    * <p>Checks if an array of primitive chars is not empty and not {@code null}.
+    *
+    * @param array the array to test
+    * @return {@code true} if the array is not empty and not {@code null}
+    * @since 2.5
+    */
+  def isNotEmpty(array: Array[Char]): Boolean = !isEmpty(array)
+
+  /**
+    * <p>Checks if an array of primitive doubles is not empty and not {@code null}.
+    *
+    * @param array the array to test
+    * @return {@code true} if the array is not empty and not {@code null}
+    * @since 2.5
+    */
+  def isNotEmpty(array: Array[Double]): Boolean = !isEmpty(array)
+
+  /**
+    * <p>Checks if an array of primitive floats is not empty and not {@code null}.
+    *
+    * @param array the array to test
+    * @return {@code true} if the array is not empty and not {@code null}
+    * @since 2.5
+    */
+  def isNotEmpty(array: Array[Float]): Boolean = !isEmpty(array)
+
+  /**
+    * <p>Checks if an array of primitive ints is not empty and not {@code null}.
+    *
+    * @param array the array to test
+    * @return {@code true} if the array is not empty and not {@code null}
+    * @since 2.5
+    */
+  def isNotEmpty(array: Array[Int]): Boolean = !isEmpty(array)
+
+  /**
+    * <p>Checks if an array of primitive longs is not empty and not {@code null}.
+    *
+    * @param array the array to test
+    * @return {@code true} if the array is not empty and not {@code null}
+    * @since 2.5
+    */
+  def isNotEmpty(array: Array[Long]): Boolean = !isEmpty(array)
+
+  /**
+    * <p>Checks if an array of primitive shorts is not empty and not {@code null}.
+    *
+    * @param array the array to test
+    * @return {@code true} if the array is not empty and not {@code null}
+    * @since 2.5
+    */
+  def isNotEmpty(array: Array[Short]): Boolean = !isEmpty(array)
+
+  /**
+    * <p>Checks if an array of Objects is not empty and not {@code null}.
+    *
+    * @tparam T    the component type of the array
+    * @param array the array to test
+    * @return {@code true} if the array is not empty and not {@code null}
+    * @since 2.5
+    */
+  def isNotEmpty[T](array: Array[T]): Boolean = !isEmpty(array)
+
+  /**
+    * <p>Checks whether two arrays are the same length, treating
+    * {@code null} arrays as length {@code 0}.
+    *
+    * @param array1 the first array, may be {@code null}
+    * @param array2 the second array, may be {@code null}
+    * @return {@code true} if length of arrays matches, treating
+    *         {@code null} as an empty array
+    */
   def isSameLength(array1: Array[Boolean], array2: Array[Boolean]): Boolean = getLength(array1) == getLength(array2)
 
   def isSameLength(array1: Array[Byte], array2: Array[Byte]): Boolean = getLength(array1) == getLength(array2)
@@ -6404,7 +6406,7 @@ object ArrayUtils {
 
     val result: Array[Boolean] = new Array[Boolean](array.length)
     for (i <- 0 until array.length) {
-      val b: Boolean = array (i)
+      val b: JavaBoolean = array(i)
       result(i) =
         if (b == null) valueForNull
         else b.booleanValue
@@ -6453,7 +6455,7 @@ object ArrayUtils {
 
     val result: Array[Byte] = new Array[Byte](array.length)
     for (i <- 0 until array.length) {
-      val b: Byte = array (i)
+      val b: JavaByte = array (i)
       result(i) =
         if (b == null) valueForNull
         else b.byteValue
@@ -6543,7 +6545,7 @@ object ArrayUtils {
 
     val result: Array[Double] = new Array[Double](array.length)
     for (i <- 0 until array.length) {
-      val b: Double = array (i)
+      val b: JavaDouble = array (i)
       result(i) =
         if (b == null) valueForNull
         else b.doubleValue
@@ -6588,7 +6590,7 @@ object ArrayUtils {
 
     val result: Array[Float] = new Array[Float] (array.length)
     for (i <- 0 until array.length) {
-      val b: Float = array (i)
+      val b: JavaFloat = array(i)
       result(i) =
         if (b == null) valueForNull
         else b.floatValue
@@ -6678,7 +6680,7 @@ object ArrayUtils {
 
     val result: Array[Long] = new Array[Long](array.length)
     for (i <- 0 until array.length) {
-      val b: Long = array(i)
+      val b: JavaLong = array(i)
       result (i) =
         if (b == null) valueForNull
         else b.longValue
@@ -6746,7 +6748,7 @@ object ArrayUtils {
 
     val result: Array[Short] = new Array[Short](array.length)
     for (i <- 0 until array.length) {
-      val b: Short = array (i)
+      val b: JavaShort = array (i)
       result(i) =
         if (b == null) valueForNull
         else b.shortValue

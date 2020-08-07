@@ -18,13 +18,11 @@
 package org.apache.commons.lang3.builder
 
 import java.lang.reflect
+import java.lang.{Boolean => JavaBoolean}
 import java.io.Serializable
 import java.util
 import java.util.Objects
-import org.apache.commons.lang3.ClassUtils
-import org.apache.commons.lang3.ObjectUtils
-import org.apache.commons.lang3.StringEscapeUtils
-import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.{ClassUtils, ObjectUtils, StringEscapeUtils, StringUtils, void}
 import scala.collection.JavaConverters._
 
 /**
@@ -757,6 +755,7 @@ abstract class ToStringStyle protected()
     * @since 2.2
     */
   protected def appendCyclicObject(buffer: StringBuffer, fieldName: String, value: Any): Unit = {
+    void(fieldName)
     ObjectUtils.identityToString(buffer, value)
   }
 
@@ -770,6 +769,7 @@ abstract class ToStringStyle protected()
     *                  not {@code null}
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Any): Unit = {
+    void(fieldName)
     buffer.append(value)
     ()
   }
@@ -808,6 +808,7 @@ abstract class ToStringStyle protected()
     *                  not {@code null}
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, map: util.Map[_, _]): Unit = {
+    void(fieldName)
     buffer.append(map)
     ()
   }
@@ -822,6 +823,7 @@ abstract class ToStringStyle protected()
     *                  not {@code null}
     */
   protected def appendSummary(buffer: StringBuffer, fieldName: String, value: Any): Unit = {
+    void(fieldName)
     buffer.append(summaryObjectStartText)
     buffer.append(getShortClassName(value.getClass))
     buffer.append(summaryObjectEndText)
@@ -851,6 +853,7 @@ abstract class ToStringStyle protected()
     * @param value     the value to add to the {@code toString}
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Long): Unit = {
+    void(fieldName)
     buffer.append(value)
     ()
   }
@@ -878,6 +881,7 @@ abstract class ToStringStyle protected()
     * @param value     the value to add to the {@code toString}
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Int): Unit = {
+    void(fieldName)
     buffer.append(value)
     ()
   }
@@ -905,6 +909,7 @@ abstract class ToStringStyle protected()
     * @param value     the value to add to the {@code toString}
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Short): Unit = {
+    void(fieldName)
     buffer.append(value.toInt)
     ()
   }
@@ -932,6 +937,7 @@ abstract class ToStringStyle protected()
     * @param value     the value to add to the {@code toString}
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Byte): Unit = {
+    void(fieldName)
     buffer.append(value.toInt)
     ()
   }
@@ -959,6 +965,7 @@ abstract class ToStringStyle protected()
     * @param value     the value to add to the {@code toString}
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Char): Unit = {
+    void(fieldName)
     buffer.append(value)
     ()
   }
@@ -986,6 +993,7 @@ abstract class ToStringStyle protected()
     * @param value     the value to add to the {@code toString}
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Double): Unit = {
+    void(fieldName)
     buffer.append(value)
     ()
   }
@@ -1013,6 +1021,7 @@ abstract class ToStringStyle protected()
     * @param value     the value to add to the {@code toString}
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Float): Unit = {
+    void(fieldName)
     buffer.append(value)
     ()
   }
@@ -1040,6 +1049,7 @@ abstract class ToStringStyle protected()
     * @param value     the value to add to the {@code toString}
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, value: Boolean): Unit = {
+    void(fieldName)
     buffer.append(value)
     ()
   }
@@ -1071,7 +1081,7 @@ abstract class ToStringStyle protected()
     * @param array     the array to add to the {@code toString},
     *                  not {@code null}
     */
-  protected def appendDetail(buffer: StringBuffer, fieldName: String, array: Array[_]): Unit = {
+  protected def appendDetail(buffer: StringBuffer, fieldName: String, array: Array[Any])(implicit d: DummyImplicit): Unit = {
     buffer.append(arrayStart)
 
     for (i <- 0 until array.length) {
@@ -1591,6 +1601,7 @@ abstract class ToStringStyle protected()
     * @param fieldName the field name, typically not used as already appended
     */
   protected def appendNullText(buffer: StringBuffer, fieldName: String): Unit = {
+    void(fieldName)
     buffer.append(nullText)
     ()
   }
@@ -1626,6 +1637,7 @@ abstract class ToStringStyle protected()
     * @param fieldName the field name, typically not used as already appended
     */
   protected def appendFieldEnd(buffer: StringBuffer, fieldName: String): Unit = {
+    void(fieldName)
     appendFieldSeparator(buffer)
   }
 
@@ -1645,6 +1657,7 @@ abstract class ToStringStyle protected()
     * @param size      the size to append
     */
   protected def appendSummarySize(buffer: StringBuffer, fieldName: String, size: Int): Unit = {
+    void(fieldName)
     buffer.append(sizeStartText)
     buffer.append(size)
     buffer.append(sizeEndText)
@@ -1665,7 +1678,7 @@ abstract class ToStringStyle protected()
     * @param fullDetailRequest the detail level requested
     * @return whether full detail is to be shown
     */
-  protected def isFullDetail(fullDetailRequest: Boolean): Boolean = {
+  protected def isFullDetail(fullDetailRequest: JavaBoolean): Boolean = {
     if (fullDetailRequest == null) return defaultFullDetail
     fullDetailRequest.booleanValue
   }

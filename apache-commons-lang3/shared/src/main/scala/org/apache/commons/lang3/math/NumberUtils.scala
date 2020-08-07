@@ -24,7 +24,7 @@ import java.math.RoundingMode
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.Validate
 import scala.util.control.Breaks
-import java.lang.{Long => JavaLong}
+import java.lang.{Double => JavaDouble, Float => JavaFloat, Long => JavaLong}
 
 /**
   * <p>Provides extra functionality for Java Number classes.</p>
@@ -432,7 +432,7 @@ object NumberUtils {
     * @return the scaled, with appropriate rounding, {@code BigDecimal}.
     * @since 3.8
     */
-  def toScaledBigDecimal(value: Float): BigDecimal = toScaledBigDecimal(value, INTEGER_TWO, RoundingMode.HALF_EVEN)
+  def toScaledBigDecimal(value: JavaFloat): BigDecimal = toScaledBigDecimal(value, INTEGER_TWO, RoundingMode.HALF_EVEN)
 
   /**
     * Convert a {@code Float} to a {@code BigDecimal} whose scale is the
@@ -446,9 +446,9 @@ object NumberUtils {
     * @return the scaled, with appropriate rounding, {@code BigDecimal}.
     * @since 3.8
     */
-  def toScaledBigDecimal(value: Float, scale: Int, roundingMode: RoundingMode): BigDecimal = {
+  def toScaledBigDecimal(value: JavaFloat, scale: Int, roundingMode: RoundingMode): BigDecimal = {
     if (value == null) return BigDecimal.ZERO
-    toScaledBigDecimal(BigDecimal.valueOf(value.toDouble), scale, roundingMode)
+    toScaledBigDecimal(BigDecimal.valueOf(value.doubleValue), scale, roundingMode)
   }
 
   /**
@@ -477,7 +477,7 @@ object NumberUtils {
     * @return the scaled, with appropriate rounding, {@code BigDecimal}.
     * @since 3.8
     */
-  def toScaledBigDecimal(value: Double, scale: Int, roundingMode: RoundingMode): BigDecimal = {
+  def toScaledBigDecimal(value: JavaDouble, scale: Int, roundingMode: RoundingMode): BigDecimal = {
     if (value == null) return BigDecimal.ZERO
     toScaledBigDecimal(BigDecimal.valueOf(value), scale, roundingMode)
   }

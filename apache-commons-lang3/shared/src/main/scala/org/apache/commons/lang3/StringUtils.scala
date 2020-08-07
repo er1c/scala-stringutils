@@ -1521,182 +1521,183 @@ object StringUtils {
 //    */
 //  def endsWithIgnoreCase(str: CharSequence, suffix: CharSequence): Boolean = endsWith(str, suffix, true)
 //
-//  /**
-//    * <p>Compares two CharSequences, returning {@code true} if they represent
-//    * equal sequences of characters.</p>
-//    *
-//    * <p>{@code null}s are handled without exceptions. Two {@code null}
-//    * references are considered to be equal. The comparison is <strong>case sensitive</strong>.</p>
-//    *
-//    * <pre>
-//    * StringUtils.equals(null, null)   = true
-//    * StringUtils.equals(null, "abc")  = false
-//    * StringUtils.equals("abc", null)  = false
-//    * StringUtils.equals("abc", "abc") = true
-//    * StringUtils.equals("abc", "ABC") = false
-//    * </pre>
-//    *
-//    * @param cs1 the first CharSequence, may be {@code null}
-//    * @param cs2 the second CharSequence, may be {@code null}
-//    * @return {@code true} if the CharSequences are equal (case-sensitive), or both {@code null}
-//    * @since 3.0 Changed signature from equals(String, String) to equals(CharSequence, CharSequence)
-//    * @see Object#equals(Object)
-//    * @see #equalsIgnoreCase(CharSequence, CharSequence)
-//    */
-//  def equals(cs1: CharSequence, cs2: CharSequence): Boolean = {
-//    if (cs1 eq cs2) return true
-//    if (cs1 == null || cs2 == null) return false
-//    if (cs1.length != cs2.length) return false
-//    if (cs1.isInstanceOf[String] && cs2.isInstanceOf[String]) return cs1 == cs2
-//    // Step-wise comparison
-//    val length = cs1.length
-//    for (i <- 0 until length) {
-//      if (cs1.charAt(i) != cs2.charAt(i)) return false
-//    }
-//    true
-//  }
-//
-//  /**
-//    * <p>Compares given {@code string} to a CharSequences vararg of {@code searchStrings},
-//    * returning {@code true} if the {@code string} is equal to any of the {@code searchStrings}.</p>
-//    *
-//    * <pre>
-//    * StringUtils.equalsAny(null, (CharSequence[]) null) = false
-//    * StringUtils.equalsAny(null, null, null)    = true
-//    * StringUtils.equalsAny(null, "abc", "def")  = false
-//    * StringUtils.equalsAny("abc", null, "def")  = false
-//    * StringUtils.equalsAny("abc", "abc", "def") = true
-//    * StringUtils.equalsAny("abc", "ABC", "DEF") = false
-//    * </pre>
-//    *
-//    * @param string        to compare, may be {@code null}.
-//    * @param searchStrings a vararg of strings, may be {@code null}.
-//    * @return {@code true} if the string is equal (case-sensitive) to any other element of {@code searchStrings};
-//    *         {@code false} if {@code searchStrings} is null or contains no matches.
-//    * @since 3.5
-//    */
-//  def equalsAny(string: CharSequence, searchStrings: CharSequence*): Boolean = {
-//    if (ArrayUtils.isNotEmpty(searchStrings)) for (next <- searchStrings) {
-//      if (equals(string, next)) return true
-//    }
-//    false
-//  }
-//
-//  /**
-//    * <p>Compares given {@code string} to a CharSequences vararg of {@code searchStrings},
-//    * returning {@code true} if the {@code string} is equal to any of the {@code searchStrings}, ignoring case.</p>
-//    *
-//    * <pre>
-//    * StringUtils.equalsAnyIgnoreCase(null, (CharSequence[]) null) = false
-//    * StringUtils.equalsAnyIgnoreCase(null, null, null)    = true
-//    * StringUtils.equalsAnyIgnoreCase(null, "abc", "def")  = false
-//    * StringUtils.equalsAnyIgnoreCase("abc", null, "def")  = false
-//    * StringUtils.equalsAnyIgnoreCase("abc", "abc", "def") = true
-//    * StringUtils.equalsAnyIgnoreCase("abc", "ABC", "DEF") = true
-//    * </pre>
-//    *
-//    * @param string        to compare, may be {@code null}.
-//    * @param searchStrings a vararg of strings, may be {@code null}.
-//    * @return {@code true} if the string is equal (case-insensitive) to any other element of {@code searchStrings};
-//    *         {@code false} if {@code searchStrings} is null or contains no matches.
-//    * @since 3.5
-//    */
-//  def equalsAnyIgnoreCase(string: CharSequence, searchStrings: CharSequence*): Boolean = {
-//    if (ArrayUtils.isNotEmpty(searchStrings)) for (next <- searchStrings) {
-//      if (equalsIgnoreCase(string, next)) return true
-//    }
-//    false
-//  }
-//
-//  /**
-//    * <p>Compares two CharSequences, returning {@code true} if they represent
-//    * equal sequences of characters, ignoring case.</p>
-//    *
-//    * <p>{@code null}s are handled without exceptions. Two {@code null}
-//    * references are considered equal. The comparison is <strong>case insensitive</strong>.</p>
-//    *
-//    * <pre>
-//    * StringUtils.equalsIgnoreCase(null, null)   = true
-//    * StringUtils.equalsIgnoreCase(null, "abc")  = false
-//    * StringUtils.equalsIgnoreCase("abc", null)  = false
-//    * StringUtils.equalsIgnoreCase("abc", "abc") = true
-//    * StringUtils.equalsIgnoreCase("abc", "ABC") = true
-//    * </pre>
-//    *
-//    * @param cs1 the first CharSequence, may be {@code null}
-//    * @param cs2 the second CharSequence, may be {@code null}
-//    * @return {@code true} if the CharSequences are equal (case-insensitive), or both {@code null}
-//    * @since 3.0 Changed signature from equalsIgnoreCase(String, String) to equalsIgnoreCase(CharSequence, CharSequence)
-//    * @see #equals(CharSequence, CharSequence)
-//    */
-//  def equalsIgnoreCase(cs1: CharSequence, cs2: CharSequence): Boolean = {
-//    if (cs1 eq cs2) return true
-//    if (cs1 == null || cs2 == null) return false
-//    if (cs1.length != cs2.length) return false
-//    CharSequenceUtils.regionMatches(cs1, true, 0, cs2, 0, cs1.length)
-//  }
-//
-//  /**
-//    * <p>Returns the first value in the array which is not empty (""),
-//    * {@code null} or whitespace only.</p>
-//    *
-//    * <p>Whitespace is defined by {@link Character# isWhitespace ( char )}.</p>
-//    *
-//    * <p>If all values are blank or the array is {@code null}
-//    * or empty then {@code null} is returned.</p>
-//    *
-//    * <pre>
-//    * StringUtils.firstNonBlank(null, null, null)     = null
-//    * StringUtils.firstNonBlank(null, "", " ")        = null
-//    * StringUtils.firstNonBlank("abc")                = "abc"
-//    * StringUtils.firstNonBlank(null, "xyz")          = "xyz"
-//    * StringUtils.firstNonBlank(null, "", " ", "xyz") = "xyz"
-//    * StringUtils.firstNonBlank(null, "xyz", "abc")   = "xyz"
-//    * StringUtils.firstNonBlank()                     = null
-//    * </pre>
-//    *
-//    * @param <      T> the specific kind of CharSequence
-//    * @param values the values to test, may be {@code null} or empty
-//    * @return the first value from {@code values} which is not blank,
-//    *         or {@code null} if there are no non-blank values
-//    * @since 3.8
-//    */
-//  @SafeVarargs def firstNonBlank[T <: CharSequence](values: T*): T = {
-//    if (values != null) for (`val` <- values) {
-//      if (isNotBlank(`val`)) return `val`
-//    }
-//    null
-//  }
-//
-//  /**
-//    * <p>Returns the first value in the array which is not empty.</p>
-//    *
-//    * <p>If all values are empty or the array is {@code null}
-//    * or empty then {@code null} is returned.</p>
-//    *
-//    * <pre>
-//    * StringUtils.firstNonEmpty(null, null, null)   = null
-//    * StringUtils.firstNonEmpty(null, null, "")     = null
-//    * StringUtils.firstNonEmpty(null, "", " ")      = " "
-//    * StringUtils.firstNonEmpty("abc")              = "abc"
-//    * StringUtils.firstNonEmpty(null, "xyz")        = "xyz"
-//    * StringUtils.firstNonEmpty("", "xyz")          = "xyz"
-//    * StringUtils.firstNonEmpty(null, "xyz", "abc") = "xyz"
-//    * StringUtils.firstNonEmpty()                   = null
-//    * </pre>
-//    *
-//    * @param <      T> the specific kind of CharSequence
-//    * @param values the values to test, may be {@code null} or empty
-//    * @return the first value from {@code values} which is not empty,
-//    *         or {@code null} if there are no non-empty values
-//    * @since 3.8
-//    */
-//  @SafeVarargs def firstNonEmpty[T <: CharSequence](values: T*): T = {
-//    if (values != null) for (`val` <- values) {
-//      if (isNotEmpty(`val`)) return `val`
-//    }
-//    null
-//  }
+  /**
+    * <p>Compares two CharSequences, returning {@code true} if they represent
+    * equal sequences of characters.</p>
+    *
+    * <p>{@code null}s are handled without exceptions. Two {@code null}
+    * references are considered to be equal. The comparison is <strong>case sensitive</strong>.</p>
+    *
+    * <pre>
+    * StringUtils.equals(null, null)   = true
+    * StringUtils.equals(null, "abc")  = false
+    * StringUtils.equals("abc", null)  = false
+    * StringUtils.equals("abc", "abc") = true
+    * StringUtils.equals("abc", "ABC") = false
+    * </pre>
+    *
+    * @param cs1 the first CharSequence, may be {@code null}
+    * @param cs2 the second CharSequence, may be {@code null}
+    * @return {@code true} if the CharSequences are equal (case-sensitive), or both {@code null}
+    * @since 3.0 Changed signature from equals(String, String) to equals(CharSequence, CharSequence)
+    * @see Object#equals(Object)
+    * @see #equalsIgnoreCase(CharSequence, CharSequence)
+    */
+  def equals(cs1: CharSequence, cs2: CharSequence): Boolean = {
+    if (cs1 eq cs2) return true
+    if (cs1 == null || cs2 == null) return false
+    if (cs1.length != cs2.length) return false
+    if (cs1.isInstanceOf[String] && cs2.isInstanceOf[String]) return cs1 == cs2
+    // Step-wise comparison
+    val length = cs1.length
+    for (i <- 0 until length) {
+      if (cs1.charAt(i) != cs2.charAt(i)) return false
+    }
+    true
+  }
+
+  /**
+    * <p>Compares given {@code string} to a CharSequences vararg of {@code searchStrings},
+    * returning {@code true} if the {@code string} is equal to any of the {@code searchStrings}.</p>
+    *
+    * <pre>
+    * StringUtils.equalsAny(null, (CharSequence[]) null) = false
+    * StringUtils.equalsAny(null, null, null)    = true
+    * StringUtils.equalsAny(null, "abc", "def")  = false
+    * StringUtils.equalsAny("abc", null, "def")  = false
+    * StringUtils.equalsAny("abc", "abc", "def") = true
+    * StringUtils.equalsAny("abc", "ABC", "DEF") = false
+    * </pre>
+    *
+    * @param string        to compare, may be {@code null}.
+    * @param searchStrings a vararg of strings, may be {@code null}.
+    * @return {@code true} if the string is equal (case-sensitive) to any other element of {@code searchStrings};
+    *         {@code false} if {@code searchStrings} is null or contains no matches.
+    * @since 3.5
+    */
+  def equalsAny(string: CharSequence, searchStrings: CharSequence*): Boolean = {
+    if (ArrayUtils.isNotEmpty(searchStrings.toArray)) for (next <- searchStrings) {
+      if (equals(string, next)) return true
+    }
+    false
+  }
+
+  /**
+    * <p>Compares given {@code string} to a CharSequences vararg of {@code searchStrings},
+    * returning {@code true} if the {@code string} is equal to any of the {@code searchStrings}, ignoring case.</p>
+    *
+    * <pre>
+    * StringUtils.equalsAnyIgnoreCase(null, (CharSequence[]) null) = false
+    * StringUtils.equalsAnyIgnoreCase(null, null, null)    = true
+    * StringUtils.equalsAnyIgnoreCase(null, "abc", "def")  = false
+    * StringUtils.equalsAnyIgnoreCase("abc", null, "def")  = false
+    * StringUtils.equalsAnyIgnoreCase("abc", "abc", "def") = true
+    * StringUtils.equalsAnyIgnoreCase("abc", "ABC", "DEF") = true
+    * </pre>
+    *
+    * @param string        to compare, may be {@code null}.
+    * @param searchStrings a vararg of strings, may be {@code null}.
+    * @return {@code true} if the string is equal (case-insensitive) to any other element of {@code searchStrings};
+    *         {@code false} if {@code searchStrings} is null or contains no matches.
+    * @since 3.5
+    */
+  def equalsAnyIgnoreCase(string: CharSequence, searchStrings: CharSequence*): Boolean = {
+    if (ArrayUtils.isNotEmpty(searchStrings.toArray)) for (next <- searchStrings) {
+      if (equalsIgnoreCase(string, next)) return true
+    }
+    false
+  }
+
+  /**
+    * <p>Compares two CharSequences, returning {@code true} if they represent
+    * equal sequences of characters, ignoring case.</p>
+    *
+    * <p>{@code null}s are handled without exceptions. Two {@code null}
+    * references are considered equal. The comparison is <strong>case insensitive</strong>.</p>
+    *
+    * <pre>
+    * StringUtils.equalsIgnoreCase(null, null)   = true
+    * StringUtils.equalsIgnoreCase(null, "abc")  = false
+    * StringUtils.equalsIgnoreCase("abc", null)  = false
+    * StringUtils.equalsIgnoreCase("abc", "abc") = true
+    * StringUtils.equalsIgnoreCase("abc", "ABC") = true
+    * </pre>
+    *
+    * @param cs1 the first CharSequence, may be {@code null}
+    * @param cs2 the second CharSequence, may be {@code null}
+    * @return {@code true} if the CharSequences are equal (case-insensitive), or both {@code null}
+    * @since 3.0 Changed signature from equalsIgnoreCase(String, String) to equalsIgnoreCase(CharSequence, CharSequence)
+    * @see #equals(CharSequence, CharSequence)
+    */
+  def equalsIgnoreCase(cs1: CharSequence, cs2: CharSequence): Boolean = {
+    if (cs1 eq cs2) return true
+    if (cs1 == null || cs2 == null) return false
+    if (cs1.length != cs2.length) return false
+    CharSequenceUtils.regionMatches(cs1, true, 0, cs2, 0, cs1.length)
+  }
+
+  /**
+    * <p>Returns the first value in the array which is not empty (""),
+    * {@code null} or whitespace only.</p>
+    *
+    * <p>Whitespace is defined by {@link Character# isWhitespace ( char )}.</p>
+    *
+    * <p>If all values are blank or the array is {@code null}
+    * or empty then {@code null} is returned.</p>
+    *
+    * <pre>
+    * StringUtils.firstNonBlank(null, null, null)     = null
+    * StringUtils.firstNonBlank(null, "", " ")        = null
+    * StringUtils.firstNonBlank("abc")                = "abc"
+    * StringUtils.firstNonBlank(null, "xyz")          = "xyz"
+    * StringUtils.firstNonBlank(null, "", " ", "xyz") = "xyz"
+    * StringUtils.firstNonBlank(null, "xyz", "abc")   = "xyz"
+    * StringUtils.firstNonBlank()                     = null
+    * </pre>
+    *
+    * @param <      T> the specific kind of CharSequence
+    * @param values the values to test, may be {@code null} or empty
+    * @return the first value from {@code values} which is not blank,
+    *         or {@code null} if there are no non-blank values
+    * @since 3.8
+    */
+  @SafeVarargs def firstNonBlank[T <: CharSequence](values: T*): T = {
+    if (values != null) for (v <- values) {
+      if (isNotBlank(v)) return v
+    }
+
+    null.asInstanceOf[T]
+  }
+
+  /**
+    * <p>Returns the first value in the array which is not empty.</p>
+    *
+    * <p>If all values are empty or the array is {@code null}
+    * or empty then {@code null} is returned.</p>
+    *
+    * <pre>
+    * StringUtils.firstNonEmpty(null, null, null)   = null
+    * StringUtils.firstNonEmpty(null, null, "")     = null
+    * StringUtils.firstNonEmpty(null, "", " ")      = " "
+    * StringUtils.firstNonEmpty("abc")              = "abc"
+    * StringUtils.firstNonEmpty(null, "xyz")        = "xyz"
+    * StringUtils.firstNonEmpty("", "xyz")          = "xyz"
+    * StringUtils.firstNonEmpty(null, "xyz", "abc") = "xyz"
+    * StringUtils.firstNonEmpty()                   = null
+    * </pre>
+    *
+    * @param <      T> the specific kind of CharSequence
+    * @param values the values to test, may be {@code null} or empty
+    * @return the first value from {@code values} which is not empty,
+    *         or {@code null} if there are no non-empty values
+    * @since 3.8
+    */
+  @SafeVarargs def firstNonEmpty[T <: CharSequence](values: T*): T = {
+    if (values != null) for (v <- values) {
+      if (isNotEmpty(v)) return v
+    }
+    null.asInstanceOf[T]
+  }
 //
 //  /**
 //    * Calls {@link String# getBytes ( Charset )} in a null-safe manner.
@@ -2697,411 +2698,412 @@ object StringUtils {
     INDEX_NOT_FOUND
   }
 
-//  /**
-//    * <p>Case in-sensitive find of the first index within a CharSequence.</p>
-//    *
-//    * <p>A {@code null} CharSequence will return {@code -1}.
-//    * A negative start position is treated as zero.
-//    * An empty ("") search CharSequence always matches.
-//    * A start position greater than the string length only matches
-//    * an empty search CharSequence.</p>
-//    *
-//    * <pre>
-//    * StringUtils.indexOfIgnoreCase(null, *)          = -1
-//    * StringUtils.indexOfIgnoreCase(*, null)          = -1
-//    * StringUtils.indexOfIgnoreCase("", "")           = 0
-//    * StringUtils.indexOfIgnoreCase("aabaabaa", "a")  = 0
-//    * StringUtils.indexOfIgnoreCase("aabaabaa", "b")  = 2
-//    * StringUtils.indexOfIgnoreCase("aabaabaa", "ab") = 1
-//    * </pre>
-//    *
-//    * @param str       the CharSequence to check, may be null
-//    * @param searchStr the CharSequence to find, may be null
-//    * @return the first index of the search CharSequence,
-//    *         -1 if no match or {@code null} string input
-//    * @since 2.5
-//    * @since 3.0 Changed signature from indexOfIgnoreCase(String, String) to indexOfIgnoreCase(CharSequence, CharSequence)
-//    */
-//  def indexOfIgnoreCase(str: CharSequence, searchStr: CharSequence): Int = indexOfIgnoreCase(str, searchStr, 0)
-//
-//  /**
-//    * <p>Case in-sensitive find of the first index within a CharSequence
-//    * from the specified position.</p>
-//    *
-//    * <p>A {@code null} CharSequence will return {@code -1}.
-//    * A negative start position is treated as zero.
-//    * An empty ("") search CharSequence always matches.
-//    * A start position greater than the string length only matches
-//    * an empty search CharSequence.</p>
-//    *
-//    * <pre>
-//    * StringUtils.indexOfIgnoreCase(null, *, *)          = -1
-//    * StringUtils.indexOfIgnoreCase(*, null, *)          = -1
-//    * StringUtils.indexOfIgnoreCase("", "", 0)           = 0
-//    * StringUtils.indexOfIgnoreCase("aabaabaa", "A", 0)  = 0
-//    * StringUtils.indexOfIgnoreCase("aabaabaa", "B", 0)  = 2
-//    * StringUtils.indexOfIgnoreCase("aabaabaa", "AB", 0) = 1
-//    * StringUtils.indexOfIgnoreCase("aabaabaa", "B", 3)  = 5
-//    * StringUtils.indexOfIgnoreCase("aabaabaa", "B", 9)  = -1
-//    * StringUtils.indexOfIgnoreCase("aabaabaa", "B", -1) = 2
-//    * StringUtils.indexOfIgnoreCase("aabaabaa", "", 2)   = 2
-//    * StringUtils.indexOfIgnoreCase("abc", "", 9)        = -1
-//    * </pre>
-//    *
-//    * @param str       the CharSequence to check, may be null
-//    * @param searchStr the CharSequence to find, may be null
-//    * @param startPos  the start position, negative treated as zero
-//    * @return the first index of the search CharSequence (always &ge; startPos),
-//    *         -1 if no match or {@code null} string input
-//    * @since 2.5
-//    * @since 3.0 Changed signature from indexOfIgnoreCase(String, String, int) to indexOfIgnoreCase(CharSequence, CharSequence, int)
-//    */
-//  def indexOfIgnoreCase(str: CharSequence, searchStr: CharSequence, startPos: Int): Int = {
-//    if (str == null || searchStr == null) return INDEX_NOT_FOUND
-//    if (startPos < 0) startPos = 0
-//    val endLimit = str.length - searchStr.length + 1
-//    if (startPos > endLimit) return INDEX_NOT_FOUND
-//    if (searchStr.length == 0) return startPos
-//    for (i <- startPos until endLimit) {
-//      if (CharSequenceUtils.regionMatches(str, true, i, searchStr, 0, searchStr.length)) return i
-//    }
-//    INDEX_NOT_FOUND
-//  }
-//
-//  /**
-//    * <p>Checks if all of the CharSequences are empty (""), null or whitespace only.</p>
-//    *
-//    * <p>Whitespace is defined by {@link Character# isWhitespace ( char )}.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isAllBlank(null)             = true
-//    * StringUtils.isAllBlank(null, "foo")      = false
-//    * StringUtils.isAllBlank(null, null)       = true
-//    * StringUtils.isAllBlank("", "bar")        = false
-//    * StringUtils.isAllBlank("bob", "")        = false
-//    * StringUtils.isAllBlank("  bob  ", null)  = false
-//    * StringUtils.isAllBlank(" ", "bar")       = false
-//    * StringUtils.isAllBlank("foo", "bar")     = false
-//    * StringUtils.isAllBlank(new String[] {})  = true
-//    * </pre>
-//    *
-//    * @param css the CharSequences to check, may be null or empty
-//    * @return {@code true} if all of the CharSequences are empty or null or whitespace only
-//    * @since 3.6
-//    */
-//  def isAllBlank(css: CharSequence*): Boolean = {
-//    if (ArrayUtils.isEmpty(css)) return true
-//    for (cs <- css) {
-//      if (isNotBlank(cs)) return false
-//    }
-//    true
-//  }
-//
-//  /**
-//    * <p>Checks if all of the CharSequences are empty ("") or null.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isAllEmpty(null)             = true
-//    * StringUtils.isAllEmpty(null, "")         = true
-//    * StringUtils.isAllEmpty(new String[] {})  = true
-//    * StringUtils.isAllEmpty(null, "foo")      = false
-//    * StringUtils.isAllEmpty("", "bar")        = false
-//    * StringUtils.isAllEmpty("bob", "")        = false
-//    * StringUtils.isAllEmpty("  bob  ", null)  = false
-//    * StringUtils.isAllEmpty(" ", "bar")       = false
-//    * StringUtils.isAllEmpty("foo", "bar")     = false
-//    * </pre>
-//    *
-//    * @param css the CharSequences to check, may be null or empty
-//    * @return {@code true} if all of the CharSequences are empty or null
-//    * @since 3.6
-//    */
-//  def isAllEmpty(css: CharSequence*): Boolean = {
-//    if (ArrayUtils.isEmpty(css)) return true
-//    for (cs <- css) {
-//      if (isNotEmpty(cs)) return false
-//    }
-//    true
-//  }
-//
-//  /**
-//    * <p>Checks if the CharSequence contains only lowercase characters.</p>
-//    *
-//    * <p>{@code null} will return {@code false}.
-//    * An empty CharSequence (length()=0) will return {@code false}.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isAllLowerCase(null)   = false
-//    * StringUtils.isAllLowerCase("")     = false
-//    * StringUtils.isAllLowerCase("  ")   = false
-//    * StringUtils.isAllLowerCase("abc")  = true
-//    * StringUtils.isAllLowerCase("abC")  = false
-//    * StringUtils.isAllLowerCase("ab c") = false
-//    * StringUtils.isAllLowerCase("ab1c") = false
-//    * StringUtils.isAllLowerCase("ab/c") = false
-//    * </pre>
-//    *
-//    * @param cs the CharSequence to check, may be null
-//    * @return {@code true} if only contains lowercase characters, and is non-null
-//    * @since 2.5
-//    * @since 3.0 Changed signature from isAllLowerCase(String) to isAllLowerCase(CharSequence)
-//    */
-//  def isAllLowerCase(cs: CharSequence): Boolean = {
-//    if (isEmpty(cs)) return false
-//    val sz = cs.length
-//    for (i <- 0 until sz) {
-//      if (!Character.isLowerCase(cs.charAt(i))) return false
-//    }
-//    true
-//  }
-//
-//  /**
-//    * <p>Checks if the CharSequence contains only uppercase characters.</p>
-//    *
-//    * <p>{@code null} will return {@code false}.
-//    * An empty String (length()=0) will return {@code false}.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isAllUpperCase(null)   = false
-//    * StringUtils.isAllUpperCase("")     = false
-//    * StringUtils.isAllUpperCase("  ")   = false
-//    * StringUtils.isAllUpperCase("ABC")  = true
-//    * StringUtils.isAllUpperCase("aBC")  = false
-//    * StringUtils.isAllUpperCase("A C")  = false
-//    * StringUtils.isAllUpperCase("A1C")  = false
-//    * StringUtils.isAllUpperCase("A/C")  = false
-//    * </pre>
-//    *
-//    * @param cs the CharSequence to check, may be null
-//    * @return {@code true} if only contains uppercase characters, and is non-null
-//    * @since 2.5
-//    * @since 3.0 Changed signature from isAllUpperCase(String) to isAllUpperCase(CharSequence)
-//    */
-//  def isAllUpperCase(cs: CharSequence): Boolean = {
-//    if (isEmpty(cs)) return false
-//    val sz = cs.length
-//    for (i <- 0 until sz) {
-//      if (!Character.isUpperCase(cs.charAt(i))) return false
-//    }
-//    true
-//  }
-//
-//  /**
-//    * <p>Checks if the CharSequence contains only Unicode letters.</p>
-//    *
-//    * <p>{@code null} will return {@code false}.
-//    * An empty CharSequence (length()=0) will return {@code false}.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isAlpha(null)   = false
-//    * StringUtils.isAlpha("")     = false
-//    * StringUtils.isAlpha("  ")   = false
-//    * StringUtils.isAlpha("abc")  = true
-//    * StringUtils.isAlpha("ab2c") = false
-//    * StringUtils.isAlpha("ab-c") = false
-//    * </pre>
-//    *
-//    * @param cs the CharSequence to check, may be null
-//    * @return {@code true} if only contains letters, and is non-null
-//    * @since 3.0 Changed signature from isAlpha(String) to isAlpha(CharSequence)
-//    * @since 3.0 Changed "" to return false and not true
-//    */
-//  def isAlpha(cs: CharSequence): Boolean = {
-//    if (isEmpty(cs)) return false
-//    val sz = cs.length
-//    for (i <- 0 until sz) {
-//      if (!Character.isLetter(cs.charAt(i))) return false
-//    }
-//    true
-//  }
-//
-//  /**
-//    * <p>Checks if the CharSequence contains only Unicode letters or digits.</p>
-//    *
-//    * <p>{@code null} will return {@code false}.
-//    * An empty CharSequence (length()=0) will return {@code false}.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isAlphanumeric(null)   = false
-//    * StringUtils.isAlphanumeric("")     = false
-//    * StringUtils.isAlphanumeric("  ")   = false
-//    * StringUtils.isAlphanumeric("abc")  = true
-//    * StringUtils.isAlphanumeric("ab c") = false
-//    * StringUtils.isAlphanumeric("ab2c") = true
-//    * StringUtils.isAlphanumeric("ab-c") = false
-//    * </pre>
-//    *
-//    * @param cs the CharSequence to check, may be null
-//    * @return {@code true} if only contains letters or digits,
-//    *         and is non-null
-//    * @since 3.0 Changed signature from isAlphanumeric(String) to isAlphanumeric(CharSequence)
-//    * @since 3.0 Changed "" to return false and not true
-//    */
-//  def isAlphanumeric(cs: CharSequence): Boolean = {
-//    if (isEmpty(cs)) return false
-//    val sz = cs.length
-//    for (i <- 0 until sz) {
-//      if (!Character.isLetterOrDigit(cs.charAt(i))) return false
-//    }
-//    true
-//  }
-//
-//  /**
-//    * <p>Checks if the CharSequence contains only Unicode letters, digits
-//    * or space ({@code ' '}).</p>
-//    *
-//    * <p>{@code null} will return {@code false}.
-//    * An empty CharSequence (length()=0) will return {@code true}.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isAlphanumericSpace(null)   = false
-//    * StringUtils.isAlphanumericSpace("")     = true
-//    * StringUtils.isAlphanumericSpace("  ")   = true
-//    * StringUtils.isAlphanumericSpace("abc")  = true
-//    * StringUtils.isAlphanumericSpace("ab c") = true
-//    * StringUtils.isAlphanumericSpace("ab2c") = true
-//    * StringUtils.isAlphanumericSpace("ab-c") = false
-//    * </pre>
-//    *
-//    * @param cs the CharSequence to check, may be null
-//    * @return {@code true} if only contains letters, digits or space,
-//    *         and is non-null
-//    * @since 3.0 Changed signature from isAlphanumericSpace(String) to isAlphanumericSpace(CharSequence)
-//    */
-//  def isAlphanumericSpace(cs: CharSequence): Boolean = {
-//    if (cs == null) return false
-//    val sz = cs.length
-//    for (i <- 0 until sz) {
-//      if (!Character.isLetterOrDigit(cs.charAt(i)) && cs.charAt(i) != ' ') return false
-//    }
-//    true
-//  }
-//
-//  /**
-//    * <p>Checks if the CharSequence contains only Unicode letters and
-//    * space (' ').</p>
-//    *
-//    * <p>{@code null} will return {@code false}
-//    * An empty CharSequence (length()=0) will return {@code true}.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isAlphaSpace(null)   = false
-//    * StringUtils.isAlphaSpace("")     = true
-//    * StringUtils.isAlphaSpace("  ")   = true
-//    * StringUtils.isAlphaSpace("abc")  = true
-//    * StringUtils.isAlphaSpace("ab c") = true
-//    * StringUtils.isAlphaSpace("ab2c") = false
-//    * StringUtils.isAlphaSpace("ab-c") = false
-//    * </pre>
-//    *
-//    * @param cs the CharSequence to check, may be null
-//    * @return {@code true} if only contains letters and space,
-//    *         and is non-null
-//    * @since 3.0 Changed signature from isAlphaSpace(String) to isAlphaSpace(CharSequence)
-//    */
-//  def isAlphaSpace(cs: CharSequence): Boolean = {
-//    if (cs == null) return false
-//    val sz = cs.length
-//    for (i <- 0 until sz) {
-//      if (!Character.isLetter(cs.charAt(i)) && cs.charAt(i) != ' ') return false
-//    }
-//    true
-//  }
-//
-//  /**
-//    * <p>Checks if any of the CharSequences are empty ("") or null or whitespace only.</p>
-//    *
-//    * <p>Whitespace is defined by {@link Character# isWhitespace ( char )}.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isAnyBlank((String) null)    = true
-//    * StringUtils.isAnyBlank((String[]) null)  = false
-//    * StringUtils.isAnyBlank(null, "foo")      = true
-//    * StringUtils.isAnyBlank(null, null)       = true
-//    * StringUtils.isAnyBlank("", "bar")        = true
-//    * StringUtils.isAnyBlank("bob", "")        = true
-//    * StringUtils.isAnyBlank("  bob  ", null)  = true
-//    * StringUtils.isAnyBlank(" ", "bar")       = true
-//    * StringUtils.isAnyBlank(new String[] {})  = false
-//    * StringUtils.isAnyBlank(new String[]{""}) = true
-//    * StringUtils.isAnyBlank("foo", "bar")     = false
-//    * </pre>
-//    *
-//    * @param css the CharSequences to check, may be null or empty
-//    * @return {@code true} if any of the CharSequences are empty or null or whitespace only
-//    * @since 3.2
-//    */
-//  def isAnyBlank(css: CharSequence*): Boolean = {
-//    if (ArrayUtils.isEmpty(css)) return false
-//    for (cs <- css) {
-//      if (isBlank(cs)) return true
-//    }
-//    false
-//  }
-//
-//  /**
-//    * <p>Checks if any of the CharSequences are empty ("") or null.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isAnyEmpty((String) null)    = true
-//    * StringUtils.isAnyEmpty((String[]) null)  = false
-//    * StringUtils.isAnyEmpty(null, "foo")      = true
-//    * StringUtils.isAnyEmpty("", "bar")        = true
-//    * StringUtils.isAnyEmpty("bob", "")        = true
-//    * StringUtils.isAnyEmpty("  bob  ", null)  = true
-//    * StringUtils.isAnyEmpty(" ", "bar")       = false
-//    * StringUtils.isAnyEmpty("foo", "bar")     = false
-//    * StringUtils.isAnyEmpty(new String[]{})   = false
-//    * StringUtils.isAnyEmpty(new String[]{""}) = true
-//    * </pre>
-//    *
-//    * @param css the CharSequences to check, may be null or empty
-//    * @return {@code true} if any of the CharSequences are empty or null
-//    * @since 3.2
-//    */
-//  def isAnyEmpty(css: CharSequence*): Boolean = {
-//    if (ArrayUtils.isEmpty(css)) return false
-//    for (cs <- css) {
-//      if (isEmpty(cs)) return true
-//    }
-//    false
-//  }
-//
-//  /**
-//    * <p>Checks if the CharSequence contains only ASCII printable characters.</p>
-//    *
-//    * <p>{@code null} will return {@code false}.
-//    * An empty CharSequence (length()=0) will return {@code true}.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isAsciiPrintable(null)     = false
-//    * StringUtils.isAsciiPrintable("")       = true
-//    * StringUtils.isAsciiPrintable(" ")      = true
-//    * StringUtils.isAsciiPrintable("Ceki")   = true
-//    * StringUtils.isAsciiPrintable("ab2c")   = true
-//    * StringUtils.isAsciiPrintable("!ab-c~") = true
-//    * StringUtils.isAsciiPrintable("\u0020") = true
-//    * StringUtils.isAsciiPrintable("\u0021") = true
-//    * StringUtils.isAsciiPrintable("\u007e") = true
-//    * StringUtils.isAsciiPrintable("\u007f") = false
-//    * StringUtils.isAsciiPrintable("Ceki G\u00fclc\u00fc") = false
-//    * </pre>
-//    *
-//    * @param cs the CharSequence to check, may be null
-//    * @return {@code true} if every character is in the range
-//    *         32 thru 126
-//    * @since 2.1
-//    * @since 3.0 Changed signature from isAsciiPrintable(String) to isAsciiPrintable(CharSequence)
-//    */
-//  def isAsciiPrintable(cs: CharSequence): Boolean = {
-//    if (cs == null) return false
-//    val sz = cs.length
-//    for (i <- 0 until sz) {
-//      if (!CharUtils.isAsciiPrintable(cs.charAt(i))) return false
-//    }
-//    true
-//  }
-//
+  /**
+    * <p>Case in-sensitive find of the first index within a CharSequence.</p>
+    *
+    * <p>A {@code null} CharSequence will return {@code -1}.
+    * A negative start position is treated as zero.
+    * An empty ("") search CharSequence always matches.
+    * A start position greater than the string length only matches
+    * an empty search CharSequence.</p>
+    *
+    * <pre>
+    * StringUtils.indexOfIgnoreCase(null, *)          = -1
+    * StringUtils.indexOfIgnoreCase(*, null)          = -1
+    * StringUtils.indexOfIgnoreCase("", "")           = 0
+    * StringUtils.indexOfIgnoreCase("aabaabaa", "a")  = 0
+    * StringUtils.indexOfIgnoreCase("aabaabaa", "b")  = 2
+    * StringUtils.indexOfIgnoreCase("aabaabaa", "ab") = 1
+    * </pre>
+    *
+    * @param str       the CharSequence to check, may be null
+    * @param searchStr the CharSequence to find, may be null
+    * @return the first index of the search CharSequence,
+    *         -1 if no match or {@code null} string input
+    * @since 2.5
+    * @since 3.0 Changed signature from indexOfIgnoreCase(String, String) to indexOfIgnoreCase(CharSequence, CharSequence)
+    */
+  def indexOfIgnoreCase(str: CharSequence, searchStr: CharSequence): Int = indexOfIgnoreCase(str, searchStr, 0)
+
+  /**
+    * <p>Case in-sensitive find of the first index within a CharSequence
+    * from the specified position.</p>
+    *
+    * <p>A {@code null} CharSequence will return {@code -1}.
+    * A negative start position is treated as zero.
+    * An empty ("") search CharSequence always matches.
+    * A start position greater than the string length only matches
+    * an empty search CharSequence.</p>
+    *
+    * <pre>
+    * StringUtils.indexOfIgnoreCase(null, *, *)          = -1
+    * StringUtils.indexOfIgnoreCase(*, null, *)          = -1
+    * StringUtils.indexOfIgnoreCase("", "", 0)           = 0
+    * StringUtils.indexOfIgnoreCase("aabaabaa", "A", 0)  = 0
+    * StringUtils.indexOfIgnoreCase("aabaabaa", "B", 0)  = 2
+    * StringUtils.indexOfIgnoreCase("aabaabaa", "AB", 0) = 1
+    * StringUtils.indexOfIgnoreCase("aabaabaa", "B", 3)  = 5
+    * StringUtils.indexOfIgnoreCase("aabaabaa", "B", 9)  = -1
+    * StringUtils.indexOfIgnoreCase("aabaabaa", "B", -1) = 2
+    * StringUtils.indexOfIgnoreCase("aabaabaa", "", 2)   = 2
+    * StringUtils.indexOfIgnoreCase("abc", "", 9)        = -1
+    * </pre>
+    *
+    * @param str       the CharSequence to check, may be null
+    * @param searchStr the CharSequence to find, may be null
+    * @param startPos  the start position, negative treated as zero
+    * @return the first index of the search CharSequence (always &ge; startPos),
+    *         -1 if no match or {@code null} string input
+    * @since 2.5
+    * @since 3.0 Changed signature from indexOfIgnoreCase(String, String, int) to indexOfIgnoreCase(CharSequence, CharSequence, int)
+    */
+  def indexOfIgnoreCase(str: CharSequence, searchStr: CharSequence, startPos: Int): Int = {
+    if (str == null || searchStr == null) return INDEX_NOT_FOUND
+    val startIndex: Int = if (startPos < 0) 0 else startPos
+
+    val endLimit = str.length - searchStr.length + 1
+    if (startIndex > endLimit) return INDEX_NOT_FOUND
+    if (searchStr.length == 0) return startIndex
+    for (i <- startIndex until endLimit) {
+      if (CharSequenceUtils.regionMatches(str, true, i, searchStr, 0, searchStr.length)) return i
+    }
+    INDEX_NOT_FOUND
+  }
+
+  /**
+    * <p>Checks if all of the CharSequences are empty (""), null or whitespace only.</p>
+    *
+    * <p>Whitespace is defined by {@link Character# isWhitespace ( char )}.</p>
+    *
+    * <pre>
+    * StringUtils.isAllBlank(null)             = true
+    * StringUtils.isAllBlank(null, "foo")      = false
+    * StringUtils.isAllBlank(null, null)       = true
+    * StringUtils.isAllBlank("", "bar")        = false
+    * StringUtils.isAllBlank("bob", "")        = false
+    * StringUtils.isAllBlank("  bob  ", null)  = false
+    * StringUtils.isAllBlank(" ", "bar")       = false
+    * StringUtils.isAllBlank("foo", "bar")     = false
+    * StringUtils.isAllBlank(new String[] {})  = true
+    * </pre>
+    *
+    * @param css the CharSequences to check, may be null or empty
+    * @return {@code true} if all of the CharSequences are empty or null or whitespace only
+    * @since 3.6
+    */
+  def isAllBlank(css: CharSequence*): Boolean = {
+    if (ArrayUtils.isEmpty(css.toArray)) return true
+    for (cs <- css) {
+      if (isNotBlank(cs)) return false
+    }
+    true
+  }
+
+  /**
+    * <p>Checks if all of the CharSequences are empty ("") or null.</p>
+    *
+    * <pre>
+    * StringUtils.isAllEmpty(null)             = true
+    * StringUtils.isAllEmpty(null, "")         = true
+    * StringUtils.isAllEmpty(new String[] {})  = true
+    * StringUtils.isAllEmpty(null, "foo")      = false
+    * StringUtils.isAllEmpty("", "bar")        = false
+    * StringUtils.isAllEmpty("bob", "")        = false
+    * StringUtils.isAllEmpty("  bob  ", null)  = false
+    * StringUtils.isAllEmpty(" ", "bar")       = false
+    * StringUtils.isAllEmpty("foo", "bar")     = false
+    * </pre>
+    *
+    * @param css the CharSequences to check, may be null or empty
+    * @return {@code true} if all of the CharSequences are empty or null
+    * @since 3.6
+    */
+  def isAllEmpty(css: CharSequence*): Boolean = {
+    if (ArrayUtils.isEmpty(css.toArray)) return true
+    for (cs <- css) {
+      if (isNotEmpty(cs)) return false
+    }
+    true
+  }
+
+  /**
+    * <p>Checks if the CharSequence contains only lowercase characters.</p>
+    *
+    * <p>{@code null} will return {@code false}.
+    * An empty CharSequence (length()=0) will return {@code false}.</p>
+    *
+    * <pre>
+    * StringUtils.isAllLowerCase(null)   = false
+    * StringUtils.isAllLowerCase("")     = false
+    * StringUtils.isAllLowerCase("  ")   = false
+    * StringUtils.isAllLowerCase("abc")  = true
+    * StringUtils.isAllLowerCase("abC")  = false
+    * StringUtils.isAllLowerCase("ab c") = false
+    * StringUtils.isAllLowerCase("ab1c") = false
+    * StringUtils.isAllLowerCase("ab/c") = false
+    * </pre>
+    *
+    * @param cs the CharSequence to check, may be null
+    * @return {@code true} if only contains lowercase characters, and is non-null
+    * @since 2.5
+    * @since 3.0 Changed signature from isAllLowerCase(String) to isAllLowerCase(CharSequence)
+    */
+  def isAllLowerCase(cs: CharSequence): Boolean = {
+    if (isEmpty(cs)) return false
+    val sz = cs.length
+    for (i <- 0 until sz) {
+      if (!Character.isLowerCase(cs.charAt(i))) return false
+    }
+    true
+  }
+
+  /**
+    * <p>Checks if the CharSequence contains only uppercase characters.</p>
+    *
+    * <p>{@code null} will return {@code false}.
+    * An empty String (length()=0) will return {@code false}.</p>
+    *
+    * <pre>
+    * StringUtils.isAllUpperCase(null)   = false
+    * StringUtils.isAllUpperCase("")     = false
+    * StringUtils.isAllUpperCase("  ")   = false
+    * StringUtils.isAllUpperCase("ABC")  = true
+    * StringUtils.isAllUpperCase("aBC")  = false
+    * StringUtils.isAllUpperCase("A C")  = false
+    * StringUtils.isAllUpperCase("A1C")  = false
+    * StringUtils.isAllUpperCase("A/C")  = false
+    * </pre>
+    *
+    * @param cs the CharSequence to check, may be null
+    * @return {@code true} if only contains uppercase characters, and is non-null
+    * @since 2.5
+    * @since 3.0 Changed signature from isAllUpperCase(String) to isAllUpperCase(CharSequence)
+    */
+  def isAllUpperCase(cs: CharSequence): Boolean = {
+    if (isEmpty(cs)) return false
+    val sz = cs.length
+    for (i <- 0 until sz) {
+      if (!Character.isUpperCase(cs.charAt(i))) return false
+    }
+    true
+  }
+
+  /**
+    * <p>Checks if the CharSequence contains only Unicode letters.</p>
+    *
+    * <p>{@code null} will return {@code false}.
+    * An empty CharSequence (length()=0) will return {@code false}.</p>
+    *
+    * <pre>
+    * StringUtils.isAlpha(null)   = false
+    * StringUtils.isAlpha("")     = false
+    * StringUtils.isAlpha("  ")   = false
+    * StringUtils.isAlpha("abc")  = true
+    * StringUtils.isAlpha("ab2c") = false
+    * StringUtils.isAlpha("ab-c") = false
+    * </pre>
+    *
+    * @param cs the CharSequence to check, may be null
+    * @return {@code true} if only contains letters, and is non-null
+    * @since 3.0 Changed signature from isAlpha(String) to isAlpha(CharSequence)
+    * @since 3.0 Changed "" to return false and not true
+    */
+  def isAlpha(cs: CharSequence): Boolean = {
+    if (isEmpty(cs)) return false
+    val sz = cs.length
+    for (i <- 0 until sz) {
+      if (!Character.isLetter(cs.charAt(i))) return false
+    }
+    true
+  }
+
+  /**
+    * <p>Checks if the CharSequence contains only Unicode letters or digits.</p>
+    *
+    * <p>{@code null} will return {@code false}.
+    * An empty CharSequence (length()=0) will return {@code false}.</p>
+    *
+    * <pre>
+    * StringUtils.isAlphanumeric(null)   = false
+    * StringUtils.isAlphanumeric("")     = false
+    * StringUtils.isAlphanumeric("  ")   = false
+    * StringUtils.isAlphanumeric("abc")  = true
+    * StringUtils.isAlphanumeric("ab c") = false
+    * StringUtils.isAlphanumeric("ab2c") = true
+    * StringUtils.isAlphanumeric("ab-c") = false
+    * </pre>
+    *
+    * @param cs the CharSequence to check, may be null
+    * @return {@code true} if only contains letters or digits,
+    *         and is non-null
+    * @since 3.0 Changed signature from isAlphanumeric(String) to isAlphanumeric(CharSequence)
+    * @since 3.0 Changed "" to return false and not true
+    */
+  def isAlphanumeric(cs: CharSequence): Boolean = {
+    if (isEmpty(cs)) return false
+    val sz = cs.length
+    for (i <- 0 until sz) {
+      if (!Character.isLetterOrDigit(cs.charAt(i))) return false
+    }
+    true
+  }
+
+  /**
+    * <p>Checks if the CharSequence contains only Unicode letters, digits
+    * or space ({@code ' '}).</p>
+    *
+    * <p>{@code null} will return {@code false}.
+    * An empty CharSequence (length()=0) will return {@code true}.</p>
+    *
+    * <pre>
+    * StringUtils.isAlphanumericSpace(null)   = false
+    * StringUtils.isAlphanumericSpace("")     = true
+    * StringUtils.isAlphanumericSpace("  ")   = true
+    * StringUtils.isAlphanumericSpace("abc")  = true
+    * StringUtils.isAlphanumericSpace("ab c") = true
+    * StringUtils.isAlphanumericSpace("ab2c") = true
+    * StringUtils.isAlphanumericSpace("ab-c") = false
+    * </pre>
+    *
+    * @param cs the CharSequence to check, may be null
+    * @return {@code true} if only contains letters, digits or space,
+    *         and is non-null
+    * @since 3.0 Changed signature from isAlphanumericSpace(String) to isAlphanumericSpace(CharSequence)
+    */
+  def isAlphanumericSpace(cs: CharSequence): Boolean = {
+    if (cs == null) return false
+    val sz = cs.length
+    for (i <- 0 until sz) {
+      if (!Character.isLetterOrDigit(cs.charAt(i)) && cs.charAt(i) != ' ') return false
+    }
+    true
+  }
+
+  /**
+    * <p>Checks if the CharSequence contains only Unicode letters and
+    * space (' ').</p>
+    *
+    * <p>{@code null} will return {@code false}
+    * An empty CharSequence (length()=0) will return {@code true}.</p>
+    *
+    * <pre>
+    * StringUtils.isAlphaSpace(null)   = false
+    * StringUtils.isAlphaSpace("")     = true
+    * StringUtils.isAlphaSpace("  ")   = true
+    * StringUtils.isAlphaSpace("abc")  = true
+    * StringUtils.isAlphaSpace("ab c") = true
+    * StringUtils.isAlphaSpace("ab2c") = false
+    * StringUtils.isAlphaSpace("ab-c") = false
+    * </pre>
+    *
+    * @param cs the CharSequence to check, may be null
+    * @return {@code true} if only contains letters and space,
+    *         and is non-null
+    * @since 3.0 Changed signature from isAlphaSpace(String) to isAlphaSpace(CharSequence)
+    */
+  def isAlphaSpace(cs: CharSequence): Boolean = {
+    if (cs == null) return false
+    val sz = cs.length
+    for (i <- 0 until sz) {
+      if (!Character.isLetter(cs.charAt(i)) && cs.charAt(i) != ' ') return false
+    }
+    true
+  }
+
+  /**
+    * <p>Checks if any of the CharSequences are empty ("") or null or whitespace only.</p>
+    *
+    * <p>Whitespace is defined by {@link Character# isWhitespace ( char )}.</p>
+    *
+    * <pre>
+    * StringUtils.isAnyBlank((String) null)    = true
+    * StringUtils.isAnyBlank((String[]) null)  = false
+    * StringUtils.isAnyBlank(null, "foo")      = true
+    * StringUtils.isAnyBlank(null, null)       = true
+    * StringUtils.isAnyBlank("", "bar")        = true
+    * StringUtils.isAnyBlank("bob", "")        = true
+    * StringUtils.isAnyBlank("  bob  ", null)  = true
+    * StringUtils.isAnyBlank(" ", "bar")       = true
+    * StringUtils.isAnyBlank(new String[] {})  = false
+    * StringUtils.isAnyBlank(new String[]{""}) = true
+    * StringUtils.isAnyBlank("foo", "bar")     = false
+    * </pre>
+    *
+    * @param css the CharSequences to check, may be null or empty
+    * @return {@code true} if any of the CharSequences are empty or null or whitespace only
+    * @since 3.2
+    */
+  def isAnyBlank(css: CharSequence*): Boolean = {
+    if (ArrayUtils.isEmpty(css.toArray)) return false
+    for (cs <- css) {
+      if (isBlank(cs)) return true
+    }
+    false
+  }
+
+  /**
+    * <p>Checks if any of the CharSequences are empty ("") or null.</p>
+    *
+    * <pre>
+    * StringUtils.isAnyEmpty((String) null)    = true
+    * StringUtils.isAnyEmpty((String[]) null)  = false
+    * StringUtils.isAnyEmpty(null, "foo")      = true
+    * StringUtils.isAnyEmpty("", "bar")        = true
+    * StringUtils.isAnyEmpty("bob", "")        = true
+    * StringUtils.isAnyEmpty("  bob  ", null)  = true
+    * StringUtils.isAnyEmpty(" ", "bar")       = false
+    * StringUtils.isAnyEmpty("foo", "bar")     = false
+    * StringUtils.isAnyEmpty(new String[]{})   = false
+    * StringUtils.isAnyEmpty(new String[]{""}) = true
+    * </pre>
+    *
+    * @param css the CharSequences to check, may be null or empty
+    * @return {@code true} if any of the CharSequences are empty or null
+    * @since 3.2
+    */
+  def isAnyEmpty(css: CharSequence*): Boolean = {
+    if (ArrayUtils.isEmpty(css.toArray)) return false
+    for (cs <- css) {
+      if (isEmpty(cs)) return true
+    }
+    false
+  }
+
+  /**
+    * <p>Checks if the CharSequence contains only ASCII printable characters.</p>
+    *
+    * <p>{@code null} will return {@code false}.
+    * An empty CharSequence (length()=0) will return {@code true}.</p>
+    *
+    * <pre>
+    * StringUtils.isAsciiPrintable(null)     = false
+    * StringUtils.isAsciiPrintable("")       = true
+    * StringUtils.isAsciiPrintable(" ")      = true
+    * StringUtils.isAsciiPrintable("Ceki")   = true
+    * StringUtils.isAsciiPrintable("ab2c")   = true
+    * StringUtils.isAsciiPrintable("!ab-c~") = true
+    * StringUtils.isAsciiPrintable("\u0020") = true
+    * StringUtils.isAsciiPrintable("\u0021") = true
+    * StringUtils.isAsciiPrintable("\u007e") = true
+    * StringUtils.isAsciiPrintable("\u007f") = false
+    * StringUtils.isAsciiPrintable("Ceki G\u00fclc\u00fc") = false
+    * </pre>
+    *
+    * @param cs the CharSequence to check, may be null
+    * @return {@code true} if every character is in the range
+    *         32 thru 126
+    * @since 2.1
+    * @since 3.0 Changed signature from isAsciiPrintable(String) to isAsciiPrintable(CharSequence)
+    */
+  def isAsciiPrintable(cs: CharSequence): Boolean = {
+    if (cs == null) return false
+    val sz = cs.length
+    for (i <- 0 until sz) {
+      if (!CharUtils.isAsciiPrintable(cs.charAt(i))) return false
+    }
+    true
+  }
+
   /**
     * <p>Checks if a CharSequence is empty (""), null or whitespace only.</p>
     *
@@ -3185,91 +3187,91 @@ object StringUtils {
 //    containsUppercase && containsLowercase
 //  }
 //
-//  /**
-//    * <p>Checks if none of the CharSequences are empty (""), null or whitespace only.</p>
-//    *
-//    * <p>Whitespace is defined by {@link Character# isWhitespace ( char )}.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isNoneBlank((String) null)    = false
-//    * StringUtils.isNoneBlank((String[]) null)  = true
-//    * StringUtils.isNoneBlank(null, "foo")      = false
-//    * StringUtils.isNoneBlank(null, null)       = false
-//    * StringUtils.isNoneBlank("", "bar")        = false
-//    * StringUtils.isNoneBlank("bob", "")        = false
-//    * StringUtils.isNoneBlank("  bob  ", null)  = false
-//    * StringUtils.isNoneBlank(" ", "bar")       = false
-//    * StringUtils.isNoneBlank(new String[] {})  = true
-//    * StringUtils.isNoneBlank(new String[]{""}) = false
-//    * StringUtils.isNoneBlank("foo", "bar")     = true
-//    * </pre>
-//    *
-//    * @param css the CharSequences to check, may be null or empty
-//    * @return {@code true} if none of the CharSequences are empty or null or whitespace only
-//    * @since 3.2
-//    */
-//  def isNoneBlank(css: CharSequence*): Boolean = !isAnyBlank(css)
-//
-//  /**
-//    * <p>Checks if none of the CharSequences are empty ("") or null.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isNoneEmpty((String) null)    = false
-//    * StringUtils.isNoneEmpty((String[]) null)  = true
-//    * StringUtils.isNoneEmpty(null, "foo")      = false
-//    * StringUtils.isNoneEmpty("", "bar")        = false
-//    * StringUtils.isNoneEmpty("bob", "")        = false
-//    * StringUtils.isNoneEmpty("  bob  ", null)  = false
-//    * StringUtils.isNoneEmpty(new String[] {})  = true
-//    * StringUtils.isNoneEmpty(new String[]{""}) = false
-//    * StringUtils.isNoneEmpty(" ", "bar")       = true
-//    * StringUtils.isNoneEmpty("foo", "bar")     = true
-//    * </pre>
-//    *
-//    * @param css the CharSequences to check, may be null or empty
-//    * @return {@code true} if none of the CharSequences are empty or null
-//    * @since 3.2
-//    */
-//  def isNoneEmpty(css: CharSequence*): Boolean = !isAnyEmpty(css)
-//
-//  /**
-//    * <p>Checks if a CharSequence is not empty (""), not null and not whitespace only.</p>
-//    *
-//    * <p>Whitespace is defined by {@link Character# isWhitespace ( char )}.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isNotBlank(null)      = false
-//    * StringUtils.isNotBlank("")        = false
-//    * StringUtils.isNotBlank(" ")       = false
-//    * StringUtils.isNotBlank("bob")     = true
-//    * StringUtils.isNotBlank("  bob  ") = true
-//    * </pre>
-//    *
-//    * @param cs the CharSequence to check, may be null
-//    * @return {@code true} if the CharSequence is
-//    *         not empty and not null and not whitespace only
-//    * @since 2.0
-//    * @since 3.0 Changed signature from isNotBlank(String) to isNotBlank(CharSequence)
-//    */
-//  def isNotBlank(cs: CharSequence): Boolean = !isBlank(cs)
-//
-//  /**
-//    * <p>Checks if a CharSequence is not empty ("") and not null.</p>
-//    *
-//    * <pre>
-//    * StringUtils.isNotEmpty(null)      = false
-//    * StringUtils.isNotEmpty("")        = false
-//    * StringUtils.isNotEmpty(" ")       = true
-//    * StringUtils.isNotEmpty("bob")     = true
-//    * StringUtils.isNotEmpty("  bob  ") = true
-//    * </pre>
-//    *
-//    * @param cs the CharSequence to check, may be null
-//    * @return {@code true} if the CharSequence is not empty and not null
-//    * @since 3.0 Changed signature from isNotEmpty(String) to isNotEmpty(CharSequence)
-//    */
-//  def isNotEmpty(cs: CharSequence): Boolean = !isEmpty(cs)
-//
+  /**
+    * <p>Checks if none of the CharSequences are empty (""), null or whitespace only.</p>
+    *
+    * <p>Whitespace is defined by {@link Character# isWhitespace ( char )}.</p>
+    *
+    * <pre>
+    * StringUtils.isNoneBlank((String) null)    = false
+    * StringUtils.isNoneBlank((String[]) null)  = true
+    * StringUtils.isNoneBlank(null, "foo")      = false
+    * StringUtils.isNoneBlank(null, null)       = false
+    * StringUtils.isNoneBlank("", "bar")        = false
+    * StringUtils.isNoneBlank("bob", "")        = false
+    * StringUtils.isNoneBlank("  bob  ", null)  = false
+    * StringUtils.isNoneBlank(" ", "bar")       = false
+    * StringUtils.isNoneBlank(new String[] {})  = true
+    * StringUtils.isNoneBlank(new String[]{""}) = false
+    * StringUtils.isNoneBlank("foo", "bar")     = true
+    * </pre>
+    *
+    * @param css the CharSequences to check, may be null or empty
+    * @return {@code true} if none of the CharSequences are empty or null or whitespace only
+    * @since 3.2
+    */
+  def isNoneBlank(css: CharSequence*): Boolean = !isAnyBlank(css:_*)
+
+  /**
+    * <p>Checks if none of the CharSequences are empty ("") or null.</p>
+    *
+    * <pre>
+    * StringUtils.isNoneEmpty((String) null)    = false
+    * StringUtils.isNoneEmpty((String[]) null)  = true
+    * StringUtils.isNoneEmpty(null, "foo")      = false
+    * StringUtils.isNoneEmpty("", "bar")        = false
+    * StringUtils.isNoneEmpty("bob", "")        = false
+    * StringUtils.isNoneEmpty("  bob  ", null)  = false
+    * StringUtils.isNoneEmpty(new String[] {})  = true
+    * StringUtils.isNoneEmpty(new String[]{""}) = false
+    * StringUtils.isNoneEmpty(" ", "bar")       = true
+    * StringUtils.isNoneEmpty("foo", "bar")     = true
+    * </pre>
+    *
+    * @param css the CharSequences to check, may be null or empty
+    * @return {@code true} if none of the CharSequences are empty or null
+    * @since 3.2
+    */
+  def isNoneEmpty(css: CharSequence*): Boolean = !isAnyEmpty(css:_*)
+
+  /**
+    * <p>Checks if a CharSequence is not empty (""), not null and not whitespace only.</p>
+    *
+    * <p>Whitespace is defined by {@link Character# isWhitespace ( char )}.</p>
+    *
+    * <pre>
+    * StringUtils.isNotBlank(null)      = false
+    * StringUtils.isNotBlank("")        = false
+    * StringUtils.isNotBlank(" ")       = false
+    * StringUtils.isNotBlank("bob")     = true
+    * StringUtils.isNotBlank("  bob  ") = true
+    * </pre>
+    *
+    * @param cs the CharSequence to check, may be null
+    * @return {@code true} if the CharSequence is
+    *         not empty and not null and not whitespace only
+    * @since 2.0
+    * @since 3.0 Changed signature from isNotBlank(String) to isNotBlank(CharSequence)
+    */
+  def isNotBlank(cs: CharSequence): Boolean = !isBlank(cs)
+
+  /**
+    * <p>Checks if a CharSequence is not empty ("") and not null.</p>
+    *
+    * <pre>
+    * StringUtils.isNotEmpty(null)      = false
+    * StringUtils.isNotEmpty("")        = false
+    * StringUtils.isNotEmpty(" ")       = true
+    * StringUtils.isNotEmpty("bob")     = true
+    * StringUtils.isNotEmpty("  bob  ") = true
+    * </pre>
+    *
+    * @param cs the CharSequence to check, may be null
+    * @return {@code true} if the CharSequence is not empty and not null
+    * @since 3.0 Changed signature from isNotEmpty(String) to isNotEmpty(CharSequence)
+    */
+  def isNotEmpty(cs: CharSequence): Boolean = !isEmpty(cs)
+
   /**
     * <p>Checks if the CharSequence contains only Unicode digits.
     * A decimal point is not a Unicode digit and returns false.</p>

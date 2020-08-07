@@ -75,7 +75,7 @@ class MutableObject[T <: AnyRef]()
     */
   override def equals(obj: Any): Boolean = {
     if (obj == null) false
-    else if (obj.isInstanceOf[T] && (this eq obj.asInstanceOf[T])) true
+    else if (obj.isInstanceOf[T @unchecked] && (this eq obj.asInstanceOf[T])) true
     else if (this.getClass eq obj.getClass) {
       val that = obj.asInstanceOf[MutableObject[_]]
       this.value == that.value

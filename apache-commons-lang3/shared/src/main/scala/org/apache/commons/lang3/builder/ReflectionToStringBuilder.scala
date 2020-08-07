@@ -451,7 +451,7 @@ class ReflectionToStringBuilder[T](`object`: T, style: ToStringStyle, buffer: St
   private var upToClass: Class[_] = null
 
   def this() = {
-    this(null.asInstanceOf[Nothing], null, null)
+    this(null.asInstanceOf[T], null, null)
   }
 
   /**

@@ -38,32 +38,33 @@ import scala.collection.JavaConverters._
 @SerialVersionUID(20110706L)
 class DefaultExceptionContext extends ExceptionContext with Serializable {
   /** The list storing the label-data pairs. */
-  final private val contextValues: util.ArrayList[Pair[String, AnyRef]] = new util.ArrayList[Pair[String, AnyRef]]
+  final private val contextValues: util.ArrayList[Pair[String, Any]] = new util.ArrayList[Pair[String, Any]]
 
   /**
     * {@inheritDoc }
     */
-  override def addContextValue(label: String, value: AnyRef): DefaultExceptionContext = {
-    contextValues.add(new ImmutablePair[String, AnyRef](label, value))
+  override def addContextValue(label: String, value: Any): DefaultExceptionContext = {
+    contextValues.add(new ImmutablePair[String, Any](label, value))
     this
   }
 
-  override def setContextValue(label: String, value: AnyRef): DefaultExceptionContext = {
-    contextValues.removeIf((p: Pair[String, AnyRef]) => StringUtils.equals(label, p.getKey))
+  override def setContextValue(label: String, value: Any): DefaultExceptionContext = {
+    contextValues.removeIf((p: Pair[String, Any]) => StringUtils.equals(label, p.getKey))
     addContextValue(label, value)
     this
   }
 
-  override def getContextValues(label: String): util.List[AnyRef] = {
-    val values = new util.ArrayList[AnyRef]
+  override def getContextValues(label: String): util.List[Any] = {
+    val values = new util.ArrayList[Any]
 
     for (pair <- contextValues.iterator.asScala) {
       if (StringUtils.equals(label, pair.getKey)) values.add(pair.getValue)
     }
+
     values
   }
 
-  override def getFirstContextValue(label: String): AnyRef = {
+  override def getFirstContextValue(label: String): Any = {
     for (pair <- contextValues.iterator.asScala) {
       if (StringUtils.equals(label, pair.getKey)) return pair.getValue
     }
@@ -81,7 +82,7 @@ class DefaultExceptionContext extends ExceptionContext with Serializable {
     labels
   }
 
-  override def getContextEntries: util.List[Pair[String, AnyRef]] = contextValues
+  override def getContextEntries: util.List[Pair[String, Any]] = contextValues
 
   /**
     * Builds the message containing the contextual information.
