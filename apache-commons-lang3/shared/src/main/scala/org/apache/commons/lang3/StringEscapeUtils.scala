@@ -17,18 +17,18 @@
 
 package org.apache.commons.lang3
 
-//import java.io.IOException
-//import java.io.Writer
+import java.io.IOException
+import java.io.Writer
 import org.apache.commons.lang3.text.translate.AggregateTranslator
-//import org.apache.commons.lang3.text.translate.CharSequenceTranslator
+import org.apache.commons.lang3.text.translate.CharSequenceTranslator
 import org.apache.commons.lang3.text.translate.EntityArrays
 import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper
 import org.apache.commons.lang3.text.translate.LookupTranslator
-//import org.apache.commons.lang3.text.translate.NumericEntityEscaper
-//import org.apache.commons.lang3.text.translate.NumericEntityUnescaper
-//import org.apache.commons.lang3.text.translate.OctalUnescaper
-//import org.apache.commons.lang3.text.translate.UnicodeUnescaper
-//import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
+import org.apache.commons.lang3.text.translate.NumericEntityEscaper
+import org.apache.commons.lang3.text.translate.NumericEntityUnescaper
+import org.apache.commons.lang3.text.translate.OctalUnescaper
+import org.apache.commons.lang3.text.translate.UnicodeUnescaper
+import org.apache.commons.lang3.text.translate.UnicodeUnpairedSurrogateRemover
 
 /**
   * <p>Escapes and unescapes {@code String}s for
@@ -42,26 +42,34 @@ import org.apache.commons.lang3.text.translate.LookupTranslator
   *             StringEscapeUtils</a> instead
   */
 @deprecated object StringEscapeUtils {
-//  /**
-//    * Translator object for escaping Java.
-//    *
-//    * While {@link #escapeJava ( String )} is the expected method of use, this
-//    * object allows the Java escaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.0
-//    */
-//  val ESCAPE_JAVA: CharSequenceTranslator = new LookupTranslator(Array[Array[String]](Array("\"", "\\\""), Array("\\", "\\\\"))).`with`(new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE)).`with`(JavaUnicodeEscaper.outsideOf(32, 0x7f))
-//  /**
-//    * Translator object for escaping EcmaScript/JavaScript.
-//    *
-//    * While {@link #escapeEcmaScript ( String )} is the expected method of use, this
-//    * object allows the EcmaScript escaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.0
-//    */
-//  val ESCAPE_ECMASCRIPT = new AggregateTranslator(new LookupTranslator(Array[Array[String]](Array("'", "\\'"), Array("\"", "\\\""), Array("\\", "\\\\"), Array("/", "\\/"))), new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE), JavaUnicodeEscaper.outsideOf(32, 0x7f))
+  /**
+    * Translator object for escaping Java.
+    *
+    * While {@link #escapeJava ( String )} is the expected method of use, this
+    * object allows the Java escaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.0
+    */
+  val ESCAPE_JAVA: CharSequenceTranslator = new LookupTranslator(Array("\"", "\\\""), Array("\\", "\\\\"))
+    .`with`(new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE:_*))
+    .`with`(JavaUnicodeEscaper.outsideOf(32, 0x7f))
+
+  /**
+    * Translator object for escaping EcmaScript/JavaScript.
+    *
+    * While {@link #escapeEcmaScript ( String )} is the expected method of use, this
+    * object allows the EcmaScript escaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.0
+    */
+  val ESCAPE_ECMASCRIPT = new AggregateTranslator(
+    new LookupTranslator(Array("'", "\\'"), Array("\"", "\\\""), Array("\\", "\\\\"), Array("/", "\\/")),
+    new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE:_*),
+    JavaUnicodeEscaper.outsideOf(32, 0x7f)
+  )
+
   /**
     * Translator object for escaping Json.
     *
@@ -91,237 +99,289 @@ import org.apache.commons.lang3.text.translate.LookupTranslator
         );
  */
 
-//  /**
-//    * Translator object for escaping XML.
-//    *
-//    * While {@link #escapeXml ( String )} is the expected method of use, this
-//    * object allows the XML escaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.0
-//    * @deprecated use {@link #ESCAPE_XML10} or {@link #ESCAPE_XML11} instead.
-//    */
-//  @deprecated val ESCAPE_XML = new AggregateTranslator(new LookupTranslator(EntityArrays.BASIC_ESCAPE), new LookupTranslator(EntityArrays.APOS_ESCAPE))
-//  /**
-//    * Translator object for escaping XML 1.0.
-//    *
-//    * While {@link #escapeXml10 ( String )} is the expected method of use, this
-//    * object allows the XML escaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.3
-//    */
-//  val ESCAPE_XML10 = new AggregateTranslator(new LookupTranslator(EntityArrays.BASIC_ESCAPE), new LookupTranslator(EntityArrays.APOS_ESCAPE), new LookupTranslator(Array[Array[String]](Array("\u0000", StringUtils.EMPTY), Array("\u0001", StringUtils.EMPTY), Array("\u0002", StringUtils.EMPTY), Array("\u0003", StringUtils.EMPTY), Array("\u0004", StringUtils.EMPTY), Array("\u0005", StringUtils.EMPTY), Array("\u0006", StringUtils.EMPTY), Array("\u0007", StringUtils.EMPTY), Array("\u0008", StringUtils.EMPTY), Array("\u000b", StringUtils.EMPTY), Array("\u000c", StringUtils.EMPTY), Array("\u000e", StringUtils.EMPTY), Array("\u000f", StringUtils.EMPTY), Array("\u0010", StringUtils.EMPTY), Array("\u0011", StringUtils.EMPTY), Array("\u0012", StringUtils.EMPTY), Array("\u0013", StringUtils.EMPTY), Array("\u0014", StringUtils.EMPTY), Array("\u0015", StringUtils.EMPTY), Array("\u0016", StringUtils.EMPTY), Array("\u0017", StringUtils.EMPTY), Array("\u0018", StringUtils.EMPTY), Array("\u0019", StringUtils.EMPTY), Array("\u001a", StringUtils.EMPTY), Array("\u001b", StringUtils.EMPTY), Array("\u001c", StringUtils.EMPTY), Array("\u001d", StringUtils.EMPTY), Array("\u001e", StringUtils.EMPTY), Array("\u001f", StringUtils.EMPTY), Array("\ufffe", StringUtils.EMPTY), Array("\uffff", StringUtils.EMPTY))), NumericEntityEscaper.between(0x7f, 0x84), NumericEntityEscaper.between(0x86, 0x9f), new UnicodeUnpairedSurrogateRemover)
-//  /**
-//    * Translator object for escaping XML 1.1.
-//    *
-//    * While {@link #escapeXml11 ( String )} is the expected method of use, this
-//    * object allows the XML escaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.3
-//    */
-//  val ESCAPE_XML11 = new AggregateTranslator(new LookupTranslator(EntityArrays.BASIC_ESCAPE), new LookupTranslator(EntityArrays.APOS_ESCAPE), new LookupTranslator(Array[Array[String]](Array("\u0000", StringUtils.EMPTY), Array("\u000b", "&#11;"), Array("\u000c", "&#12;"), Array("\ufffe", StringUtils.EMPTY), Array("\uffff", StringUtils.EMPTY))), NumericEntityEscaper.between(0x1, 0x8), NumericEntityEscaper.between(0xe, 0x1f), NumericEntityEscaper.between(0x7f, 0x84), NumericEntityEscaper.between(0x86, 0x9f), new UnicodeUnpairedSurrogateRemover)
-//  /**
-//    * Translator object for escaping HTML version 3.0.
-//    *
-//    * While {@link #escapeHtml3 ( String )} is the expected method of use, this
-//    * object allows the HTML escaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.0
-//    */
-//  val ESCAPE_HTML3 = new AggregateTranslator(new LookupTranslator(EntityArrays.BASIC_ESCAPE), new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE))
-//  /**
-//    * Translator object for escaping HTML version 4.0.
-//    *
-//    * While {@link #escapeHtml4 ( String )} is the expected method of use, this
-//    * object allows the HTML escaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.0
-//    */
-//  val ESCAPE_HTML4 = new AggregateTranslator(new LookupTranslator(EntityArrays.BASIC_ESCAPE), new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE), new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE))
-//  /**
-//    * Translator object for escaping individual Comma Separated Values.
-//    *
-//    * While {@link #escapeCsv ( String )} is the expected method of use, this
-//    * object allows the CSV escaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.0
-//    */
-//  val ESCAPE_CSV = new StringEscapeUtils.CsvEscaper
-//
-//  // TODO: Create a parent class - 'SinglePassTranslator' ?
-//  //       It would handle the index checking + length returning,
-//  //       and could also have an optimization check method.
-//  private[lang3] object CsvEscaper {
-//    private val CSV_DELIMITER = ','
-//    private val CSV_QUOTE = '"'
-//    private val CSV_QUOTE_STR = String.valueOf(CSV_QUOTE)
-//    private val CSV_SEARCH_CHARS = Array(CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF)
-//  }
-//
-//  private[lang3] class CsvEscaper extends CharSequenceTranslator {
-//    @throws[IOException]
-//    override def translate(input: CharSequence, index: Int, out: Writer): Int = {
-//      if (index != 0) throw new IllegalStateException("CsvEscaper should never reach the [1] index")
-//      if (StringUtils.containsNone(input.toString, CsvEscaper.CSV_SEARCH_CHARS)) out.write(input.toString)
-//      else {
-//        out.write(CsvEscaper.CSV_QUOTE)
-//        out.write(StringUtils.replace(input.toString, CsvEscaper.CSV_QUOTE_STR, CsvEscaper.CSV_QUOTE_STR + CsvEscaper.CSV_QUOTE_STR))
-//        out.write(CsvEscaper.CSV_QUOTE)
-//      }
-//      Character.codePointCount(input, 0, input.length)
-//    }
-//  }
-//
-//  /**
-//    * Translator object for unescaping escaped Java.
-//    *
-//    * While {@link #unescapeJava ( String )} is the expected method of use, this
-//    * object allows the Java unescaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.0
-//    */
-//  // TODO: throw "illegal character: \92" as an Exception if a \ on the end of the Java (as per the compiler)?
-//  val UNESCAPE_JAVA = new AggregateTranslator(new OctalUnescaper, // .between('\1', '\377'),
-//    new UnicodeUnescaper, new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE), new LookupTranslator(Array[Array[String]](Array("\\\\", "\\"), Array("\\\"", "\""), Array("\\'", "'"), Array("\\", ""))))
-//  /**
-//    * Translator object for unescaping escaped EcmaScript.
-//    *
-//    * While {@link #unescapeEcmaScript ( String )} is the expected method of use, this
-//    * object allows the EcmaScript unescaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.0
-//    */
-//  val UNESCAPE_ECMASCRIPT: CharSequenceTranslator = UNESCAPE_JAVA
-//  /**
-//    * Translator object for unescaping escaped Json.
-//    *
-//    * While {@link #unescapeJson ( String )} is the expected method of use, this
-//    * object allows the Json unescaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.2
-//    */
-//  val UNESCAPE_JSON: CharSequenceTranslator = UNESCAPE_JAVA
-//  /**
-//    * Translator object for unescaping escaped HTML 3.0.
-//    *
-//    * While {@link #unescapeHtml3 ( String )} is the expected method of use, this
-//    * object allows the HTML unescaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.0
-//    */
-//  val UNESCAPE_HTML3 = new AggregateTranslator(new LookupTranslator(EntityArrays.BASIC_UNESCAPE), new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE), new NumericEntityUnescaper)
-//  /**
-//    * Translator object for unescaping escaped HTML 4.0.
-//    *
-//    * While {@link #unescapeHtml4 ( String )} is the expected method of use, this
-//    * object allows the HTML unescaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.0
-//    */
-//  val UNESCAPE_HTML4 = new AggregateTranslator(new LookupTranslator(EntityArrays.BASIC_UNESCAPE), new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE), new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE), new NumericEntityUnescaper)
-//  /**
-//    * Translator object for unescaping escaped XML.
-//    *
-//    * While {@link #unescapeXml ( String )} is the expected method of use, this
-//    * object allows the XML unescaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.0
-//    */
-//  val UNESCAPE_XML = new AggregateTranslator(new LookupTranslator(EntityArrays.BASIC_UNESCAPE), new LookupTranslator(EntityArrays.APOS_UNESCAPE), new NumericEntityUnescaper)
-//  /**
-//    * Translator object for unescaping escaped Comma Separated Value entries.
-//    *
-//    * While {@link #unescapeCsv ( String )} is the expected method of use, this
-//    * object allows the CSV unescaping functionality to be used
-//    * as the foundation for a custom translator.
-//    *
-//    * @since 3.0
-//    */
-//  val UNESCAPE_CSV = new StringEscapeUtils.CsvUnescaper
-//
-//  private[lang3] object CsvUnescaper {
-//    private val CSV_DELIMITER = ','
-//    private val CSV_QUOTE = '"'
-//    private val CSV_QUOTE_STR = String.valueOf(CSV_QUOTE)
-//    private val CSV_SEARCH_CHARS = Array(CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF)
-//  }
-//
-//  private[lang3] class CsvUnescaper extends CharSequenceTranslator {
-//    @throws[IOException]
-//    override def translate(input: CharSequence, index: Int, out: Writer): Int = {
-//      if (index != 0) throw new IllegalStateException("CsvUnescaper should never reach the [1] index")
-//      if (input.charAt(0) != CsvUnescaper.CSV_QUOTE || input.charAt(input.length - 1) != CsvUnescaper.CSV_QUOTE) {
-//        out.write(input.toString)
-//        return Character.codePointCount(input, 0, input.length)
-//      }
-//      // strip quotes
-//      val quoteless = input.subSequence(1, input.length - 1).toString
-//      if (StringUtils.containsAny(quoteless, CsvUnescaper.CSV_SEARCH_CHARS)) { // deal with escaped quotes; ie) ""
-//        out.write(StringUtils.replace(quoteless, CsvUnescaper.CSV_QUOTE_STR + CsvUnescaper.CSV_QUOTE_STR, CsvUnescaper.CSV_QUOTE_STR))
-//      }
-//      else out.write(input.toString)
-//      Character.codePointCount(input, 0, input.length)
-//    }
-//  }
-//
-//  /**
-//    * <p>Escapes the characters in a {@code String} using Java String rules.</p>
-//    *
-//    * <p>Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
-//    *
-//    * <p>So a tab becomes the characters {@code '\\'} and
-//    * {@code 't'}.</p>
-//    *
-//    * <p>The only difference between Java strings and JavaScript strings
-//    * is that in JavaScript, a single quote and forward-slash (/) are escaped.</p>
-//    *
-//    * <p>Example:</p>
-//    * <pre>
-//    * input string: He didn't say, "Stop!"
-//    * output string: He didn't say, \"Stop!\"
-//    * </pre>
-//    *
-//    * @param input String to escape values in, may be null
-//    * @return String with escaped values, {@code null} if null string input
-//    */
-//  def escapeJava(input: String): String = ESCAPE_JAVA.translate(input)
-//
-//  /**
-//    * <p>Escapes the characters in a {@code String} using EcmaScript String rules.</p>
-//    * <p>Escapes any values it finds into their EcmaScript String form.
-//    * Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
-//    *
-//    * <p>So a tab becomes the characters {@code '\\'} and
-//    * {@code 't'}.</p>
-//    *
-//    * <p>The only difference between Java strings and EcmaScript strings
-//    * is that in EcmaScript, a single quote and forward-slash (/) are escaped.</p>
-//    *
-//    * <p>Note that EcmaScript is best known by the JavaScript and ActionScript dialects. </p>
-//    *
-//    * <p>Example:</p>
-//    * <pre>
-//    * input string: He didn't say, "Stop!"
-//    * output string: He didn\'t say, \"Stop!\"
-//    * </pre>
-//    *
-//    * @param input String to escape values in, may be null
-//    * @return String with escaped values, {@code null} if null string input
-//    * @since 3.0
-//    */
-//  def escapeEcmaScript(input: String): String = ESCAPE_ECMASCRIPT.translate(input)
-//
+  /**
+    * Translator object for escaping XML.
+    *
+    * While {@link #escapeXml ( String )} is the expected method of use, this
+    * object allows the XML escaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.0
+    * @deprecated use {@link #ESCAPE_XML10} or {@link #ESCAPE_XML11} instead.
+    */
+  @deprecated val ESCAPE_XML = new AggregateTranslator(
+    new LookupTranslator(EntityArrays.BASIC_ESCAPE:_*),
+    new LookupTranslator(EntityArrays.APOS_ESCAPE:_*)
+  )
+
+  /**
+    * Translator object for escaping XML 1.0.
+    *
+    * While {@link #escapeXml10 ( String )} is the expected method of use, this
+    * object allows the XML escaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.3
+    */
+  val ESCAPE_XML10 = new AggregateTranslator(
+    new LookupTranslator(EntityArrays.BASIC_ESCAPE:_*),
+    new LookupTranslator(EntityArrays.APOS_ESCAPE:_*),
+    new LookupTranslator(Array("\u0000", StringUtils.EMPTY), Array("\u0001", StringUtils.EMPTY), Array("\u0002", StringUtils.EMPTY), Array("\u0003", StringUtils.EMPTY), Array("\u0004", StringUtils.EMPTY), Array("\u0005", StringUtils.EMPTY), Array("\u0006", StringUtils.EMPTY), Array("\u0007", StringUtils.EMPTY), Array("\u0008", StringUtils.EMPTY), Array("\u000b", StringUtils.EMPTY), Array("\u000c", StringUtils.EMPTY), Array("\u000e", StringUtils.EMPTY), Array("\u000f", StringUtils.EMPTY), Array("\u0010", StringUtils.EMPTY), Array("\u0011", StringUtils.EMPTY), Array("\u0012", StringUtils.EMPTY), Array("\u0013", StringUtils.EMPTY), Array("\u0014", StringUtils.EMPTY), Array("\u0015", StringUtils.EMPTY), Array("\u0016", StringUtils.EMPTY), Array("\u0017", StringUtils.EMPTY), Array("\u0018", StringUtils.EMPTY), Array("\u0019", StringUtils.EMPTY), Array("\u001a", StringUtils.EMPTY), Array("\u001b", StringUtils.EMPTY), Array("\u001c", StringUtils.EMPTY), Array("\u001d", StringUtils.EMPTY), Array("\u001e", StringUtils.EMPTY), Array("\u001f", StringUtils.EMPTY), Array("\ufffe", StringUtils.EMPTY), Array("\uffff", StringUtils.EMPTY)),
+    NumericEntityEscaper.between(0x7f, 0x84),
+    NumericEntityEscaper.between(0x86, 0x9f),
+    new UnicodeUnpairedSurrogateRemover
+  )
+
+  /**
+    * Translator object for escaping XML 1.1.
+    *
+    * While {@link #escapeXml11 ( String )} is the expected method of use, this
+    * object allows the XML escaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.3
+    */
+  val ESCAPE_XML11 = new AggregateTranslator(
+    new LookupTranslator(EntityArrays.BASIC_ESCAPE:_*),
+    new LookupTranslator(EntityArrays.APOS_ESCAPE:_*),
+    new LookupTranslator(Array("\u0000", StringUtils.EMPTY), Array("\u000b", "&#11;"), Array("\u000c", "&#12;"), Array("\ufffe", StringUtils.EMPTY), Array("\uffff", StringUtils.EMPTY)),
+    NumericEntityEscaper.between(0x1, 0x8),
+    NumericEntityEscaper.between(0xe, 0x1f),
+    NumericEntityEscaper.between(0x7f, 0x84),
+    NumericEntityEscaper.between(0x86, 0x9f),
+    new UnicodeUnpairedSurrogateRemover
+  )
+
+  /**
+    * Translator object for escaping HTML version 3.0.
+    *
+    * While {@link #escapeHtml3 ( String )} is the expected method of use, this
+    * object allows the HTML escaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.0
+    */
+  val ESCAPE_HTML3 = new AggregateTranslator(
+    new LookupTranslator(EntityArrays.BASIC_ESCAPE:_*),
+    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE:_*)
+  )
+
+  /**
+    * Translator object for escaping HTML version 4.0.
+    *
+    * While {@link #escapeHtml4 ( String )} is the expected method of use, this
+    * object allows the HTML escaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.0
+    */
+  val ESCAPE_HTML4 = new AggregateTranslator(
+    new LookupTranslator(EntityArrays.BASIC_ESCAPE:_*),
+    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE:_*),
+    new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE:_*)
+  )
+
+  /**
+    * Translator object for escaping individual Comma Separated Values.
+    *
+    * While {@link #escapeCsv ( String )} is the expected method of use, this
+    * object allows the CSV escaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.0
+    */
+  val ESCAPE_CSV = new StringEscapeUtils.CsvEscaper
+
+  // TODO: Create a parent class - 'SinglePassTranslator' ?
+  //       It would handle the index checking + length returning,
+  //       and could also have an optimization check method.
+  private[lang3] object CsvEscaper {
+    private val CSV_DELIMITER = ','
+    private val CSV_QUOTE = '"'
+    private val CSV_QUOTE_STR = String.valueOf(CSV_QUOTE)
+    private val CSV_SEARCH_CHARS = Array(CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF)
+  }
+
+  private[lang3] class CsvEscaper extends CharSequenceTranslator {
+    @throws[IOException]
+    override def translate(input: CharSequence, index: Int, out: Writer): Int = {
+      if (index != 0) throw new IllegalStateException("CsvEscaper should never reach the [1] index")
+      if (StringUtils.containsNone(input.toString, CsvEscaper.CSV_SEARCH_CHARS:_*)) out.write(input.toString)
+      else {
+        out.write(CsvEscaper.CSV_QUOTE.toInt)
+        out.write(StringUtils.replace(input.toString, CsvEscaper.CSV_QUOTE_STR, CsvEscaper.CSV_QUOTE_STR + CsvEscaper.CSV_QUOTE_STR))
+        out.write(CsvEscaper.CSV_QUOTE.toInt)
+      }
+      Character.codePointCount(input, 0, input.length)
+    }
+  }
+
+  /**
+    * Translator object for unescaping escaped Java.
+    *
+    * While {@link #unescapeJava ( String )} is the expected method of use, this
+    * object allows the Java unescaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.0
+    */
+  // TODO: throw "illegal character: \92" as an Exception if a \ on the end of the Java (as per the compiler)?
+  val UNESCAPE_JAVA = new AggregateTranslator(
+    new OctalUnescaper, // .between('\1', '\377'),
+    new UnicodeUnescaper,
+    new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE:_*),
+    new LookupTranslator(Array("\\\\", "\\"), Array("\\\"", "\""), Array("\\'", "'"), Array("\\", ""))
+  )
+
+  /**
+    * Translator object for unescaping escaped EcmaScript.
+    *
+    * While {@link #unescapeEcmaScript ( String )} is the expected method of use, this
+    * object allows the EcmaScript unescaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.0
+    */
+  val UNESCAPE_ECMASCRIPT: CharSequenceTranslator = UNESCAPE_JAVA
+  /**
+    * Translator object for unescaping escaped Json.
+    *
+    * While {@link #unescapeJson ( String )} is the expected method of use, this
+    * object allows the Json unescaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.2
+    */
+  val UNESCAPE_JSON: CharSequenceTranslator = UNESCAPE_JAVA
+  /**
+    * Translator object for unescaping escaped HTML 3.0.
+    *
+    * While {@link #unescapeHtml3 ( String )} is the expected method of use, this
+    * object allows the HTML unescaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.0
+    */
+  val UNESCAPE_HTML3 = new AggregateTranslator(
+    new LookupTranslator(EntityArrays.BASIC_UNESCAPE:_*),
+    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE:_*),
+    new NumericEntityUnescaper
+  )
+
+  /**
+    * Translator object for unescaping escaped HTML 4.0.
+    *
+    * While {@link #unescapeHtml4 ( String )} is the expected method of use, this
+    * object allows the HTML unescaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.0
+    */
+  val UNESCAPE_HTML4 = new AggregateTranslator(
+    new LookupTranslator(EntityArrays.BASIC_UNESCAPE:_*),
+    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE:_*),
+    new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE:_*),
+    new NumericEntityUnescaper
+  )
+
+  /**
+    * Translator object for unescaping escaped XML.
+    *
+    * While {@link #unescapeXml ( String )} is the expected method of use, this
+    * object allows the XML unescaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.0
+    */
+  val UNESCAPE_XML = new AggregateTranslator(
+    new LookupTranslator(EntityArrays.BASIC_UNESCAPE:_*),
+    new LookupTranslator(EntityArrays.APOS_UNESCAPE:_*),
+    new NumericEntityUnescaper
+  )
+
+  /**
+    * Translator object for unescaping escaped Comma Separated Value entries.
+    *
+    * While {@link #unescapeCsv ( String )} is the expected method of use, this
+    * object allows the CSV unescaping functionality to be used
+    * as the foundation for a custom translator.
+    *
+    * @since 3.0
+    */
+  val UNESCAPE_CSV = new StringEscapeUtils.CsvUnescaper
+
+  private[lang3] object CsvUnescaper {
+    private val CSV_DELIMITER = ','
+    private val CSV_QUOTE = '"'
+    private val CSV_QUOTE_STR = String.valueOf(CSV_QUOTE)
+    private val CSV_SEARCH_CHARS = Array(CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF)
+  }
+
+  private[lang3] class CsvUnescaper extends CharSequenceTranslator {
+    @throws[IOException]
+    override def translate(input: CharSequence, index: Int, out: Writer): Int = {
+      if (index != 0) throw new IllegalStateException("CsvUnescaper should never reach the [1] index")
+      if (input.charAt(0) != CsvUnescaper.CSV_QUOTE || input.charAt(input.length - 1) != CsvUnescaper.CSV_QUOTE) {
+        out.write(input.toString)
+        return Character.codePointCount(input, 0, input.length)
+      }
+      // strip quotes
+      val quoteless = input.subSequence(1, input.length - 1).toString
+      if (StringUtils.containsAny(quoteless, CsvUnescaper.CSV_SEARCH_CHARS)) { // deal with escaped quotes; ie) ""
+        out.write(StringUtils.replace(quoteless, CsvUnescaper.CSV_QUOTE_STR + CsvUnescaper.CSV_QUOTE_STR, CsvUnescaper.CSV_QUOTE_STR))
+      }
+      else out.write(input.toString)
+      Character.codePointCount(input, 0, input.length)
+    }
+  }
+
+  /**
+    * <p>Escapes the characters in a {@code String} using Java String rules.</p>
+    *
+    * <p>Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
+    *
+    * <p>So a tab becomes the characters {@code '\\'} and
+    * {@code 't'}.</p>
+    *
+    * <p>The only difference between Java strings and JavaScript strings
+    * is that in JavaScript, a single quote and forward-slash (/) are escaped.</p>
+    *
+    * <p>Example:</p>
+    * <pre>
+    * input string: He didn't say, "Stop!"
+    * output string: He didn't say, \"Stop!\"
+    * </pre>
+    *
+    * @param input String to escape values in, may be null
+    * @return String with escaped values, {@code null} if null string input
+    */
+  def escapeJava(input: String): String = ESCAPE_JAVA.translate(input)
+
+  /**
+    * <p>Escapes the characters in a {@code String} using EcmaScript String rules.</p>
+    * <p>Escapes any values it finds into their EcmaScript String form.
+    * Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
+    *
+    * <p>So a tab becomes the characters {@code '\\'} and
+    * {@code 't'}.</p>
+    *
+    * <p>The only difference between Java strings and EcmaScript strings
+    * is that in EcmaScript, a single quote and forward-slash (/) are escaped.</p>
+    *
+    * <p>Note that EcmaScript is best known by the JavaScript and ActionScript dialects. </p>
+    *
+    * <p>Example:</p>
+    * <pre>
+    * input string: He didn't say, "Stop!"
+    * output string: He didn\'t say, \"Stop!\"
+    * </pre>
+    *
+    * @param input String to escape values in, may be null
+    * @return String with escaped values, {@code null} if null string input
+    * @since 3.0
+    */
+  def escapeEcmaScript(input: String): String = ESCAPE_ECMASCRIPT.translate(input)
+
   /**
     * <p>Escapes the characters in a {@code String} using Json String rules.</p>
     * <p>Escapes any values it finds into their Json String form.

@@ -1120,11 +1120,13 @@ abstract class ToStringStyle protected()
     */
   protected[lang3] def reflectionAppendArrayDetail(buffer: StringBuffer, fieldName: String, array: Any): Unit = {
     buffer.append(arrayStart)
+
     val length = reflect.Array.getLength(array)
     for (i <- 0 until length) {
       val item = reflect.Array.get(array, i)
       appendDetail(buffer, fieldName, i, item)
     }
+
     buffer.append(arrayEnd)
     ()
   }
@@ -1154,9 +1156,11 @@ abstract class ToStringStyle protected()
     */
   def append(buffer: StringBuffer, fieldName: String, array: Array[Long], fullDetail: Boolean): Unit = {
     appendFieldStart(buffer, fieldName)
+
     if (array == null) appendNullText(buffer, fieldName)
     else if (isFullDetail(fullDetail)) appendDetail(buffer, fieldName, array)
     else appendSummary(buffer, fieldName, array)
+
     appendFieldEnd(buffer, fieldName)
   }
 
@@ -1171,10 +1175,12 @@ abstract class ToStringStyle protected()
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, array: Array[Long]): Unit = {
     buffer.append(arrayStart)
+
     for (i <- 0 until array.length) {
       if (i > 0) buffer.append(arraySeparator)
       appendDetail(buffer, fieldName, array(i))
     }
+
     buffer.append(arrayEnd)
     ()
   }
@@ -1204,9 +1210,11 @@ abstract class ToStringStyle protected()
     */
   def append(buffer: StringBuffer, fieldName: String, array: Array[Int], fullDetail: Boolean): Unit = {
     appendFieldStart(buffer, fieldName)
+
     if (array == null) appendNullText(buffer, fieldName)
     else if (isFullDetail(fullDetail)) appendDetail(buffer, fieldName, array)
     else appendSummary(buffer, fieldName, array)
+
     appendFieldEnd(buffer, fieldName)
   }
 
@@ -1221,10 +1229,12 @@ abstract class ToStringStyle protected()
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, array: Array[Int]): Unit = {
     buffer.append(arrayStart)
+
     for (i <- 0 until array.length) {
       if (i > 0) buffer.append(arraySeparator)
       appendDetail(buffer, fieldName, array(i))
     }
+
     buffer.append(arrayEnd)
     ()
   }
@@ -1254,9 +1264,11 @@ abstract class ToStringStyle protected()
     */
   def append(buffer: StringBuffer, fieldName: String, array: Array[Short], fullDetail: Boolean): Unit = {
     appendFieldStart(buffer, fieldName)
+
     if (array == null) appendNullText(buffer, fieldName)
     else if (isFullDetail(fullDetail)) appendDetail(buffer, fieldName, array)
     else appendSummary(buffer, fieldName, array)
+
     appendFieldEnd(buffer, fieldName)
   }
 
@@ -1271,10 +1283,12 @@ abstract class ToStringStyle protected()
     */
   protected def appendDetail(buffer: StringBuffer, fieldName: String, array: Array[Short]): Unit = {
     buffer.append(arrayStart)
+
     for (i <- 0 until array.length) {
       if (i > 0) buffer.append(arraySeparator)
       appendDetail(buffer, fieldName, array(i))
     }
+
     buffer.append(arrayEnd)
     ()
   }
